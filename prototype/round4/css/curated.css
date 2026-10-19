@@ -1,0 +1,409 @@
+/* ==========================================================================
+   OurTrail · Round 3 — 方案二 Curated Activity Index（策展索引）「索引」
+
+   作用域纪律：全部规则限定在 html[data-view="curated"] 内（三方案 CSS 同页加载，
+   越界即泄漏）；私有类一律 cu- 前缀；共享类（.seg/.search/.skeleton/.state-block/…）
+   只在本作用域内重定义。
+   令牌纪律：颜色 / 字号 / 间距 / 圆角只消费 --r3-*；本地仅声明栅格尺寸（--cu-*）。
+   迁移纪律：全部字面量；无 color-mix / :has / backdrop-filter / dvh / CSS 嵌套。
+   ========================================================================== */
+
+html[data-view="curated"] {
+  /* 栅格尺寸（本方案构图私有，先声明后使用；列宽取自 brief §4 方案二） */
+  --cu-col-gap: 8px;
+  --cu-band-date-w: 58px;     /* 出发带日期块 */
+  --cu-band-thumb-w: 96px;    /* 出发带缩略：4:3 → 96×72 */
+  --cu-row-date-w: 44px;      /* 索引行日期列 */
+  --cu-row-thumb: 56px;       /* 索引行缩略：1:1 */
+  --cu-row-side-w: 64px;      /* 索引行右列（规格列） */
+  --cu-row-h: 76px;           /* 索引行行高 */
+  --cu-rule-ink: 2px;         /* 分段控制选中下划线（检索区唯一的加重线） */
+  --cu-move: 160ms;
+}
+
+/* 键盘可达：可点条目与控件必须有可见焦点环 */
+html[data-view="curated"] [role="button"]:focus-visible,
+html[data-view="curated"] button:focus-visible {
+  outline: var(--cu-rule-ink) solid var(--r3-brand);
+  outline-offset: 2px;
+}
+html[data-view="curated"] [role="button"] {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+html[data-view="curated"] input:focus-visible { outline: none; }
+html[data-view="curated"] [role="button"]:active { opacity: .62; }
+
+/* kicker/日期条（本方案三处复用：索引头 / 出发带 / 月度索引）——固定行高，避免基线对齐撑高容器 */
+html[data-view="curated"] .cu-head__kicker { color: var(--r3-ink-3); line-height: 16px; }
+
+/* ==========================================================================
+   1. 索引头 —— kicker + 当日日期 / 衬线大标题 / 一行统计导语
+   ========================================================================== */
+html[data-view="curated"] .cu-head { padding-top: var(--r3-space-3); }
+
+html[data-view="curated"] .cu-head__cue {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+  padding-bottom: var(--r3-space-2);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="curated"] .cu-head__date {
+  font-size: var(--r3-caption-size);
+  line-height: 16px;
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="curated"] .cu-head__title {
+  margin-top: var(--r3-space-2);
+  font-family: var(--r3-serif);
+  font-size: var(--r3-display-size);
+  font-weight: var(--r3-display-weight);
+  line-height: var(--r3-display-lh);
+  letter-spacing: var(--r3-display-ls);
+}
+html[data-view="curated"] .cu-head__lede {
+  margin-top: var(--r3-space-1);
+  font-size: var(--r3-lede-size);
+  line-height: var(--r3-lede-lh);
+  color: var(--r3-ink-2);
+}
+
+/* ==========================================================================
+   2. 检索区 —— 强分段控制（下划线式，选中加重）+ 框式搜索
+      工具区的职责是「缩小候选集」：必须比索引本身更抢眼，所以字重与下划线都加重。
+   ========================================================================== */
+html[data-view="curated"] .cu-tools { margin-top: var(--r3-space-4); }
+
+html[data-view="curated"] .cu-tabs .seg { gap: var(--r3-space-5); }
+html[data-view="curated"] .cu-tabs .seg__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  min-height: var(--r3-touch);
+  padding: 0;
+  font-size: var(--r3-body-size);
+  color: var(--r3-ink-3);
+  border-bottom: var(--cu-rule-ink) solid transparent;
+  transition: color var(--cu-move) var(--r3-ease), border-color var(--cu-move) var(--r3-ease);
+}
+/* 选中：颜色加深 + 字重提到 700 + 墨色下划线 —— 三个信号叠加，扫一眼就知道当前口径 */
+html[data-view="curated"] .cu-tabs .seg__item.is-active {
+  color: var(--r3-ink);
+  border-bottom-color: var(--r3-ink);
+  font-weight: var(--r3-display-weight);
+}
+html[data-view="curated"] .cu-tabs .seg__count {
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-3);
+}
+html[data-view="curated"] .cu-tabs .seg__item.is-active .seg__count { color: var(--r3-ink-2); }
+
+html[data-view="curated"] .cu-tools__search { margin-top: var(--r3-space-2); }
+html[data-view="curated"] .cu-tools__search .search {
+  height: 40px;
+  border-color: var(--r3-ink-3);
+  transition: border-color var(--cu-move) var(--r3-ease);
+}
+html[data-view="curated"] .cu-tools__search .search:focus-within {
+  border-color: var(--r3-brand);
+  color: var(--r3-brand);
+}
+
+/* ==========================================================================
+   3. 下一场出发带 —— 石色信息带（全页唯一的功能性重点）
+      通栏石色 + 发丝线上下边界：在索引流里切出一条与「列表」不同的语义带。
+   ========================================================================== */
+/* 与检索区 / 索引区同一条 16px 段落节奏 */
+html[data-view="curated"] .cu-band {
+  margin-top: var(--r3-space-4);
+  padding: var(--r3-space-2) var(--r3-page-x);
+  background: var(--r3-surface-2);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+  transition: opacity var(--cu-move) var(--r3-ease);
+}
+
+html[data-view="curated"] .cu-band__cue {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+}
+/* 陶土只用于「出发紧迫」与「名额紧张」；出发带这里承担前者 */
+html[data-view="curated"] .cu-band__count {
+  font-size: var(--r3-caption-size);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="curated"] .cu-band__count.is-urgent { color: var(--r3-accent); }
+
+html[data-view="curated"] .cu-band__main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cu-col-gap);
+  margin-top: var(--r3-space-2);
+}
+
+html[data-view="curated"] .cu-band__date {
+  flex: none;
+  width: var(--cu-band-date-w);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+html[data-view="curated"] .cu-band__d {
+  font-size: var(--r3-caption-size);
+  font-weight: 600;
+  color: var(--r3-ink);
+  white-space: nowrap;
+}
+html[data-view="curated"] .cu-band__w {
+  font-size: var(--r3-micro-size);
+  line-height: 15px;
+  color: var(--r3-ink-3);
+}
+html[data-view="curated"] .cu-band__t {
+  font-size: var(--r3-micro-size);
+  line-height: 15px;
+  font-weight: 600;
+  color: var(--r3-ink-2);
+}
+
+html[data-view="curated"] .cu-band__body { flex: 1; min-width: 0; }
+html[data-view="curated"] .cu-band__title {
+  font-family: var(--r3-serif);
+  font-size: 20px;
+  font-weight: var(--r3-title-weight);
+  line-height: 28px;
+}
+html[data-view="curated"] .cu-band__route {
+  margin-top: var(--r3-space-1);
+  font-size: var(--r3-caption-size);
+  line-height: 17px;
+  color: var(--r3-ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html[data-view="curated"] .cu-band__when {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--r3-space-1);
+  margin-top: var(--r3-space-1);
+  font-size: var(--r3-micro-size);
+  line-height: 15px;
+  font-weight: 600;
+  color: var(--r3-brand);
+}
+html[data-view="curated"] .cu-band__when .lab-icon { width: 14px; height: 14px; }
+
+html[data-view="curated"] .cu-band__thumb { flex: none; width: var(--cu-band-thumb-w); }
+html[data-view="curated"] .cu-band__thumb .photo { aspect-ratio: 4 / 3; }
+
+html[data-view="curated"] .cu-band__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--r3-space-2) var(--r3-space-3);
+  margin-top: var(--r3-space-2);
+  padding-top: var(--r3-space-1);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="curated"] .cu-band__facts { gap: 2px var(--r3-space-3); }
+html[data-view="curated"] .cu-band__facts .fact { font-size: var(--r3-caption-size); }
+html[data-view="curated"] .cu-band__facts .fact > * { line-height: 18px; }
+html[data-view="curated"] .cu-band__right {
+  display: flex;
+  align-items: center;
+  gap: var(--r3-space-3);
+}
+/* 基线对齐行必须显式行高，否则会继承正文 1.6 行距把容器撑高 */
+html[data-view="curated"] .cu-band__right .status-word,
+html[data-view="curated"] .cu-band__right .seats { line-height: 18px; }
+
+/* 加载态骨架尺寸 */
+html[data-view="curated"] .cu-sk--cue { width: 68px; height: 10px; }
+html[data-view="curated"] .cu-sk--cue2 { width: 52px; height: 10px; }
+html[data-view="curated"] .cu-sk--date { width: 54px; height: 10px; }
+html[data-view="curated"] .cu-sk--date-s { width: 30px; height: 9px; }
+html[data-view="curated"] .cu-sk--title { width: 74%; height: 14px; }
+html[data-view="curated"] .cu-sk--route { width: 52%; height: 10px; margin-top: var(--r3-space-2); }
+html[data-view="curated"] .cu-sk--when { width: 62%; height: 9px; margin-top: var(--r3-space-2); }
+html[data-view="curated"] .cu-sk--foot { width: 56%; height: 10px; }
+html[data-view="curated"] .cu-band.is-loading .cu-band__thumb .skeleton { width: 100%; height: 100%; }
+/* 骨架填充色与石色带同色会彻底隐形；加载时带体退回纸面，骨架才读得出来。
+   尺寸与真实带完全一致 → 数据到位时石色落位，布局不跳动。 */
+html[data-view="curated"] .cu-band.is-loading { background: transparent; }
+
+/* ==========================================================================
+   4. 月度索引 —— 统一栅格行，日期是第一主轴
+      [日期 44] [缩略 56×56] [主区：标题/路线/事实] [右列 64：状态·名额·领队]
+   ========================================================================== */
+html[data-view="curated"] .cu-index { margin-top: var(--r3-space-4); }
+
+html[data-view="curated"] .cu-index__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+  padding-bottom: var(--r3-space-1);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="curated"] .cu-index__note {
+  font-size: var(--r3-micro-size);
+  line-height: 16px;
+  color: var(--r3-ink-3);
+  white-space: nowrap;
+}
+
+html[data-view="curated"] .cu-month {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+  padding: var(--r3-space-2) 0 var(--r3-space-2);
+}
+html[data-view="curated"] .cu-month__k {
+  font-size: var(--r3-caption-size);
+  font-weight: var(--r3-display-weight);
+  line-height: 18px;
+  letter-spacing: var(--r3-kicker-ls);
+}
+html[data-view="curated"] .cu-month__n {
+  font-size: var(--r3-caption-size);
+  line-height: 18px;
+  color: var(--r3-ink-3);
+  white-space: nowrap;
+}
+
+html[data-view="curated"] .cu-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cu-col-gap);
+  min-height: var(--cu-row-h);
+  padding: var(--r3-space-2) 0;
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+  transition: opacity var(--cu-move) var(--r3-ease);
+}
+
+html[data-view="curated"] .cu-row__date {
+  flex: none;
+  width: var(--cu-row-date-w);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+html[data-view="curated"] .cu-row__md {
+  font-size: var(--r3-caption-size);
+  font-weight: 600;
+  line-height: 16px;
+  color: var(--r3-ink);
+  white-space: nowrap;
+}
+html[data-view="curated"] .cu-row__w {
+  font-size: var(--r3-micro-size);
+  line-height: 15px;
+  color: var(--r3-ink-3);
+  white-space: nowrap;
+}
+
+html[data-view="curated"] .cu-row__thumb { flex: none; width: var(--cu-row-thumb); }
+html[data-view="curated"] .cu-row__thumb .photo { aspect-ratio: 1 / 1; }
+
+html[data-view="curated"] .cu-row__main { flex: 1; min-width: 0; }
+html[data-view="curated"] .cu-row__title {
+  font-size: var(--r3-body-size);
+  font-weight: var(--r3-section-weight);
+  line-height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html[data-view="curated"] .cu-row__route {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 2px;
+  font-size: var(--r3-caption-size);
+  line-height: 17px;
+  color: var(--r3-ink-2);
+}
+/* 路线名是描述性长文本，可省略；难度是决策事实，永远完整可见 */
+html[data-view="curated"] .cu-row__routeName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html[data-view="curated"] .cu-row__diff {
+  flex: none;
+  color: var(--r3-ink-3);
+}
+html[data-view="curated"] .cu-row__facts {
+  margin-top: 2px;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  gap: var(--r3-space-2);
+}
+html[data-view="curated"] .cu-row__facts .fact {
+  font-size: var(--r3-caption-size);
+  line-height: 17px;
+  white-space: nowrap;
+}
+/* 固定事实行高 = 20(标题) + 19(路线) + 19(事实) = 58 → 行高精确 76px */
+html[data-view="curated"] .cu-row__facts .fact > * { line-height: 17px; }
+
+/* 右列 = 规格列：语义色状态词在上，tabular 名额与领队在下（陶土只由 is-urgent 触发） */
+html[data-view="curated"] .cu-row__side {
+  flex: none;
+  width: var(--cu-row-side-w);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+html[data-view="curated"] .cu-row__side .status-word,
+html[data-view="curated"] .cu-row__side .seats,
+html[data-view="curated"] .cu-row__side .fact {
+  font-size: var(--r3-caption-size);
+  line-height: 17px;
+  justify-content: flex-end;
+}
+
+/* ==========================================================================
+   5. 状态区（空 / 错 / 禁 / 加载）与脚注
+   ========================================================================== */
+html[data-view="curated"] .cu-state .state-block {
+  padding: var(--r3-space-8) var(--r3-space-3);
+  gap: var(--r3-space-2);
+}
+html[data-view="curated"] .cu-state .state-block__action { margin-top: var(--r3-space-3); }
+html[data-view="curated"] .cu-state .sk-row:first-child { border-top: 0; }
+html[data-view="curated"] .cu-state .sk-row { padding: var(--r3-space-2) 0; }
+
+html[data-view="curated"] .cu-foot { margin-top: var(--r3-space-8); }
+html[data-view="curated"] .cu-foot__stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--r3-space-1) var(--r3-space-3);
+  padding-top: var(--r3-space-4);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+}
+html[data-view="curated"] .cu-foot__hit { color: var(--r3-ink-3); }
+html[data-view="curated"] .cu-foot .foot {
+  margin-top: var(--r3-space-3);
+  padding-top: 0;
+  border-top: 0;
+}
