@@ -1,0 +1,401 @@
+/* ==========================================================================
+   OurTrail · Round 3 — 方案一 Editorial Feature（编辑特写）「本期」
+
+   作用域纪律：全部规则限定在 html[data-view="editorial"] 内（三方案 CSS 同页加载，
+   越界即泄漏）；私有类一律 ed- 前缀；共享类（.search/.seg/.state-block/…）只在本作用域内重定义。
+   令牌纪律：颜色 / 字号 / 间距 / 圆角只消费 --r3-*；本地仅声明版式尺寸（--ed-*）。
+   迁移纪律：全部字面量；无 color-mix / :has / backdrop-filter / dvh / CSS 嵌套。
+   ========================================================================== */
+
+html[data-view="editorial"] {
+  /* 版式尺寸（本方案构图私有，先声明后使用） */
+  --ed-cover-ratio: 16 / 10;    /* 封面故事：通栏 16:10（brief §3.4） */
+  --ed-pick-ratio: 4 / 3;       /* 编辑推荐：横向 4:3 */
+  --ed-pick-media-w: 40%;       /* 推荐条目图片宽度占比 */
+  --ed-day-w: 60px;             /* 日历日期栏宽度（大日 + 星期 + 紧迫度） */
+  --ed-side-w: 72px;            /* 日历右列宽度（状态词 + 名额） */
+  --ed-rule-ink: 2px;           /* 图—文接缝的墨线（内容面仅此一条强规则） */
+  --ed-note-size: 13px;         /* 编辑按（brief §4.4 指定的评注字号） */
+  --ed-move: 160ms;
+}
+
+/* 键盘可达：条目整体可点，焦点环必须可见 */
+html[data-view="editorial"] [role="button"]:focus-visible,
+html[data-view="editorial"] button:focus-visible {
+  outline: var(--ed-rule-ink) solid var(--r3-brand);
+  outline-offset: 2px;
+}
+html[data-view="editorial"] [role="button"] {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+html[data-view="editorial"] input:focus-visible { outline: none; }
+
+/* ==========================================================================
+   1. 刊头 —— 期号 / 衬线大标题 / 一行导语
+   ========================================================================== */
+html[data-view="editorial"] .ed-mast { padding-top: var(--r3-space-6); }
+
+html[data-view="editorial"] .ed-mast__issue {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+  padding-bottom: var(--r3-space-2);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="editorial"] .ed-mast__kicker { color: var(--r3-ink-3); }
+html[data-view="editorial"] .ed-mast__date {
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="editorial"] .ed-mast__title { margin-top: var(--r3-space-4); }
+html[data-view="editorial"] .ed-mast__lede {
+  margin-top: var(--r3-space-3);
+  font-size: var(--r3-lede-size);
+  line-height: var(--r3-lede-lh);
+  color: var(--r3-ink-2);
+}
+
+/* ==========================================================================
+   2. 工具行 —— 下划线搜索 + 编辑评注式页签（小字 + 计数，非重下划线）
+   ========================================================================== */
+html[data-view="editorial"] .ed-tools { margin-top: var(--r3-space-6); }
+
+html[data-view="editorial"] .ed-tools .search--line {
+  height: var(--r3-touch);
+  transition: border-color var(--ed-move) var(--r3-ease);
+}
+html[data-view="editorial"] .ed-tools .search--line:focus-within { border-bottom-color: var(--r3-ink); }
+html[data-view="editorial"] .ed-tools .search--line .lab-icon { width: 17px; height: 17px; }
+html[data-view="editorial"] .ed-tools .search--line:focus-within .lab-icon { color: var(--r3-brand); }
+
+html[data-view="editorial"] .ed-tabs-slot { margin-top: var(--r3-space-1); }
+html[data-view="editorial"] .ed-tabs .seg { gap: var(--r3-space-5); }
+html[data-view="editorial"] .ed-tabs .seg__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--r3-touch);
+  padding: 0;
+  font-size: var(--r3-caption-size);
+  border-bottom-width: var(--r3-line-w);
+  transition: color var(--ed-move) var(--r3-ease), border-color var(--ed-move) var(--r3-ease);
+}
+html[data-view="editorial"] .ed-tabs .seg__item.is-active {
+  color: var(--r3-ink);
+  border-bottom-color: var(--r3-ink);
+  font-weight: var(--r3-section-weight);
+}
+html[data-view="editorial"] .ed-tabs .seg__count {
+  font-size: var(--r3-micro-size);
+  letter-spacing: .2px;
+  color: var(--r3-ink-3);
+}
+
+/* ==========================================================================
+   3. 封面故事 —— 通栏 16:10 + 压暗梯 + 头条信息板（本期叙事权重最高）
+   ========================================================================== */
+html[data-view="editorial"] .ed-cover {
+  margin-top: var(--r3-space-8);
+  transition: opacity var(--ed-move) var(--r3-ease);
+}
+html[data-view="editorial"] .ed-cover:active { opacity: .78; }
+
+html[data-view="editorial"] .ed-cover__media { position: relative; }
+html[data-view="editorial"] .ed-cover__media .photo {
+  aspect-ratio: var(--ed-cover-ratio);
+  border-radius: 0;
+}
+html[data-view="editorial"] .ed-cover__veil {
+  position: absolute;
+  inset: 0;
+  background: var(--r3-scrim);
+  pointer-events: none;
+}
+html[data-view="editorial"] .ed-cover__stamp {
+  position: absolute;
+  left: var(--r3-page-x);
+  right: var(--r3-page-x);
+  bottom: var(--r3-space-3);
+  display: flex;
+  align-items: baseline;
+  gap: var(--r3-space-2);
+  font-size: var(--r3-caption-size);
+  color: var(--r3-on-dark);
+  text-shadow: 0 1px 4px rgba(20, 26, 21, .55);
+}
+html[data-view="editorial"] .ed-cover__stamp .dot-sep { color: rgba(246, 243, 234, .7); }
+
+html[data-view="editorial"] .ed-cover__body { padding-top: var(--r3-space-4); }
+html[data-view="editorial"] .ed-cover__kicker { color: var(--r3-ink-3); }
+html[data-view="editorial"] .ed-cover__title {
+  margin-top: var(--r3-space-2);
+  font-family: var(--r3-serif);
+  font-size: var(--r3-title-size);
+  font-weight: var(--r3-title-weight);
+  line-height: var(--r3-title-lh);
+}
+html[data-view="editorial"] .ed-cover__route {
+  margin-top: var(--r3-space-1);
+  font-size: var(--r3-body-size);
+  color: var(--r3-ink-2);
+}
+html[data-view="editorial"] .ed-cover__lede {
+  margin-top: var(--r3-space-2);
+  font-size: var(--r3-lede-size);
+  line-height: var(--r3-lede-lh);
+  color: var(--r3-ink-2);
+}
+html[data-view="editorial"] .ed-cover__facts { margin-top: var(--r3-space-3); }
+
+html[data-view="editorial"] .ed-cover__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+  margin-top: var(--r3-space-3);
+  padding-top: var(--r3-space-2);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="editorial"] .ed-cover__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--r3-touch);
+  font-size: var(--r3-body-size);
+  font-weight: var(--r3-section-weight);
+  color: var(--r3-brand);
+}
+html[data-view="editorial"] .ed-cover__link .lab-icon { width: 15px; height: 15px; }
+
+/* ==========================================================================
+   4. 分区头 + 编辑推荐
+   ========================================================================== */
+html[data-view="editorial"] .ed-sec { margin-top: var(--r3-space-8); }
+html[data-view="editorial"] .ed-sect {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+  padding-bottom: var(--r3-space-2);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="editorial"] .ed-sect__k {
+  font-size: var(--r3-section-size);
+  font-weight: var(--r3-section-weight);
+  line-height: var(--r3-section-lh);
+}
+html[data-view="editorial"] .ed-sect__n {
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-3);
+  white-space: nowrap;
+}
+
+html[data-view="editorial"] .ed-picks { margin-top: var(--r3-space-4); }
+html[data-view="editorial"] .ed-pick {
+  display: flex;
+  gap: var(--r3-space-3);
+  padding: var(--r3-space-4) 0;
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+  transition: opacity var(--ed-move) var(--r3-ease);
+}
+html[data-view="editorial"] .ed-pick:last-child { padding-bottom: var(--r3-space-3); }
+html[data-view="editorial"] .ed-pick:active { opacity: .72; }
+
+html[data-view="editorial"] .ed-pick__media {
+  flex: none;
+  width: var(--ed-pick-media-w);
+}
+html[data-view="editorial"] .ed-pick__media .photo { aspect-ratio: var(--ed-pick-ratio); }
+/* 图注：日期一行、地点与难度一行 —— 两条固定行高，条目长短不再参差 */
+html[data-view="editorial"] .ed-pick__caption { padding-top: var(--r3-space-2); }
+html[data-view="editorial"] .ed-pick__date {
+  font-size: var(--r3-micro-size);
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="editorial"] .ed-pick__where {
+  margin-top: 2px;
+  font-size: var(--r3-micro-size);
+  color: var(--r3-ink-3);
+  white-space: nowrap;
+}
+html[data-view="editorial"] .ed-pick__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+html[data-view="editorial"] .ed-pick__title {
+  margin-top: var(--r3-space-1);
+  font-family: var(--r3-serif);
+  font-size: var(--r3-section-size);
+  font-weight: var(--r3-section-weight);
+  line-height: var(--r3-section-lh);
+}
+html[data-view="editorial"] .ed-pick__note {
+  margin-top: 6px;
+  font-size: var(--ed-note-size);
+  line-height: 1.6;
+  color: var(--r3-ink-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+html[data-view="editorial"] .ed-pick__facts {
+  margin-top: auto;
+  padding-top: var(--r3-space-2);
+  gap: 2px var(--r3-space-3);
+}
+html[data-view="editorial"] .ed-pick__facts .fact { font-size: var(--r3-micro-size); }
+html[data-view="editorial"] .ed-pick__facts .status-word { font-size: var(--r3-micro-size); }
+
+/* ==========================================================================
+   5. 出发日历 —— 纯文字行；上方一条墨线标出「摄影区 → 文字区」的版面接缝
+   ========================================================================== */
+html[data-view="editorial"] .ed-sec--cal {
+  border-top: var(--ed-rule-ink) solid var(--r3-line-strong);
+  padding-top: var(--r3-space-4);
+}
+html[data-view="editorial"] .ed-cal { margin-top: var(--r3-space-7); }
+
+html[data-view="editorial"] .ed-cal__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+  padding: 0 0 var(--r3-space-2);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="editorial"] .ed-cal__mode {
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html[data-view="editorial"] .ed-cal__clear {
+  flex: none;
+  min-height: var(--r3-touch);
+  padding-left: var(--r3-space-3);
+  font-size: var(--r3-caption-size);
+  font-weight: var(--r3-section-weight);
+  color: var(--r3-brand);
+  transition: opacity var(--ed-move) var(--r3-ease);
+}
+html[data-view="editorial"] .ed-cal__clear:active { opacity: .55; }
+
+html[data-view="editorial"] .ed-month {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+  padding: var(--r3-space-4) 0 var(--r3-space-2);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="editorial"] .ed-month__k {
+  font-size: var(--r3-caption-size);
+  font-weight: var(--r3-section-weight);
+  letter-spacing: var(--r3-kicker-ls);
+}
+html[data-view="editorial"] .ed-month__n {
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-3);
+  white-space: nowrap;
+}
+
+html[data-view="editorial"] .ed-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--r3-space-3);
+  min-height: var(--r3-action-h);
+  padding: var(--r3-space-4) 0;
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+  transition: opacity var(--ed-move) var(--r3-ease);
+}
+html[data-view="editorial"] .ed-row:active { opacity: .68; }
+
+html[data-view="editorial"] .ed-row__day {
+  flex: none;
+  width: var(--ed-day-w);
+}
+html[data-view="editorial"] .ed-row__d {
+  font-family: var(--r3-serif);
+  font-size: var(--r3-display-size);
+  font-weight: var(--r3-display-weight);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+html[data-view="editorial"] .ed-row__w {
+  margin-top: var(--r3-space-1);
+  font-size: var(--r3-micro-size);
+  color: var(--r3-ink-3);
+}
+html[data-view="editorial"] .ed-row__now {
+  margin-top: var(--r3-space-1);
+  font-size: var(--r3-micro-size);
+  line-height: 1.4;
+  color: var(--r3-ink-3);
+  white-space: nowrap;
+}
+/* 陶土只在这里出现一次：出发紧迫（≤36h），稀缺名额由 .seats.is-urgent 承担 */
+html[data-view="editorial"] .ed-row__now.is-now { color: var(--r3-accent); font-weight: 600; }
+
+html[data-view="editorial"] .ed-row__main { flex: 1; min-width: 0; }
+html[data-view="editorial"] .ed-row__title {
+  font-size: var(--r3-body-size);
+  font-weight: var(--r3-section-weight);
+  line-height: var(--r3-body-lh);
+}
+html[data-view="editorial"] .ed-row__route {
+  margin-top: 2px;
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html[data-view="editorial"] .ed-row__facts {
+  margin-top: var(--r3-space-2);
+  gap: 2px var(--r3-space-3);
+}
+html[data-view="editorial"] .ed-row__facts .fact { font-size: var(--r3-micro-size); }
+
+html[data-view="editorial"] .ed-row__side {
+  flex: none;
+  width: var(--ed-side-w);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--r3-space-1);
+  padding-top: 2px;
+}
+html[data-view="editorial"] .ed-row__side .status-word { justify-content: flex-end; }
+
+/* ==========================================================================
+   6. 状态区与加载骨架
+   ========================================================================== */
+html[data-view="editorial"] .ed-state {
+  padding: var(--r3-space-2) 0 var(--r3-space-4);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="editorial"] .ed-state .state-block {
+  padding: var(--r3-space-7) var(--r3-space-3);
+  gap: var(--r3-space-2);
+}
+html[data-view="editorial"] .ed-state .state-block__action { margin-top: var(--r3-space-3); }
+/* 状态块紧跟脚注时不再画下框线：相邻双线是排版事故（脚注自带一条） */
+html[data-view="editorial"] .ed-content > .ed-cal:last-child .ed-state:last-child { border-bottom: 0; }
+
+html[data-view="editorial"] .ed-load { margin-top: var(--r3-space-8); }
+html[data-view="editorial"] .ed-load__cover .skeleton {
+  aspect-ratio: var(--ed-cover-ratio);
+  border-radius: 0;
+}
+html[data-view="editorial"] .ed-load__body { padding-top: var(--r3-space-5); }
+html[data-view="editorial"] .ed-load__lines { padding: 0 0 var(--r3-space-4); }
+html[data-view="editorial"] .ed-load .sk-row:first-child { padding-top: 0; }

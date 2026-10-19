@@ -1,0 +1,474 @@
+/* ==========================================================================
+   OurTrail · Round 3 — 天气页（胜出设计语言 · Hybrid 的数据决策变体）
+
+   概念：一段节奏。上半「决策区」＝石色吸顶位置头 + 强调窗口卡；下半「读数区」＝
+        48 小时逐时轨（横向可滑）+ 详情折层。窗口卡不是「漂亮的主卡」，而是把 48 个
+        逐时值收敛成 2 个可执行的时段决策。
+
+   作用域纪律：全部规则限定在 html[data-view="weather"] 内（四方案 CSS 同页加载，
+        越界即泄漏）；私有类一律 wth- 前缀；共享类（.state-block/.sk-row/.skeleton/
+        .meta-line/.foot）只在本作用域内重定义。
+   令牌纪律：颜色 / 字号 / 间距 / 圆角只消费 --r3-*；本地仅声明本页构图尺寸（--wth-*）。
+   色彩纪律：陶土（--r3-accent）不属于气象——它只留给紧迫。好/坏窗口走语义色，且只以
+        「状态词同构的 点 + 词」出现（与 base .status-word 同规则），不靠色块单独承载信息。
+   层级纪律：内容面不出阴影；关键格靠「白底 + 2px 强墨顶线 + 提级文字」上浮，
+        夜间格靠降级文字下沉，层级由色调与明度承担。
+   迁移纪律：全部字面量；无 color-mix / :has / backdrop-filter / dvh / CSS 嵌套。
+   ========================================================================== */
+
+html[data-view="weather"] {
+  /* ---------- 本页构图尺寸（只声明构图，不声明颜色 / 字号 / 间距） ---------- */
+  --wth-hour-w: 84px;                  /* 逐时格宽：容下「时刻 + 气温 + 三项指标」 */
+  --wth-chip-h: 18px;                  /* 紧凑状态词行高（同 base 状态词的缩比） */
+  --wth-move: 180ms;
+  --wth-rule-ink: 2px;                 /* 焦点环 / 关键格顶线：唯一的一条强墨线 */
+}
+
+/* 键盘可达：卡片与逐时格整体可点，焦点环必须可见 */
+html[data-view="weather"] [role="button"] {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+html[data-view="weather"] [role="button"]:focus-visible,
+html[data-view="weather"] button:focus-visible {
+  outline: var(--wth-rule-ink) solid var(--r3-brand);
+  outline-offset: 2px;
+}
+
+/* .page 自带的 4px 上内边距会吃掉吸顶位置（sticky 的包含块是 .page 的内容框）。
+   本作用域内归零，由石色带自己贴住屏幕上缘 —— 带子即第一行内容。 */
+html[data-view="weather"] .wth-page { padding-top: 0; }
+
+/* ==========================================================================
+   1. 位置头 —— 石色通栏（接缝带变体）：双发丝线 + 吸顶，无筛选 / 无搜索
+   ========================================================================== */
+html[data-view="weather"] .wth-location {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  margin-left: calc(-1 * var(--r3-page-x));
+  margin-right: calc(-1 * var(--r3-page-x));
+  padding: var(--r3-space-3) var(--r3-page-x) var(--r3-space-3);
+  background: var(--r3-surface-2);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+  transition: border-color var(--wth-move) var(--r3-ease);
+}
+/* 吸顶后下框线加重（页面不用阴影做层级） */
+html[data-view="weather"] .wth-location.is-pinned { border-bottom-color: var(--r3-ink-3); }
+
+html[data-view="weather"] .wth-location__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+}
+/* 位置名是本页唯一的叙述主体：衬线，其余全无衬线 */
+html[data-view="weather"] .wth-location__name {
+  flex: 1;
+  min-width: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-location__elev {
+  flex: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-location__elev-u {
+  font-size: var(--r3-micro-size);
+  color: var(--r3-ink-3);
+}
+
+html[data-view="weather"] .wth-location__verdict {
+  margin-top: var(--r3-space-2);
+  font-size: var(--r3-body-size);
+  line-height: var(--r3-lede-lh);
+  color: var(--r3-ink-2);
+}
+
+html[data-view="weather"] .wth-location__foot {
+  margin-top: var(--r3-space-2);
+  align-items: baseline;
+}
+html[data-view="weather"] .wth-location__updated {
+  font-size: var(--r3-micro-size);
+  color: var(--r3-ink-3);
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-location__trip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: var(--r3-micro-size);
+  line-height: 1.5;
+  color: var(--r3-brand);
+  -webkit-tap-highlight-color: transparent;
+}
+html[data-view="weather"] .wth-location__trip-t {
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-location__trip:active { opacity: .7; }
+
+/* ==========================================================================
+   2. 关键窗口卡 —— Hero Panel 变体：白面 + 发丝线，无负外边距（不做叠压）
+   ========================================================================== */
+html[data-view="weather"] .wth-windows { margin-top: var(--r3-section-gap); }
+
+html[data-view="weather"] .wth-windows__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+  padding-bottom: var(--r3-space-3);
+}
+html[data-view="weather"] .wth-windows__k {
+  font-size: var(--r3-section-size);
+  font-weight: var(--r3-section-weight);
+  line-height: var(--r3-section-lh);
+}
+html[data-view="weather"] .wth-windows__n {
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-windows__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--r3-space-3);
+}
+
+html[data-view="weather"] .wth-window-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--r3-space-4);
+  background: var(--r3-surface);
+  border: var(--r3-line-w) solid var(--r3-line);
+  text-align: left;
+  transition: opacity var(--wth-move) var(--r3-ease);
+}
+html[data-view="weather"] .wth-window-card:active { opacity: .78; }
+
+html[data-view="weather"] .wth-window-card__kick {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+}
+html[data-view="weather"] .wth-window-card__span {
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+}
+html[data-view="weather"] .wth-window-card__title {
+  margin-top: var(--r3-space-3);
+  font-family: var(--r3-serif);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+html[data-view="weather"] .wth-window-card__sub {
+  margin-top: var(--r3-space-1);
+  font-size: var(--r3-caption-size);
+  line-height: 1.5;
+  color: var(--r3-ink-2);
+}
+html[data-view="weather"] .wth-window-card__facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--r3-space-2) var(--r3-space-4);
+  margin-top: var(--r3-space-4);
+  padding-top: var(--r3-space-3);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+}
+
+/* 事实微元：标签弱 / 值最重 / 单位最弱（数值一律 tabular） */
+html[data-view="weather"] .wth-metric {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  min-width: 0;
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-metric__k {
+  font-size: var(--r3-micro-size);
+  color: var(--r3-ink-3);
+}
+html[data-view="weather"] .wth-metric__v {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--r3-ink);
+}
+html[data-view="weather"] .wth-metric__u {
+  font-size: var(--r3-micro-size);
+  color: var(--r3-ink-3);
+}
+
+/* ==========================================================================
+   3. 48h 时间轴 —— 横向轨：抵消页边距 → 下一格的边露在屏幕右缘（滑动暗示）
+   ========================================================================== */
+html[data-view="weather"] .wth-timeline { margin-top: var(--r3-section-gap); }
+
+html[data-view="weather"] .wth-timeline__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--r3-space-2);
+  padding-bottom: var(--r3-space-3);
+}
+html[data-view="weather"] .wth-timeline__k {
+  font-size: var(--r3-section-size);
+  font-weight: var(--r3-section-weight);
+  line-height: var(--r3-section-lh);
+}
+html[data-view="weather"] .wth-timeline__range {
+  margin-left: auto;
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-timeline__cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: var(--r3-micro-size);
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-timeline__cue .lab-icon {
+  width: 13px;
+  height: 13px;
+  transform: rotate(180deg);            /* 向左滑 */
+}
+/* 真的滑过一格才换成位置计数：提示由真实滚动位置驱动，不预演 */
+html[data-view="weather"] .wth-timeline.is-scrolled .wth-timeline__cue { color: var(--r3-ink); }
+
+html[data-view="weather"] .wth-hours {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* 48 格的长轨用 proximity：mandatory 会把每次甩动锁成不可预测的段落 */
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin-left: calc(-1 * var(--r3-page-x));
+  margin-right: calc(-1 * var(--r3-page-x));
+  padding: 0 var(--r3-page-x) var(--r3-space-1);
+  scroll-padding-left: var(--r3-page-x);
+  scroll-padding-right: var(--r3-page-x);
+}
+html[data-view="weather"] .wth-hours::-webkit-scrollbar { display: none; }
+html[data-view="weather"] .wth-hours:focus-visible {
+  outline: var(--wth-rule-ink) solid var(--r3-brand);
+  outline-offset: -2px;
+}
+
+/* 逐时格：格间一根发丝线；顶线用 transparent 预留，关键格才提级为强墨 */
+html[data-view="weather"] .wth-hour {
+  position: relative;
+  flex: none;
+  width: var(--wth-hour-w);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-height: 112px;
+  padding: var(--r3-space-2);
+  border-top: var(--wth-rule-ink) solid transparent;
+  border-left: var(--r3-line-w) solid var(--r3-line);
+  text-align: left;
+  transition: opacity var(--wth-move) var(--r3-ease);
+}
+html[data-view="weather"] .wth-hour:first-child { border-left-color: transparent; }
+html[data-view="weather"] .wth-hour:active { opacity: .7; }
+html[data-view="weather"] .wth-hour:focus-visible {
+  outline: var(--wth-rule-ink) solid var(--r3-brand);
+  outline-offset: -2px;
+}
+
+html[data-view="weather"] .wth-hour__t {
+  font-size: var(--r3-micro-size);
+  line-height: 1.3;
+  color: var(--r3-ink-3);
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-hour__tmp {
+  font-size: var(--r3-section-size);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--r3-ink);
+}
+html[data-view="weather"] .wth-hour__kv {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--r3-space-1);
+  width: 100%;
+  margin-top: var(--r3-space-1);
+}
+html[data-view="weather"] .wth-hour__pair {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  font-size: var(--r3-micro-size);
+  line-height: 1.35;
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-hour__wind { margin-top: 1px; }
+html[data-view="weather"] .wth-hour__k { color: var(--r3-ink-3); }
+/* 芯片位常驻：非关键格留空，行高不被芯片顶高一格 */
+html[data-view="weather"] .wth-hour__chip {
+  display: block;
+  margin-top: auto;
+  min-height: var(--wth-chip-h);
+  padding-top: var(--r3-space-1);
+}
+
+/* —— 状态层（顺序即优先级：夜间降级 < 跨日加线 < 关键上浮）—— */
+/* 夜间：文字降级，退回纸面（不是加遮罩，是让信息自己安静下来） */
+html[data-view="weather"] .wth-hour.is-night .wth-hour__tmp { color: var(--r3-ink-2); }
+html[data-view="weather"] .wth-hour.is-night .wth-hour__t,
+html[data-view="weather"] .wth-hour.is-night .wth-hour__pair { color: var(--r3-ink-3); }
+/* 跨日：一根强墨左线，48 小时里唯一的纵向刻度 */
+html[data-view="weather"] .wth-hour.is-day { border-left-color: var(--r3-line-strong); }
+/* 关键：白面上浮 + 2px 顶线 + 文字提级（不靠彩色） */
+html[data-view="weather"] .wth-hour.is-key {
+  background: var(--r3-surface);
+  border-top-color: var(--r3-line-strong);
+}
+html[data-view="weather"] .wth-hour.is-key .wth-hour__tmp { color: var(--r3-ink); }
+html[data-view="weather"] .wth-hour.is-key .wth-hour__t,
+html[data-view="weather"] .wth-hour.is-key .wth-hour__pair { color: var(--r3-ink-2); }
+
+html[data-view="weather"] .wth-hour--sk { min-height: 112px; }
+html[data-view="weather"] .wth-hour__sk {
+  width: 100%;
+  height: 78px;
+}
+
+/* ==========================================================================
+   4. 紧凑状态词 —— 与 base .status-word 同构（点 + 词 + 语义色），缩到 11px
+   ========================================================================== */
+html[data-view="weather"] .wth-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--wth-chip-h);
+  padding: 0 var(--r3-space-2);
+  border: var(--r3-line-w) solid var(--r3-line);
+  border-radius: var(--r3-radius-chip);
+  background: var(--r3-bg);
+  font-size: var(--r3-micro-size);
+  line-height: 1;
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="weather"] .wth-chip::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 50%;
+  background: currentColor;
+}
+html[data-view="weather"] .wth-chip--good { color: var(--r3-success); }
+html[data-view="weather"] .wth-chip--bad { color: var(--r3-danger); }
+html[data-view="weather"] .wth-chip--now { color: var(--r3-ink-2); }
+
+/* ==========================================================================
+   5. 详情折叠 —— state-block 变体（无 action）：详情文案 + 演示数据声明
+   ========================================================================== */
+html[data-view="weather"] .wth-detail { margin-top: var(--r3-section-gap); }
+
+html[data-view="weather"] .wth-detail__box {
+  background: var(--r3-surface);
+  border: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="weather"] .wth-detail__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--r3-space-2);
+  min-height: var(--r3-touch);
+  padding: 0 var(--r3-space-4);
+  list-style: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+html[data-view="weather"] .wth-detail__summary::-webkit-details-marker { display: none; }
+html[data-view="weather"] .wth-detail__summary:focus-visible {
+  outline: var(--wth-rule-ink) solid var(--r3-brand);
+  outline-offset: -2px;
+}
+html[data-view="weather"] .wth-detail__k {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--r3-space-2);
+  font-size: var(--r3-section-size);
+  font-weight: var(--r3-section-weight);
+  line-height: var(--r3-section-lh);
+}
+html[data-view="weather"] .wth-detail__chev {
+  display: inline-flex;
+  flex: none;
+  color: var(--r3-ink-2);
+  transition: transform var(--wth-move) var(--r3-ease);
+}
+/* 展开态由原生 [open] 属性驱动 —— 不需要 :has() */
+html[data-view="weather"] .wth-detail__box[open] .wth-detail__chev { transform: rotate(180deg); }
+
+html[data-view="weather"] .wth-detail__body {
+  padding: var(--r3-space-4);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="weather"] .wth-detail__text {
+  font-size: var(--r3-body-size);
+  line-height: var(--r3-lede-lh);
+  color: var(--r3-ink-2);
+}
+/* 演示数据声明常驻可见：折叠默认展开，且展开后不被 action 区挤走 */
+html[data-view="weather"] .wth-detail__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: var(--r3-space-3);
+  font-size: var(--r3-micro-size);
+  line-height: 1.5;
+  color: var(--r3-ink-3);
+}
+html[data-view="weather"] .wth-detail__body .sk-row { padding-top: 0; border-bottom: 0; }
+
+/* ==========================================================================
+   6. 状态块、骨架与禁用态
+   ========================================================================== */
+html[data-view="weather"] .wth-state { padding: var(--r3-space-2) 0; }
+html[data-view="weather"] .wth-state .state-block {
+  padding: var(--r3-space-6) var(--r3-space-3);
+  gap: var(--r3-space-2);
+}
+html[data-view="weather"] .wth-state .state-block__action { margin-top: var(--r3-space-3); }
+
+html[data-view="weather"] .wth-window-card--sk { min-height: 188px; }
+html[data-view="weather"] .wth-window-card__sk-facts {
+  height: 40px;
+  margin-top: var(--r3-space-4);
+}
+
+/* 禁用态：入口保留但不可用（与 .btn[disabled] 的 opacity 同口径） */
+html[data-view="weather"] .wth-page.is-disabled .wth-window-card,
+html[data-view="weather"] .wth-page.is-disabled .wth-hour,
+html[data-view="weather"] .wth-page.is-disabled .wth-location__trip { opacity: .5; }
+
+/* 脚注：与详情折层相邻时不重复画线（相邻双线是排版事故） */
+html[data-view="weather"] .wth-page .foot { margin-top: var(--r3-space-6); }

@@ -1,0 +1,472 @@
+/* ==========================================================================
+   OurTrail · Round 3 — 活动详情（Hybrid 设计语言）
+
+   概念：两段节奏延续到长内容页。上半「重内容」＝全幅 16:9 封面 + 24px 叠压信息板
+        + 无分隔线的时间轴（疏朗、叙述）；下半「信息索引」＝石色接缝带 + 2×2 规则网格
+        + 领队 / 装备 / 费用（密集、可扫描）。中间一次石色接缝，是全页唯一一处通栏石色。
+
+   作用域纪律：全部规则限定在 html[data-view="detail"] 内（三方案 CSS 同页加载，越界即泄漏）；
+        私有类一律 det- 前缀（时间轴组件沿用设计评审命名的 tl-item，同样受本作用域约束）；
+        共享类（.fact/.status-word/.seats/.meta-line/.sk-row/.state-block/.foot）只在本作用域内重定义。
+   令牌纪律：颜色 / 字号 / 间距 / 圆角只消费 --r3-*；本地仅声明本方案构图尺寸（--det-*）。
+   形制纪律：内容面不出卡片阴影；叠压靠白底 + 1px 发丝线；顶部通栏 16:9；图片圆角 2px。
+   陶土纪律：--r3-accent 只出现在 ≤36h 的出发紧迫上。
+   迁移纪律：全部字面量；无 color-mix / :has / backdrop-filter / dvh / CSS 嵌套。
+   ========================================================================== */
+
+html[data-view="detail"] {
+  /* ---------- 本方案构图尺寸 ---------- */
+  --det-hero-ratio: 16 / 9;              /* 封面：全幅 16:9（同 Hybrid 主卡） */
+  --det-overlay: -24px;                  /* 叠压量：与 Hybrid 主卡同值 */
+  --det-tl-time-w: 40px;                 /* 时间轴时间列 */
+  --det-tl-mark-w: 13px;                 /* 时间轴圆点/连线列 */
+  --det-leader-avatar: 44px;             /* 领队徽标 */
+  --det-fact-cols: 2;                    /* 路线画像规则网格列数 */
+  --det-move: 180ms;
+  --det-rule-ink: 2px;                   /* 焦点环唯一的一条强墨线 */
+}
+
+/* 键盘可达：页内所有动作都是真 button，焦点环必须可见 */
+html[data-view="detail"] button:focus-visible {
+  outline: var(--det-rule-ink) solid var(--r3-brand);
+  outline-offset: 2px;
+}
+html[data-view="detail"] button:focus-visible.det-hero__cta,
+html[data-view="detail"] button:focus-visible.det-cta__btn { outline-offset: 3px; }
+
+/* ==========================================================================
+   0. 页面容器 —— 封面顶到纸面边缘，尾部不留底距（CTA 条自己收尾）
+   ========================================================================== */
+html[data-view="detail"] .det-page { padding-top: 0; padding-bottom: 0; }
+
+/* ==========================================================================
+   1. Hero Panel —— 全幅 16:9 + 压暗梯 + 戳记 + 24px 叠压信息板
+   ========================================================================== */
+html[data-view="detail"] .det-hero {
+  position: relative;
+  margin: 0 calc(-1 * var(--r3-page-x));
+}
+html[data-view="detail"] .det-hero__media { position: relative; }
+html[data-view="detail"] .det-hero__media .photo {
+  aspect-ratio: var(--det-hero-ratio);
+  border-radius: 0;
+}
+/* 压暗梯：--r3-scrim 为底，再叠一段底部压暗，保证戳记白字 ≥ AA（同 Hybrid 主卡） */
+html[data-view="detail"] .det-hero__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--r3-scrim),
+    linear-gradient(180deg, rgba(20, 26, 21, 0) 44%, rgba(20, 26, 21, .52) 76%, rgba(20, 26, 21, .52) 100%);
+}
+html[data-view="detail"] .det-hero__stamp {
+  position: absolute;
+  left: var(--r3-page-x);
+  right: var(--r3-page-x);
+  bottom: 44px;                 /* 让开下方 24px 叠压区 + 呼吸 */
+  display: flex;
+  align-items: baseline;
+  gap: var(--r3-space-2);
+  font-size: var(--r3-caption-size);
+  color: var(--r3-on-dark);
+  text-shadow: 0 1px 4px rgba(20, 26, 21, .6);
+}
+html[data-view="detail"] .det-hero__stamp .dot-sep { color: rgba(246, 243, 234, .72); }
+
+/* 信息板：白底 + 发丝线，无阴影；向上叠压图片 24px */
+html[data-view="detail"] .det-hero__panel {
+  position: relative;
+  z-index: 2;
+  margin: var(--det-overlay) var(--r3-page-x) 0;
+  padding: var(--r3-space-6);
+  background: var(--r3-surface);
+  border: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="detail"] .det-hero__kick {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+}
+html[data-view="detail"] .det-hero__kicker { color: var(--r3-ink-2); }
+html[data-view="detail"] .det-hero__count {
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+html[data-view="detail"] .det-hero__count.is-now {
+  color: var(--r3-accent);
+  font-weight: 600;
+}
+html[data-view="detail"] .det-hero__title {
+  margin-top: var(--r3-space-3);
+  font-family: var(--r3-serif);
+  font-size: var(--r3-title-size);
+  font-weight: var(--r3-title-weight);
+  line-height: var(--r3-title-lh);
+  letter-spacing: .2px;
+}
+html[data-view="detail"] .det-hero__route {
+  margin-top: var(--r3-space-1);
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+html[data-view="detail"] .det-hero__lede {
+  margin-top: var(--r3-space-3);
+  font-size: var(--r3-body-size);
+  line-height: var(--r3-lede-lh);
+  color: var(--r3-ink-2);
+}
+html[data-view="detail"] .det-hero__facts { margin-top: var(--r3-space-4); }
+html[data-view="detail"] .det-hero__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+  margin-top: var(--r3-space-5);
+  padding-top: var(--r3-space-4);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="detail"] .det-hero__cta { flex: none; }
+html[data-view="detail"] .det-hero__actions .status-word { flex: none; }
+
+/* ==========================================================================
+   2. 区块头 —— section-size + 副计数（右），底部发丝线
+   ========================================================================== */
+html[data-view="detail"] .det-sec { margin-top: var(--r3-section-gap); }
+html[data-view="detail"] .det-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--r3-space-2);
+  padding-bottom: var(--r3-space-3);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="detail"] .det-head__k {
+  font-size: var(--r3-section-size);
+  font-weight: var(--r3-section-weight);
+  line-height: var(--r3-section-lh);
+  letter-spacing: var(--r3-kicker-ls);
+}
+html[data-view="detail"] .det-head__n {
+  margin-left: auto;
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   3. 行程时间轴 —— 纯间距分隔（不画横线），靠圆点 + 连线读顺序
+   ========================================================================== */
+html[data-view="detail"] .det-tl { margin-top: var(--r3-space-1); }
+html[data-view="detail"] .tl-item {
+  display: grid;
+  grid-template-columns: var(--det-tl-time-w) var(--det-tl-mark-w) minmax(0, 1fr);
+  column-gap: var(--r3-space-2);
+  align-items: stretch;
+  padding: var(--r3-space-3) 0;
+}
+html[data-view="detail"] .tl-item:last-child { padding-bottom: 0; }
+
+html[data-view="detail"] .tl-item__time {
+  font-size: var(--r3-caption-size);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--r3-ink);
+  padding-top: 1px;
+}
+html[data-view="detail"] .tl-item__mark { position: relative; display: block; }
+html[data-view="detail"] .tl-item__dot {
+  position: absolute;
+  top: 5px;
+  left: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--r3-radius-chip);
+  border: var(--r3-line-w) solid var(--r3-line-strong);
+  background: var(--r3-bg);
+}
+/* 登顶是这条线的叙事节点：唯一一枚实心点 */
+html[data-view="detail"] .tl-item.is-peak .tl-item__dot {
+  top: 4px;
+  left: 2px;
+  width: 9px;
+  height: 9px;
+  border-color: var(--r3-brand);
+  background: var(--r3-brand);
+}
+html[data-view="detail"] .tl-item__line {
+  position: absolute;
+  top: 18px;
+  left: 6px;
+  bottom: calc(-1 * var(--r3-space-3));
+  width: var(--r3-line-w);
+  background: var(--r3-line);
+}
+html[data-view="detail"] .tl-item__text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--r3-ink-2);
+}
+
+/* ==========================================================================
+   4. 接缝带 —— 石色通栏 + 双发丝线；全页唯一一处 sticky 之外的通栏
+   ========================================================================== */
+html[data-view="detail"] .det-seam {
+  margin-top: var(--r3-section-gap);
+  margin-left: calc(-1 * var(--r3-page-x));
+  margin-right: calc(-1 * var(--r3-page-x));
+  padding: var(--r3-space-3) var(--r3-page-x);
+  background: var(--r3-surface-2);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="detail"] .det-seam__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r3-space-3);
+}
+html[data-view="detail"] .det-seam__k {
+  display: flex;
+  align-items: baseline;
+  gap: var(--r3-space-2);
+  font-size: var(--r3-section-size);
+  font-weight: var(--r3-section-weight);
+  line-height: var(--r3-section-lh);
+}
+html[data-view="detail"] .det-seam__k-sub {
+  font-size: var(--r3-caption-size);
+  font-weight: 400;
+  color: var(--r3-ink-2);
+}
+html[data-view="detail"] .det-seam__now {
+  font-size: var(--r3-caption-size);
+  color: var(--r3-ink-2);
+  white-space: nowrap;
+}
+html[data-view="detail"] .det-seam__now.is-now {
+  color: var(--r3-accent);
+  font-weight: 600;
+}
+html[data-view="detail"] .det-seam__facts {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--r3-space-1) var(--r3-space-2);
+  margin-top: var(--r3-space-2);
+}
+html[data-view="detail"] .det-seam__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--r3-space-1);
+  font-size: var(--r3-caption-size);
+  line-height: 1.6;
+  color: var(--r3-ink-2);
+}
+html[data-view="detail"] .det-seam__label { color: var(--r3-ink-3); }
+html[data-view="detail"] .det-seam__value {
+  color: var(--r3-ink);
+  font-weight: 600;
+}
+/* 禁用态：状态块收进接缝带，页面结构与吸顶位置都不动 */
+html[data-view="detail"] .det-seam--note .state-block {
+  padding: var(--r3-space-4) 0 var(--r3-space-2);
+  gap: var(--r3-space-1);
+}
+html[data-view="detail"] .det-seam--note .state-block .lab-icon { width: 20px; height: 20px; }
+html[data-view="detail"] .det-seam--note .state-block__title { font-size: 14px; }
+html[data-view="detail"] .det-seam--note .state-block__body { font-size: var(--r3-caption-size); }
+
+/* ==========================================================================
+   5. 路线画像 —— 2×2 规则网格（发丝线分格），与上方无分隔线的时间轴拉开密度
+   ========================================================================== */
+html[data-view="detail"] .det-route__name {
+  margin-top: var(--r3-space-4);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+html[data-view="detail"] .det-facts {
+  display: grid;
+  grid-template-columns: repeat(var(--det-fact-cols), minmax(0, 1fr));
+  margin-top: var(--r3-space-4);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="detail"] .det-facts .fact {
+  padding: var(--r3-space-3) 0;
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="detail"] .det-facts .fact:nth-child(odd) { padding-right: var(--r3-space-3); }
+html[data-view="detail"] .det-facts .fact:nth-child(even) {
+  padding-left: var(--r3-space-3);
+  border-left: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="detail"] .det-facts .fact { font-size: var(--r3-caption-size); }
+html[data-view="detail"] .det-facts .fact__value { font-size: 15px; }
+html[data-view="detail"] .det-facts .lab-icon { width: 14px; height: 14px; }
+
+/* ==========================================================================
+   6. 领队卡 —— 徽标 + 姓名/角色 + 名单事实 + 次级入口
+   ========================================================================== */
+html[data-view="detail"] .det-leader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--r3-space-3);
+  margin-top: var(--r3-space-4);
+  padding: var(--r3-space-4) 0;
+  border-top: var(--r3-line-w) solid var(--r3-line);
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="detail"] .det-leader__slot {
+  width: var(--det-leader-avatar);
+  height: var(--det-leader-avatar);
+  flex: none;
+  border-radius: var(--r3-radius-chip);
+}
+html[data-view="detail"] .det-leader__avatar {
+  width: var(--det-leader-avatar);
+  height: var(--det-leader-avatar);
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r3-radius-chip);
+  background: var(--r3-brand);
+  color: var(--r3-bg);
+  font-family: var(--r3-serif);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+html[data-view="detail"] .det-leader__body { flex: 1; min-width: 0; }
+html[data-view="detail"] .det-leader__id {
+  display: flex;
+  align-items: baseline;
+  gap: var(--r3-space-2);
+}
+html[data-view="detail"] .det-leader__name {
+  font-size: var(--r3-body-size);
+  font-weight: 600;
+  line-height: 1.4;
+}
+html[data-view="detail"] .det-leader__role {
+  font-size: var(--r3-micro-size);
+  color: var(--r3-ink-2);
+}
+html[data-view="detail"] .det-leader__body .meta-line {
+  margin-top: var(--r3-space-2);
+  font-size: var(--r3-caption-size);
+  line-height: 1.6;
+  color: var(--r3-ink-2);
+}
+html[data-view="detail"] .det-leader__more {
+  margin-top: var(--r3-space-2);
+  margin-left: calc(-1 * var(--r3-space-1));
+  font-size: var(--r3-caption-size);
+  gap: 2px;
+}
+html[data-view="detail"] .det-leader__more .lab-icon { width: 13px; height: 13px; }
+
+/* ==========================================================================
+   7. 装备要求 —— 待办式清单（空框，不假装已完成）
+   ========================================================================== */
+html[data-view="detail"] .det-gear { margin-top: var(--r3-space-1); }
+html[data-view="detail"] .det-gear__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--r3-space-3);
+  padding: var(--r3-space-3) 0;
+  border-bottom: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="detail"] .det-gear__row:last-child { border-bottom: 0; padding-bottom: 0; }
+html[data-view="detail"] .det-gear__box {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  margin-top: 3px;
+  border: var(--r3-line-w) solid var(--r3-line-strong);
+  border-radius: var(--r3-radius-img);
+}
+html[data-view="detail"] .det-gear__text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--r3-ink-2);
+}
+
+/* ==========================================================================
+   8. 费用说明 —— 内缩石色信息带（不与通栏接缝带抢节奏：无通栏、无双线）
+   ========================================================================== */
+html[data-view="detail"] .det-fee {
+  margin-top: var(--r3-space-4);
+  padding: var(--r3-space-4);
+  background: var(--r3-surface-2);
+}
+html[data-view="detail"] .det-fee__head {
+  display: flex;
+  align-items: center;
+  gap: var(--r3-space-2);
+  font-size: var(--r3-micro-size);
+  font-weight: var(--r3-kicker-weight);
+  letter-spacing: var(--r3-kicker-ls);
+  color: var(--r3-ink-2);
+}
+html[data-view="detail"] .det-fee__body {
+  margin-top: var(--r3-space-2);
+  font-size: var(--r3-body-size);
+  line-height: 1.7;
+  color: var(--r3-ink);
+}
+
+/* ==========================================================================
+   9. 底部 CTA 条 —— 页面滚动容器内 sticky 吸底；主按钮走 idle→loading→done
+   ========================================================================== */
+/* 用 sticky 而不是 fixed：① 帧壳内外都贴在可视区底部；② fullPage 截图把它退回流内，
+   正好落在内容末尾，不会在长图里糊住正文。 */
+html[data-view="detail"] .det-cta {
+  position: sticky;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: var(--r3-space-3);
+  margin: var(--r3-space-6) calc(-1 * var(--r3-page-x)) 0;
+  padding: var(--r3-space-3) var(--r3-page-x);
+  background: var(--r3-surface);
+  border-top: var(--r3-line-w) solid var(--r3-line);
+}
+html[data-view="detail"] .det-cta__note {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--r3-micro-size);
+  line-height: 1.5;
+  color: var(--r3-ink-2);
+}
+html[data-view="detail"] .det-cta__btn { flex: none; min-width: 128px; }
+html[data-view="detail"] .det-cta__btn.is-locked { opacity: .45; }
+html[data-view="detail"] .det-cta__spin.is-off { display: none; }
+@keyframes det-spin { to { transform: rotate(360deg); } }
+html[data-view="detail"] .det-cta__spin {
+  animation: det-spin 900ms linear infinite;
+}
+
+/* ==========================================================================
+   10. 空 / 错 / 脚注 / 加载骨架
+   ========================================================================== */
+html[data-view="detail"] .det-blocked { padding-top: var(--r3-space-8); }
+html[data-view="detail"] .det-blocked .state-block {
+  padding: var(--r3-space-8) var(--r3-space-3);
+}
+html[data-view="detail"] .det-blocked .foot { margin-top: var(--r3-space-7); }
+
+html[data-view="detail"] .det-hero--sk .det-hero__media .skeleton {
+  aspect-ratio: var(--det-hero-ratio);
+  border-radius: 0;
+}
+html[data-view="detail"] .det-hero--sk .det-hero__panel { min-height: 300px; }
+html[data-view="detail"] .det-seam--sk .det-seam__facts { gap: 0; }
+html[data-view="detail"] .det-leader { border-bottom: 0; }
+html[data-view="detail"] .det-sec .sk-row:first-child { padding-top: var(--r3-space-3); }

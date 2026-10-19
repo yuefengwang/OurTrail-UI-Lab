@@ -1,0 +1,76 @@
+/* ==========================================================================
+   OurTrail · Round 3 — 设计语言基础令牌
+   血脉：A 山野编辑部 + F 山野工坊（并列领先方向）的收敛版。
+   规则：组件只消费 --r3-* 令牌；不硬编码颜色/字号/圆角。
+   迁移纪律：全部字面量；无 color-mix / :has / backdrop-filter / dvh。
+   ========================================================================== */
+
+:root {
+  /* ---------- 色板 ---------- */
+  --r3-bg: #F7F4EC;            /* 纸面 */
+  --r3-surface: #FFFFFF;       /* 白面（浮层/输入） */
+  --r3-surface-2: #EFEBDD;     /* 石色带 */
+  --r3-ink: #1B241F;           /* 正文题 */
+  --r3-ink-2: #66705F;         /* 次要文字 */
+  --r3-ink-3: #8A917F;         /* 弱文字/脚注 */
+  --r3-line: #E4DDCB;          /* 发丝线 */
+  --r3-line-strong: #233029;   /* 强规则线 */
+  --r3-brand: #234B3C;         /* 品牌绿：品牌动作/主按钮/压底 */
+  --r3-brand-deep: #163E35;
+  --r3-leaf: #D8E4A0;
+  --r3-accent: #A8562E;        /* 陶土：仅时间紧迫/名额紧张 */
+  --r3-success: #2F6B4C;
+  --r3-warning: #8F6A1F;
+  --r3-danger: #A93F33;
+  --r3-info: #46657A;
+  --r3-dark: #182019;          /* 深块（浮层/toast） */
+  --r3-on-dark: #F6F3EA;
+  --r3-scrim: linear-gradient(180deg, rgba(20, 26, 21, 0) 38%, rgba(20, 26, 21, .74) 100%);
+
+  /* ---------- 字体 ---------- */
+  --r3-sans: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --r3-serif: Georgia, "Songti SC", "Noto Serif SC", "SimSun", serif;
+
+  --r3-display-size: 30px; --r3-display-weight: 700; --r3-display-lh: 1.24; --r3-display-ls: -0.3px;
+  --r3-title-size: 26px;   --r3-title-weight: 700;   --r3-title-lh: 1.3;
+  --r3-section-size: 17px; --r3-section-weight: 600; --r3-section-lh: 1.4;
+  --r3-lede-size: 15px;    --r3-lede-lh: 1.65;
+  --r3-body-size: 15px;    --r3-body-lh: 1.6;
+  --r3-caption-size: 12px; --r3-caption-lh: 1.5;
+  --r3-micro-size: 11px;
+  --r3-kicker-size: 11px;  --r3-kicker-weight: 600;  --r3-kicker-ls: 1.4px;
+
+  /* ---------- 间距（4px 基元） ---------- */
+  --r3-space-1: 4px;
+  --r3-space-2: 8px;
+  --r3-space-3: 12px;
+  --r3-space-4: 16px;
+  --r3-space-5: 20px;
+  --r3-space-6: 24px;
+  --r3-space-7: 32px;
+  --r3-space-8: 40px;
+  --r3-space-9: 48px;
+
+  --r3-page-x: 24px;
+  --r3-section-gap: 32px;
+
+  /* ---------- 形制 ---------- */
+  --r3-line-w: 1px;
+  --r3-radius-img: 2px;
+  --r3-radius-btn: 6px;
+  --r3-radius-chip: 999px;
+  --r3-touch: 44px;
+  --r3-action-h: 48px;
+  --r3-icon-size: 20px;
+  --r3-icon-stroke: 1.5;
+
+  --r3-ease: cubic-bezier(.2, .65, .3, 1);
+  --r3-motion: 180ms;
+  --r3-shadow-1: 0 8px 24px rgba(27, 36, 31, .14);
+  --r3-shadow-2: 0 12px 32px rgba(27, 36, 31, .18);
+}
+
+/* 小屏（375 设备）收紧页边距 */
+html[data-vp="375"] {
+  --r3-page-x: 20px;
+}

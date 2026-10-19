@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>OurTrail · Round 3 版式对照表</title>
+  <style>
+    /* 对照表是实验室评审工具，不进入迁移范围 */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1B1F19; color: #EDEBE0;
+      font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+      padding: 28px 32px 60px;
+    }
+    h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .sub { font-size: 12px; color: #8B917F; margin-bottom: 24px; line-height: 1.6; }
+    .sheet { display: grid; gap: 26px 22px; }
+    .cell { display: flex; flex-direction: column; gap: 8px; }
+    .cell__label { font-size: 12px; font-weight: 600; color: #C7C5B9; display: flex; gap: 8px; align-items: baseline; }
+    .cell__label em { font-style: normal; font-size: 10px; color: #757C6C; }
+    .frame {
+      position: relative;
+      background: #101210;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,.4);
+    }
+    .frame iframe { border: 0; display: block; transform-origin: top left; }
+  </style>
+</head>
+<body>
+  <h1>OurTrail Round 3 · 版式对照表</h1>
+  <div class="sub" id="sub"></div>
+  <div class="sheet" id="sheet"></div>
+  <script type="module">
+    const q = new URLSearchParams(location.search);
+    const views = (q.get('views') || 'editorial,curated,hybrid').split(',');
+    const vp = Number(q.get('vp') || 390);
+    const scale = Number(q.get('scale') || 0.62);
+    const stateFlag = q.get('state') || '';
+    const h = vp === 375 ? 667 : vp === 414 ? 896 : 844;
+    const VIEW_NAMES = {
+      editorial: '编辑特写', curated: '策展索引', hybrid: '混合发现',
+      detail: '活动详情', collab: '活动协作', weather: '天气',
+    };
+
+    const sheet = document.getElementById('sheet');
+    const cellW = Math.round(vp * scale);
+    sheet.style.gridTemplateColumns = `repeat(${views.length}, ${cellW}px)`;
+    document.getElementById('sub').textContent =
+      `${views.length} 版式/页面 · ${vp} × ${h} · scale ${scale}${stateFlag ? ' · state=' + stateFlag : ''} — same data · same operations · 演示数据`;
+
+    for (const view of views) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      const label = document.createElement('div');
+      label.className = 'cell__label';
+      label.innerHTML = `${view} · ${VIEW_NAMES[view] || view} <em>${vp}px</em>`;
+      const frame = document.createElement('div');
+      frame.className = 'frame';
+      frame.style.width = cellW + 'px';
+      frame.style.height = Math.round(h * scale) + 'px';
+      const iframe = document.createElement('iframe');
+      iframe.src = `index.html?view=${view}&vp=${vp}&bare=1${stateFlag ? '&state=' + stateFlag : ''}`;
+      iframe.width = vp;
+      iframe.height = h;
+      iframe.style.transform = `scale(${scale})`;
+      frame.appendChild(iframe);
+      cell.append(label, frame);
+      sheet.appendChild(cell);
+    }
+  </script>
+</body>
+</html>
