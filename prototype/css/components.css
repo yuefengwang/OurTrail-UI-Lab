@@ -1,0 +1,315 @@
+/* ==========================================================================
+   OurTrail Visual Direction Lab — 共享组件词汇
+   全部消费 --lab-* 令牌；风格差异通过各风格 CSS 的 [data-style="X"] 覆盖实现。
+   结构差异不是这里的事——这里只提供可复用的基础形态。
+   ========================================================================== */
+
+/* ---------------- 按钮 ---------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: var(--lab-action-h);
+  padding: 0 20px;
+  border-radius: var(--lab-radius-btn);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  transition: transform var(--lab-motion-fast, 120ms) var(--lab-ease), opacity var(--lab-motion-fast, 120ms) var(--lab-ease), background 140ms ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { transform: scale(.98); opacity: .92; }
+.btn--primary { background: var(--lab-action); color: var(--lab-action-text); }
+.btn--secondary { color: var(--lab-brand); box-shadow: inset 0 0 0 1px var(--lab-border); background: transparent; }
+.btn--ghost { color: var(--lab-brand); padding: 0 6px; min-height: 36px; }
+.btn--danger { background: transparent; color: var(--lab-danger); box-shadow: inset 0 0 0 1px var(--lab-danger); }
+.btn--full { width: 100%; }
+.btn--sm { min-height: 34px; padding: 0 14px; font-size: 13px; }
+.btn[disabled], .btn.is-disabled { opacity: .42; pointer-events: none; }
+.btn .lab-icon { width: 16px; height: 16px; }
+
+/* ---------------- 徽标 / 状态 ---------------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--lab-radius-chip);
+  background: var(--lab-surface-2);
+  color: var(--lab-text-2);
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.chip--outline { background: transparent; box-shadow: inset 0 0 0 1px var(--lab-border); }
+.chip--accent { background: transparent; box-shadow: inset 0 0 0 1px var(--lab-accent); color: var(--lab-accent); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+.badge--success { color: var(--lab-success); }
+.badge--warning { color: var(--lab-warning); }
+.badge--danger { color: var(--lab-danger); }
+.badge--info { color: var(--lab-info); }
+.badge--neutral { color: var(--lab-text-2); }
+.badge--bare::before { display: none; }
+
+/* ---------------- 列表行 ---------------- */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-3);
+  min-height: var(--lab-row-h);
+  padding: 10px 0;
+  width: 100%;
+  text-align: left;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+.row:last-child { border-bottom: 0; }
+.row--tappable { cursor: pointer; }
+.row--tappable:active { opacity: .75; }
+.row__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.row__title { font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--lab-text-1); }
+.row__meta { font-size: 12px; color: var(--lab-text-2); line-height: 1.5; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.row__side { margin-left: auto; display: flex; align-items: center; gap: 8px; color: var(--lab-text-3); flex: none; }
+.row__side .lab-icon { width: 16px; height: 16px; }
+
+/* ---------------- 事实行 ---------------- */
+.facts { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
+.fact { display: inline-flex; align-items: baseline; gap: 4px; font-size: 13px; color: var(--lab-text-2); }
+.fact__label { color: var(--lab-text-3); }
+.fact__value { color: var(--lab-text-1); font-weight: 600; font-variant-numeric: tabular-nums; }
+.fact__unit { color: var(--lab-text-3); font-size: 11px; }
+
+/* ---------------- 分隔 ---------------- */
+.divider { height: var(--lab-border-width); background: var(--lab-border); border: 0; }
+.rule-strong { height: var(--lab-rule-strong-w); background: var(--lab-border-strong); border: 0; }
+
+/* ---------------- 分段控制 (基础=下划线式) ---------------- */
+.seg { display: flex; align-items: stretch; }
+.seg__item {
+  flex: 1;
+  text-align: center;
+  padding: 9px 4px 8px;
+  font-size: 13px;
+  color: var(--lab-text-2);
+  border-bottom: var(--lab-rule-strong-w) solid transparent;
+  transition: color 140ms ease, border-color 140ms ease;
+  white-space: nowrap;
+}
+.seg__item.is-active { color: var(--lab-text-1); border-color: var(--lab-border-strong); font-weight: 600; }
+
+/* ---------------- 表格 ---------------- */
+.table { width: 100%; }
+.table__head {
+  display: flex;
+  align-items: center;
+  padding: 8px 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .4px;
+  color: var(--lab-text-3);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+.table__row {
+  display: flex;
+  align-items: center;
+  min-height: var(--lab-row-h);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+.table__row:last-child { border-bottom: 0; }
+.table__cell { padding-right: 10px; min-width: 0; }
+.table__cell:last-child { padding-right: 0; }
+
+/* ---------------- 图片 ---------------- */
+.photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--lab-radius-img);
+  background: var(--lab-surface-2);
+}
+.photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: var(--lab-photo-filter);
+}
+.photo--fallback {
+  background: var(--lab-brand);
+}
+.photo--fallback::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(255,255,255,.14), transparent 55%);
+}
+.photo__credit {
+  position: absolute;
+  right: 8px; bottom: 6px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, .88);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+  letter-spacing: .2px;
+}
+.thumb {
+  width: 72px; height: 72px;
+  flex: none;
+  border-radius: var(--lab-radius-img);
+}
+
+/* ---------------- 提示条 / callout ---------------- */
+.note {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--lab-radius-card);
+  background: var(--lab-surface-2);
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--lab-text-2);
+}
+.note--line { border-radius: 0; background: transparent; border-left: 2px solid var(--lab-accent); padding: 2px 0 2px 12px; }
+
+/* ---------------- 状态块 (空/错误/加载) ---------------- */
+.state-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 44px 20px;
+  text-align: center;
+  color: var(--lab-text-2);
+}
+.state-block .lab-icon { width: 28px; height: 28px; color: var(--lab-text-3); }
+.state-block__title { font-size: 15px; font-weight: 600; color: var(--lab-text-1); }
+.state-block__body { font-size: 13px; line-height: 1.7; max-width: 30ch; }
+.state-block__action { margin-top: 10px; }
+
+/* ---------------- toast ---------------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 72px;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--lab-dark-block);
+  color: var(--lab-on-dark);
+  padding: 11px 18px;
+  border-radius: var(--lab-radius-btn);
+  font-size: 13px;
+  font-weight: 500;
+  max-width: 78vw;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--lab-motion) var(--lab-ease), transform var(--lab-motion) var(--lab-ease);
+  box-shadow: var(--lab-shadow-1);
+  z-index: 90;
+  text-align: center;
+  line-height: 1.5;
+}
+.toast.is-show { opacity: 1; transform: translateX(-50%); }
+
+/* ---------------- 座位图 (每排 4 座 + 1 过道) ---------------- */
+.seat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) 12px repeat(2, 1fr);
+  gap: 6px;
+}
+.seat {
+  height: 42px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border-radius: var(--lab-radius-chip);
+  border: var(--lab-border-width) solid var(--lab-border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--lab-text-2);
+  background: var(--lab-surface);
+  overflow: hidden;
+  padding: 0 2px;
+}
+.seat small { font-size: 9px; font-weight: 400; color: var(--lab-text-3); }
+.seat--driver { background: var(--lab-dark-block); color: var(--lab-on-dark); border-color: var(--lab-dark-block); }
+.seat--driver small { color: var(--lab-on-dark); opacity: .7; }
+.seat--taken { background: var(--lab-surface-2); color: var(--lab-text-1); }
+.seat--free { border-style: dashed; color: var(--lab-text-3); background: transparent; }
+.seat--aisle { visibility: hidden; }
+.seat--you { box-shadow: inset 0 0 0 2px var(--lab-accent); }
+
+/* ---------------- 进度线 (多段) ---------------- */
+.progress-line { display: flex; gap: 4px; }
+.progress-line__seg {
+  height: 4px;
+  flex: 1;
+  border-radius: 2px;
+  background: var(--lab-border);
+  transition: background 200ms ease;
+}
+.progress-line__seg.is-done { background: var(--lab-brand); }
+.progress-line__seg.is-current { background: var(--lab-accent); }
+
+/* ---------------- 输入 ---------------- */
+.input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  color: var(--lab-text-3);
+}
+.input input {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  color: var(--lab-text-1);
+  outline: none;
+}
+.input input::placeholder { color: var(--lab-text-3); }
+.input .lab-icon { width: 16px; height: 16px; }
+
+/* ---------------- 头像 ---------------- */
+.avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--lab-surface-2);
+  color: var(--lab-text-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex: none;
+}
+.avatar--brand { background: var(--lab-brand); color: var(--lab-action-text); }
+
+/* ---------------- 页脚脚注 ---------------- */
+.footnote {
+  padding: 18px 0 4px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--lab-text-3);
+}
+
+/* ---------------- 区块 (标题 + 内容) ---------------- */
+.section { display: flex; flex-direction: column; }
+.section__head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }

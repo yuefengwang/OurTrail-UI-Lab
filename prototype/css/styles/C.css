@@ -1,0 +1,817 @@
+/* ==========================================================================
+   Style C — Quiet Terrain 静野
+   低刺激 · 色调带分组（不靠卡片边框）· 留白节奏 · 字重 ≤600 · 无投影
+   全部规则作用域在 [data-style="C"]，仅消费 --lab-* 令牌。
+
+   —— 派生量（集中在此，便于评审与迁移核对）——
+   1) 对比度校正：tokens.css 的 C 列 --lab-text-2 (4.08:1) / --lab-text-3 (2.55:1)
+      在页底上达不到 4.5:1，按 C.7「评审必须核对比度」的风险条目下压一档：
+        --c-text-2 #5A6257 → 5.50:1 (页底) / 5.02:1 (色调带)
+        --c-text-3 #646B60 → 4.79:1 (页底；不用于色调带内)
+        --c-ink-bad #8E4A41 → 5.70:1 / 5.20:1（砖玫瑰，取 --lab-danger 同色相下沉一档）
+   2) 苔绿雾 scrim：rgba 不可从令牌取透明度（color-mix 被禁用），
+      三档数值均为 --lab-brand #4C5F49 = rgb(76,95,73)，仅用于 hero 压字。
+   3) 发丝线三档（避免"要么看不见、要么太硬"）：
+        --c-hair  #D6D2C4  色调带内部的行分隔（成员 / 天气日期间隔）
+        --lab-border #DFDCD0 页面上区分区块
+        --lab-border-strong #C9C6BA sticky dock 滚动后的分隔线
+   4) 透明度只走三档：--c-alpha-off（锁定）/.5 / --c-alpha-dim（禁用）/.62 /
+      --c-alpha-press（按压）/.78。
+
+   —— 第二轮打磨要点（Round 2）——
+   a) 数字排版：整页继承 tabular-nums，单位降一号，事实行按三级层次拉开。
+   b) 交互：全部可点元素 220ms 柔和按压 + focus-visible 双层焦点环。
+   c) 状态语言：实心苔点 = 已达成，空心环 = 未达成；chip 选中 = 抬起的白药丸 + 苔点 + 计数。
+   d) 筛选 chip 内嵌计数后，计数行改做"当前列表结果数"，两行不再说同一件事。
+   ========================================================================== */
+
+[data-style="C"] {
+  --c-text-2: #5A6257;
+  --c-text-3: #646B60;
+  --c-ink-bad: #8E4A41;
+  --c-hair: #D6D2C4;
+  --c-scrim-1: rgba(76, 95, 73, .08);
+  --c-scrim-2: rgba(76, 95, 73, .36);
+  --c-scrim-3: rgba(76, 95, 73, .70);
+  --c-dust: rgba(244, 242, 234, .72);
+  --c-alpha-off: .5;
+  --c-alpha-dim: .62;
+  --c-alpha-press: .78;
+}
+
+/* ---------------- 0. 全局排版与交互基线 ---------------- */
+
+/* 数字排版：整页 tabular，正文里的日期 / 时分 / 金额不再跳字宽 */
+[data-style="C"] .page { font-variant-numeric: tabular-nums; }
+
+/* 详情页底部 sticky CTA 需要贴住视口底边：把页面下内边距交给 dock 自身 */
+[data-style="C"] .page { padding-bottom: 0; }
+
+/* 焦点环：本风格的组件同时出现在浅底与色调带上，用「底色留白 + 苔绿实环」
+   两层描边，任何底色下都读得出，且不引入新颜色。 */
+[data-style="C"] .c-link:focus-visible,
+[data-style="C"] .c-chip:focus-visible,
+[data-style="C"] .c-item:focus-visible,
+[data-style="C"] .c-member:focus-visible,
+[data-style="C"] .c-hour:focus-visible,
+[data-style="C"] .c-dock__share:focus-visible,
+[data-style="C"] .btn:focus-visible {
+  outline: 2px solid var(--lab-brand);
+  outline-offset: 2px;
+  border-radius: var(--lab-radius-btn);
+}
+
+/* 统一按压反馈：一律 220ms 透明度过渡，不做硬缩放 */
+[data-style="C"] .c-item:active,
+[data-style="C"] .c-member:active,
+[data-style="C"] .c-hour:active,
+[data-style="C"] .c-chip:active,
+[data-style="C"] .c-dock__share:active {
+  opacity: var(--c-alpha-press);
+}
+[data-style="C"] .btn {
+  transition:
+    transform var(--lab-motion) var(--lab-ease),
+    opacity var(--lab-motion) var(--lab-ease),
+    background var(--lab-motion) var(--lab-ease),
+    color var(--lab-motion) var(--lab-ease),
+    box-shadow var(--lab-motion) var(--lab-ease);
+}
+[data-style="C"] .btn:active { transform: scale(.985); opacity: .88; }
+[data-style="C"] .btn[disabled]:active,
+[data-style="C"] .btn.is-disabled:active { transform: none; opacity: var(--c-alpha-dim); }
+[data-style="C"] .btn .lab-icon { transition: transform var(--lab-motion) var(--lab-ease); }
+
+/* toast：沿用共享出入场，只把语速调到本风格节奏 */
+[data-style="C"] .toast {
+  padding: 12px 20px;
+  font-size: var(--lab-caption-size);
+  letter-spacing: .2px;
+  border-radius: var(--lab-radius-btn);
+}
+
+/* 图片淡入：从 .7 起淡入即可——不追求"从 0 显影"的戏剧感，
+   避免弱网/首屏快闪时读到一张半透明的照片。 */
+@keyframes c-img-in { from { opacity: .7; } to { opacity: 1; } }
+[data-style="C"] .photo img { animation: c-img-in 260ms var(--lab-ease) both; }
+
+@keyframes c-dot-in { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: scale(1); } }
+@keyframes c-swap { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes c-meter-in { from { opacity: .28; transform: scaleX(.86); } to { opacity: 1; transform: scaleX(1); } }
+
+/* ---------------- 1. 页头 / 分节 / 色调带 ---------------- */
+
+[data-style="C"] .c-head { padding: var(--lab-space-4) 0 var(--lab-space-5); }
+[data-style="C"] .c-head__title {
+  font-size: var(--lab-display-size);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  color: var(--lab-text-1);
+}
+[data-style="C"] .c-head__sub {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--c-text-2);
+}
+[data-style="C"] .c-reassure {
+  font-size: var(--lab-display-size);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  color: var(--lab-text-1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 身份行：安抚文案之前先说清"这是哪一趟"，用 kicker 号字压在标题之下，不夺主信息 */
+[data-style="C"] .c-identity {
+  margin-bottom: var(--lab-space-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lab-space-1) var(--lab-space-3);
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--c-text-2);
+}
+[data-style="C"] .c-identity__label,
+[data-style="C"] .c-identity__meta { color: var(--c-text-3); }
+
+/* 副信息行：三个层次（阶段 / 倒计时 / 地点），不加分隔符以免换行时出现孤立的点 */
+[data-style="C"] .c-subline {
+  margin-top: var(--lab-space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lab-space-1) var(--lab-space-4);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--c-text-2);
+}
+[data-style="C"] .c-subline__phase { color: var(--lab-text-1); font-weight: 500; }
+[data-style="C"] .c-subline__eta { color: var(--lab-brand); font-weight: 500; }
+
+[data-style="C"] .c-sec { margin-top: var(--lab-section-gap); }
+[data-style="C"] .c-sec__body { margin-top: var(--lab-space-4); }
+[data-style="C"] .c-kicker {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--c-text-2);
+}
+[data-style="C"] .c-kicker__side { color: var(--c-text-3); font-variant-numeric: tabular-nums; text-align: right; }
+
+/* 色调带：本风格唯一的分组容器（相邻雾色，非描边卡片） */
+[data-style="C"] .c-band {
+  background: var(--lab-surface-2);
+  border-radius: var(--lab-radius-card);
+  padding: var(--lab-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lab-space-2);
+}
+[data-style="C"] .c-band__title {
+  font-size: var(--lab-title-size);
+  font-weight: var(--lab-title-weight);
+  line-height: var(--lab-title-lh);
+  color: var(--lab-text-1);
+  margin-top: var(--lab-space-2);
+}
+[data-style="C"] .c-band__line {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--c-text-2);
+}
+[data-style="C"] .c-bands { margin-top: var(--lab-section-gap); display: flex; flex-direction: column; gap: var(--lab-space-5); }
+
+[data-style="C"] .c-link {
+  align-self: flex-start;
+  margin-top: var(--lab-space-2);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  min-height: var(--lab-touch);
+  color: var(--lab-brand);
+  font-size: var(--lab-body-size);
+  font-weight: 500;
+  border-radius: var(--lab-radius-btn);
+  transition: color var(--lab-motion) var(--lab-ease), opacity var(--lab-motion) var(--lab-ease);
+}
+[data-style="C"] .c-link .lab-icon {
+  width: 18px; height: 18px;
+  transition: transform var(--lab-motion) var(--lab-ease);
+}
+[data-style="C"] .c-link:active { opacity: var(--c-alpha-press); }
+[data-style="C"] .c-link:active .lab-icon { transform: translateX(4px); }
+
+/* ---------------- 2. 状态 = 文字 + 圆点（实心=已达成 / 空心=未达成） ---------------- */
+
+[data-style="C"] .c-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-text-3);
+  flex: none;
+}
+[data-style="C"] .c-dot.is-ok { background: var(--lab-success); }
+[data-style="C"] .c-dot.is-warn { background: var(--lab-warning); }
+/* 空心环：颜色之外再给一个形状信号，色弱也能读出"还没发生" */
+[data-style="C"] .c-dot.is-off {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--c-text-3);
+}
+[data-style="C"] .c-dot.is-bad { background: var(--lab-danger); }
+[data-style="C"] .c-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--c-text-2);
+  white-space: nowrap;
+}
+[data-style="C"] .c-status.is-quiet { color: var(--c-text-3); }
+[data-style="C"] .c-ink-bad { color: var(--c-ink-bad); }
+
+/* ---------------- 3. 正文段落 / 两列事实 / 安静列表 ---------------- */
+
+[data-style="C"] .c-prose {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+[data-style="C"] .c-prose + .c-prose { margin-top: var(--lab-space-4); }
+[data-style="C"] .c-time {
+  font-weight: var(--lab-display-weight);
+  color: var(--lab-brand);
+  font-variant-numeric: tabular-nums;
+  margin-right: 1px;
+}
+[data-style="C"] .c-sep { color: var(--c-text-3); }
+[data-style="C"] .c-lede-title {
+  margin-top: var(--lab-space-5);
+  font-size: var(--lab-title-size);
+  font-weight: var(--lab-title-weight);
+  line-height: var(--lab-title-lh);
+  color: var(--lab-text-1);
+}
+[data-style="C"] .c-lede {
+  margin-top: var(--lab-space-3);
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+[data-style="C"] .c-quiet {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--c-text-2);
+}
+
+/* 事实两列：标签固定列宽 + 数字加粗 tabular + 单位降一号 */
+[data-style="C"] .c-pairs { margin-top: var(--lab-space-4); display: flex; flex-direction: column; }
+[data-style="C"] .c-pair {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: var(--lab-space-4);
+  align-items: baseline;
+  padding: var(--lab-space-3) 0;
+}
+[data-style="C"] .c-pair__k {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--c-text-2);
+}
+[data-style="C"] .c-pair__v {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+  font-variant-numeric: tabular-nums;
+}
+[data-style="C"] .c-pair__n { font-weight: var(--lab-title-weight); }
+[data-style="C"] .c-pair__u { color: var(--c-text-2); font-size: var(--lab-caption-size); }
+
+/* 同行人：姓名 / 事实 / 状态三段，状态列固定宽度右对齐 */
+[data-style="C"] .c-people { margin-top: var(--lab-space-4); display: flex; flex-direction: column; }
+[data-style="C"] .c-person {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-3);
+  min-height: var(--lab-touch);
+}
+[data-style="C"] .c-person__name {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-display-weight);
+  color: var(--lab-text-1);
+  flex: none;
+}
+[data-style="C"] .c-person__meta {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--lab-caption-size);
+  color: var(--c-text-2);
+}
+[data-style="C"] .c-person .c-status { flex: none; min-width: 56px; justify-content: flex-end; }
+
+[data-style="C"] .c-soft { margin-top: var(--lab-space-4); display: flex; flex-direction: column; gap: var(--lab-space-3); }
+[data-style="C"] .c-soft__item {
+  display: flex;
+  gap: var(--lab-space-3);
+  align-items: flex-start;
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+[data-style="C"] .c-soft__dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--lab-accent);
+  flex: none;
+  /* 圆点与首行文字光学居中：不写死 10px，由字号 × 行高算出来 */
+  margin-top: calc((var(--lab-body-size) * var(--lab-body-lh) - 5px) / 2);
+}
+
+/* ---------------- 4. 详情 hero / 底部 sticky CTA ---------------- */
+
+[data-style="C"] .c-hero {
+  position: relative;
+  margin-top: var(--lab-space-3);
+  height: 220px;
+  border-radius: var(--lab-radius-img);
+  overflow: hidden;
+}
+[data-style="C"] .c-hero__ph { height: 100%; border-radius: var(--lab-radius-img); }
+[data-style="C"] .c-hero__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--c-scrim-1) 0%, var(--c-scrim-2) 55%, var(--c-scrim-3) 100%);
+}
+[data-style="C"] .c-hero__meta {
+  position: absolute;
+  left: var(--lab-space-4);
+  right: var(--lab-space-4);
+  bottom: var(--lab-space-4);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-action-text);
+  font-variant-numeric: tabular-nums;
+}
+[data-style="C"] .c-hero__state { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+[data-style="C"] .c-hero__dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-dust);
+  flex: none;
+  align-self: center;
+}
+
+[data-style="C"] .c-dock {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  margin: var(--lab-space-7) calc(0px - var(--lab-page-x)) 0;
+  padding: var(--lab-space-3) var(--lab-page-x) var(--lab-space-6);
+  background: var(--lab-surface);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  display: flex;
+  align-items: stretch;
+  gap: var(--lab-space-3);
+  transition: border-color var(--lab-motion) var(--lab-ease);
+}
+/* 滚动后才亮出分隔：静止时只靠色调过渡，不留一条没有来由的孤线 */
+[data-style="C"] .c-dock.is-stuck { border-top-color: var(--lab-border-strong); }
+/* 分隔线之上再压一段渐隐带，让正文"沉"到 dock 下面而不是被切断 */
+[data-style="C"] .c-dock::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 100%;
+  height: 16px;
+  background: linear-gradient(180deg, rgba(241, 239, 232, 0), var(--lab-bg));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--lab-motion) var(--lab-ease);
+}
+[data-style="C"] .c-dock.is-stuck::before { opacity: 1; }
+
+[data-style="C"] .c-dock .btn--primary { flex: 1; min-width: 0; }
+[data-style="C"] .btn.is-quiet-btn {
+  background: transparent;
+  color: var(--lab-brand);
+  box-shadow: inset 0 0 0 1px var(--lab-border-strong);
+  opacity: 1;
+}
+[data-style="C"] .btn.is-quiet-btn.is-disabled { opacity: var(--c-alpha-dim); }
+[data-style="C"] .btn.is-busy { opacity: var(--c-alpha-press); cursor: progress; }
+[data-style="C"] .c-dock__share {
+  flex: none;
+  min-height: var(--lab-action-h);
+  padding: 0 var(--lab-space-5);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  border-radius: var(--lab-radius-btn);
+  box-shadow: inset 0 0 0 1px var(--lab-border-strong);
+  color: var(--lab-brand);
+  font-size: var(--lab-body-size);
+  font-weight: 500;
+  transition: opacity var(--lab-motion) var(--lab-ease), box-shadow var(--lab-motion) var(--lab-ease);
+}
+[data-style="C"] .c-dock__share:active { opacity: var(--c-alpha-press); }
+[data-style="C"] .c-dock__share .lab-icon { width: 17px; height: 17px; }
+
+/* ---------------- 5. 发现：控件行 / 留白分隔的条目 ---------------- */
+
+/* 控件分两层：搜索是页底上的白药丸，chip 是一条雾色带 —— 不再把两种东西套进同一个盒子 */
+[data-style="C"] .c-controls {
+  margin-top: var(--lab-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lab-space-3);
+}
+[data-style="C"] .c-controls.is-off { opacity: var(--c-alpha-off); }
+
+[data-style="C"] .c-search {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  min-height: var(--lab-touch);
+  padding: 0 var(--lab-space-4);
+  border-radius: var(--lab-radius-chip);
+  background: var(--lab-surface);
+  color: var(--c-text-3);
+  box-shadow: inset 0 0 0 1px transparent;
+  transition: box-shadow var(--lab-motion) var(--lab-ease), color var(--lab-motion) var(--lab-ease);
+}
+[data-style="C"] .c-search .lab-icon {
+  width: 18px; height: 18px;
+  transition: color var(--lab-motion) var(--lab-ease);
+}
+[data-style="C"] .c-search:focus-within {
+  color: var(--lab-brand);
+  box-shadow: inset 0 0 0 1.5px var(--lab-brand);
+}
+[data-style="C"] .c-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: var(--lab-body-size);
+  color: var(--lab-text-1);
+  caret-color: var(--lab-brand);
+  outline: none;
+}
+[data-style="C"] .c-search input::placeholder { color: var(--c-text-3); }
+
+[data-style="C"] .c-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lab-space-1);
+  padding: var(--lab-space-2);
+  background: var(--lab-surface-2);
+  border-radius: var(--lab-radius-btn);
+}
+[data-style="C"] .c-chip {
+  min-height: 44px;
+  padding: 0 var(--lab-space-3);
+  border-radius: var(--lab-radius-chip);
+  font-size: var(--lab-caption-size);
+  color: var(--c-text-2);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  transition:
+    background var(--lab-motion) var(--lab-ease),
+    color var(--lab-motion) var(--lab-ease),
+    box-shadow var(--lab-motion) var(--lab-ease);
+}
+/* 选中 = 抬起的白药丸 + 苔点 + 计数变深：不靠色块硬压 */
+[data-style="C"] .c-chip.is-on {
+  background: var(--lab-surface);
+  color: var(--lab-text-1);
+  font-weight: 500;
+  box-shadow: inset 0 0 0 1px var(--lab-border-strong);
+}
+[data-style="C"] .c-chip.is-on::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--lab-brand);
+  flex: none;
+  animation: c-dot-in var(--lab-motion) var(--lab-ease) both;
+}
+[data-style="C"] .c-chip__n {
+  color: var(--c-text-3);
+  font-variant-numeric: tabular-nums;
+}
+[data-style="C"] .c-chip.is-on .c-chip__n { color: var(--c-text-2); }
+[data-style="C"] .c-chip[disabled] { opacity: var(--c-alpha-off); pointer-events: none; }
+
+/* 计数行：只回答"现在列出几条"，分类规模交给 chip 里的计数 */
+[data-style="C"] .c-count {
+  margin-top: var(--lab-space-4);
+  font-size: var(--lab-caption-size);
+  color: var(--c-text-2);
+  transition: opacity var(--lab-motion) var(--lab-ease);
+}
+[data-style="C"] .c-count b { font-weight: 500; color: var(--lab-text-1); }
+
+[data-style="C"] .c-list { margin-top: var(--lab-space-5); display: flex; flex-direction: column; gap: var(--lab-space-6); }
+[data-style="C"] .c-list.is-swap { animation: c-swap 240ms var(--lab-ease) both; }
+[data-style="C"] .c-list__none {
+  font-size: var(--lab-caption-size);
+  color: var(--c-text-2);
+  padding: var(--lab-space-5) 0;
+}
+[data-style="C"] .c-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lab-space-4);
+  width: 100%;
+  text-align: left;
+  min-height: 88px;
+  border-radius: var(--lab-radius-btn);
+  transition: opacity var(--lab-motion) var(--lab-ease);
+}
+[data-style="C"] .c-thumb { width: 88px; height: 88px; flex: none; border-radius: var(--lab-radius-img); }
+[data-style="C"] .c-item__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--lab-space-1); }
+/* 三级层次：标题 600/正文色 → 状态 500/正文色 → 事实 400/次级色 */
+[data-style="C"] .c-item__title {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-display-weight);
+  line-height: 1.4;
+  color: var(--lab-text-1);
+}
+[data-style="C"] .c-item__fact {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--c-text-2);
+}
+[data-style="C"] .c-item__state {
+  margin-top: var(--lab-space-2);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--c-text-2);
+}
+[data-style="C"] .c-item__word { color: var(--lab-text-1); font-weight: 500; }
+[data-style="C"] .c-item__sep { color: var(--c-text-3); }
+[data-style="C"] .c-item__left {
+  color: var(--lab-text-1);
+  font-weight: var(--lab-title-weight);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------- 6. 协作：集合点带 / 成员行 / 车辆 / 下一步 ---------------- */
+
+/* 进度条：4px 细、圆头；入场只做轻微沉降 + 淡入，
+   不从 0 扫出——快屏截图与弱网下都会读到"半截进度"的错觉。 */
+[data-style="C"] .c-meter {
+  margin-top: var(--lab-space-3);
+  height: 4px;
+  border-radius: 999px;
+  background: var(--c-hair);
+  overflow: hidden;
+}
+[data-style="C"] .c-meter__fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--lab-brand);
+  transform-origin: left center;
+  animation: c-meter-in 260ms var(--lab-ease) both;
+  transition: width var(--lab-motion) var(--lab-ease);
+}
+
+[data-style="C"] .c-members { display: flex; flex-direction: column; margin-top: var(--lab-space-1); }
+[data-style="C"] .c-member {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-3);
+  width: 100%;
+  text-align: left;
+  min-height: var(--lab-touch);
+  padding: var(--lab-space-3) 0;
+  transition: opacity var(--lab-motion) var(--lab-ease);
+}
+/* 长名单里唯一的分隔手段：一条比页面分隔更轻的发丝线 */
+[data-style="C"] .c-member + .c-member { border-top: var(--lab-border-width) solid var(--c-hair); }
+[data-style="C"] .c-member[disabled] { opacity: var(--c-alpha-dim); pointer-events: none; }
+[data-style="C"] .c-member.is-static { cursor: default; }
+[data-style="C"] .c-member__main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+[data-style="C"] .c-member__name {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-display-weight);
+  line-height: 1.35;
+  color: var(--lab-text-1);
+}
+[data-style="C"] .c-member__meta {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--c-text-2);
+}
+/* 状态列定宽右对齐：17 行的时间戳与状态点连成一条可扫读的右边线 */
+[data-style="C"] .c-member__state {
+  flex: none;
+  min-width: 96px;
+  justify-content: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--c-text-2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+[data-style="C"] .c-member__state.is-quiet { color: var(--c-text-3); }
+
+[data-style="C"] .c-veh { display: flex; flex-direction: column; gap: var(--lab-space-3); }
+[data-style="C"] .c-veh__line {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-1);
+  font-variant-numeric: tabular-nums;
+}
+[data-style="C"] .c-veh__line span { color: var(--c-text-2); }
+
+/* ---------------- 7. 天气：三段简报 / 细线曲线 / 小时条 / 窗口 ---------------- */
+
+[data-style="C"] .c-days { margin-top: var(--lab-space-4); display: flex; flex-direction: column; }
+[data-style="C"] .c-day { display: flex; flex-direction: column; }
+[data-style="C"] .c-day + .c-day {
+  margin-top: var(--lab-space-4);
+  padding-top: var(--lab-space-4);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="C"] .c-day__head { display: flex; align-items: baseline; gap: var(--lab-space-3); }
+[data-style="C"] .c-day__name {
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-brand);
+}
+[data-style="C"] .c-day__date { font-size: var(--lab-caption-size); color: var(--c-text-3); }
+/* daySentence 的第一级：当天温度带独立成行，第二级才是文字简报 */
+[data-style="C"] .c-day__lead {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-data-size);
+  font-weight: var(--lab-data-weight);
+  line-height: 1.1;
+  letter-spacing: -.2px;
+  color: var(--lab-text-1);
+  font-variant-numeric: tabular-nums;
+}
+[data-style="C"] .c-day__text { margin-top: var(--lab-space-2); color: var(--c-text-2); }
+
+[data-style="C"] .c-chart { margin-top: var(--lab-space-4); }
+[data-style="C"] .c-chart__line {
+  fill: none;
+  stroke: var(--lab-accent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+[data-style="C"] .c-chart__grid { stroke: var(--lab-border); stroke-width: 1; }
+[data-style="C"] .c-chart__dot { fill: none; stroke: var(--lab-accent); stroke-width: 1.4; }
+[data-style="C"] .c-chart__tick { stroke: var(--lab-accent); stroke-width: 1; stroke-linecap: round; }
+[data-style="C"] .c-chart__mark {
+  font-size: 10px;
+  fill: var(--c-text-2);
+  font-variant-numeric: tabular-nums;
+}
+[data-style="C"] .c-chart__axis { font-size: 11px; fill: var(--c-text-2); font-variant-numeric: tabular-nums; }
+[data-style="C"] .c-chart__axis-t { font-size: 10px; fill: var(--c-text-3); }
+[data-style="C"] .c-chart__cap {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-3);
+  font-size: var(--lab-caption-size);
+  color: var(--c-text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+[data-style="C"] .c-strip {
+  margin-top: var(--lab-space-4);
+  display: flex;
+  gap: var(--lab-space-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: var(--lab-space-1);
+}
+[data-style="C"] .c-strip::-webkit-scrollbar { display: none; }
+[data-style="C"] .c-hour {
+  flex: none;
+  width: 44px;
+  min-height: var(--lab-touch);
+  border-radius: var(--lab-radius-chip);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--c-text-2);
+  transition: background var(--lab-motion) var(--lab-ease), opacity var(--lab-motion) var(--lab-ease);
+}
+/* 圆点行永远占位，否则有无关键窗口的格子温度会错开半行 */
+[data-style="C"] .c-hour__t { font-size: var(--lab-caption-size); }
+[data-style="C"] .c-hour__v {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-display-weight);
+  line-height: 1.2;
+  color: var(--lab-text-1);
+  font-variant-numeric: tabular-nums;
+}
+[data-style="C"] .c-hour__dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: transparent;
+  flex: none;
+}
+[data-style="C"] .c-hour.is-key .c-hour__dot {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--lab-accent);
+}
+[data-style="C"] .c-hour.is-on { background: var(--lab-surface-2); }
+[data-style="C"] .c-hour.is-on .c-hour__v { color: var(--lab-brand); }
+[data-style="C"] .c-hour.is-on .c-hour__t { color: var(--c-text-2); }
+
+[data-style="C"] .c-windows { margin-top: var(--lab-space-4); display: flex; flex-direction: column; gap: var(--lab-space-3); }
+[data-style="C"] .c-window {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-4);
+  padding: var(--lab-space-3) var(--lab-space-4);
+  background: var(--lab-surface-2);
+  border-radius: var(--lab-radius-card);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  font-variant-numeric: tabular-nums;
+}
+[data-style="C"] .c-window__t { color: var(--lab-text-1); font-weight: 500; }
+[data-style="C"] .c-window__v { color: var(--c-text-2); text-align: right; }
+
+/* ---------------- 8. 状态块 / 说明条 / 骨架 ---------------- */
+
+[data-style="C"] .c-state {
+  margin-top: var(--lab-space-4);
+  padding: var(--lab-space-8) var(--lab-space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lab-space-3);
+  text-align: center;
+  background: var(--lab-surface-2);
+  border-radius: var(--lab-radius-card);
+}
+[data-style="C"] .c-state .lab-icon { width: 24px; height: 24px; color: var(--c-text-3); }
+[data-style="C"] .c-state__title {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-display-weight);
+  color: var(--lab-text-1);
+}
+[data-style="C"] .c-state__body {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--c-text-2);
+  max-width: 32ch;
+}
+[data-style="C"] .c-state__action { margin-top: var(--lab-space-2); }
+/* 错误态：砖玫瑰色文字 + 低饱和图标，绝不红块 */
+[data-style="C"] .c-state.is-error .c-state__title { color: var(--c-ink-bad); }
+[data-style="C"] .c-state.is-error .lab-icon { color: var(--lab-danger); }
+
+[data-style="C"] .c-note {
+  margin-top: var(--lab-space-4);
+  background: var(--lab-surface-2);
+  border-radius: var(--lab-radius-card);
+  color: var(--c-text-2);
+  align-items: center;
+}
+[data-style="C"] .c-note .lab-icon { width: 18px; height: 18px; color: var(--c-text-3); }
+
+[data-style="C"] .c-skel-stack { margin-top: var(--lab-space-5); display: flex; flex-direction: column; gap: var(--lab-space-3); }
+[data-style="C"] .c-skel-head { height: 30px; margin-top: var(--lab-space-4); border-radius: var(--lab-radius-btn); }
+[data-style="C"] .c-skel-line { height: 14px; border-radius: var(--lab-radius-btn); }
+[data-style="C"] .c-skel-band { height: 128px; margin-top: var(--lab-space-6); border-radius: var(--lab-radius-card); }
+[data-style="C"] .c-skel-item { height: 88px; border-radius: var(--lab-radius-img); }
+/* 骨架按真实结构铺：缩略图 + 两行文字 / 标签 + 值 / 姓名 + 状态 */
+[data-style="C"] .c-skel-row { display: flex; align-items: center; gap: var(--lab-space-4); }
+[data-style="C"] .c-skel-thumb { width: 88px; height: 88px; border-radius: var(--lab-radius-img); flex: none; }
+[data-style="C"] .c-skel-lines { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--lab-space-3); }
+[data-style="C"] .c-skel-pair { display: grid; grid-template-columns: 72px 1fr; gap: var(--lab-space-4); align-items: center; }
+[data-style="C"] .c-skel-pair > :first-child { height: 12px; width: 100%; border-radius: var(--lab-radius-btn); }
+[data-style="C"] .c-skel-member { display: flex; align-items: center; justify-content: space-between; gap: var(--lab-space-4); min-height: var(--lab-touch); }
+
+[data-style="C"] .footnote { padding: var(--lab-space-7) 0 var(--lab-space-6); color: var(--c-text-3); }

@@ -1,0 +1,1905 @@
+/* ==========================================================================
+   Style F — Trail Works（山野工坊）
+
+   配方（style-F-decisions.md 决策 2 / 3）：
+   · 骨 = A 山野编辑部：刊物节奏（眉题 → 大标题 → 导语 → 事实行）、纸面、
+     直角、摄影纪律；页面结构、章节顺序、文案位置与 A 保持同规格可比。
+   · 法 = B 瑞士功能主义：数字右对齐 · 单位常显 · 表格化扫读 · 全站一致的形体纪律。
+   · 器 = D 野外仪表：海拔剖面 / 窗口与逐时判定表 / YOU 锚点 / 出发倒计时。
+   · 制 = E 远征现代：工位分区（编号）· 分区操作条 · 明确的活动区指示。
+   · 态 = C 静野：空 / 错 / 禁用用文字色与留白表达，不做红色块。
+
+   排除红线：B 的冷皮肤 · E 的深色重块与长滚 · D 的 13.5px 小字 chrome ·
+   A 的整条图片管线 · 皮肤拼贴。
+
+   本文件自带完整令牌层（[data-style="F"]）——共享 tokens.css 为二轮冻结文件，
+   零改动；风格专属令牌一律 --f-* 前缀，与 A.css 的 --a-* 同一约定。
+
+   纪律：
+   · 全部规则限定在 [data-style="F"] 内。
+   · 字号不低于 A 的基线（kicker 11 / caption 12 / body 15 / title 25 / display 30）；
+     密度来自「行内栏位更多 + 行距更紧」，不来自缩小文字。
+   · 零内容卡片化：分区用「满幅纸色带 + 编号工位标签」，不是圆角卡片墙。
+   · WXSS 迁移纪律：无 color-mix / :has / backdrop-filter / dvh，全角值一律字面量。
+   ========================================================================== */
+
+[data-style="F"] {
+  /* ---------- 色彩：纸 + 墨 + 陶土（沿用 A 的色彩家族，纸感更暖一档） ---------- */
+  --lab-bg: #F5F1E5;
+  --lab-surface: #FFFDF6;
+  --lab-surface-2: #EBE4D1;
+  --lab-text-1: #1E2A23;
+  --lab-text-2: #5E6A5B;
+  --lab-text-3: #87907F;
+  --lab-border: #DBD3BC;
+  --lab-border-strong: #1E2A23;
+  /* ---------- 色义分工（C1/C2：锈色只表警示，三套绿互斥）----------
+     · 品牌绿 --lab-brand  = 结构与「重点数字」（墨线 / 文字链 / YOU 锚点 / 重点读数 / 导航激活数）
+     · CTA 绿  --lab-action = 只给主操作实心底色（唯一允许的深色块）
+     · 状态绿  --lab-success= 只给状态词与「已完成」语义（已通过 / 已签到 / 已报名）
+     · 锈色    --lab-accent = 只给警示与异常（待安排车辆 / 临期倒计时 / 失败态文字）
+       状态绿与 CTA 绿曾同色系混用，二轮拆为两支可辨的绿。 */
+  --lab-brand: #27503F;
+  --lab-action: #1C4433;
+  --lab-action-text: #F5F1E5;
+  --lab-accent: #A9542B;
+  --lab-success: #2F6B4C;
+  --lab-warning: #8A6A20;
+  --lab-danger: #A0402F;
+  --lab-info: #44647A;
+  --lab-dark-block: #1E2A23;
+  --lab-on-dark: #F6F3EA;
+  --lab-overlay: rgba(30, 42, 35, .5);
+  --lab-photo-filter: saturate(.94);
+
+  /* ---------- 字阶：不低于 A 的基线 ---------- */
+  --lab-display-size: 30px; --lab-display-weight: 700; --lab-display-lh: 1.25; --lab-display-ls: -0.3px;
+  --lab-title-size: 25px; --lab-title-weight: 700; --lab-title-lh: 1.3;
+  --lab-section-size: 17px; --lab-section-weight: 600; --lab-section-lh: 1.4;
+  --lab-kicker-size: 11px; --lab-kicker-weight: 600; --lab-kicker-ls: 1.4px;
+  --lab-body-size: 15px; --lab-body-weight: 400; --lab-body-lh: 1.6;
+  --lab-caption-size: 12px; --lab-caption-weight: 400; --lab-caption-lh: 1.5;
+  --lab-data-size: 20px; --lab-data-weight: 700;
+
+  /* ---------- 版心与节奏：比 A 更紧（密度的来源） ---------- */
+  --lab-page-x: 20px;
+  --lab-section-gap: 24px;
+  --lab-row-h: 56px;
+  --lab-touch: 44px;
+  --lab-action-h: 48px;
+
+  --lab-radius-img: 2px;
+  --lab-radius-btn: 4px;
+  --lab-radius-card: 2px;
+  --lab-radius-chip: 2px;
+  --lab-shadow-1: 0 8px 24px rgba(30, 42, 35, .14);
+  --lab-icon-size: 18px;
+  --lab-icon-stroke: 1.5;
+  --lab-motion: 160ms;
+
+  /* ---------- F 专属令牌 ---------- */
+  --f-serif: Georgia, "Songti SC", "Noto Serif SC", "SimSun", serif;
+  /* 摄影纪律：few but heavy —— 一级照片 16:10 满幅，二级 3:2 满幅，每页至多两张 */
+  --f-cover-h: 244px;    /* 一级：头条 / 特稿头图（16:10 满幅） */
+  --f-lead-h: 156px;     /* 二级：专题领图（3:2 满幅） */
+  --f-thumb: 72px;       /* 工位行缩略图（1:1 统一比例） */
+  --f-profile-h: 96px;   /* 海拔剖面 */
+  --f-spark-h: 112px;    /* 48 小时曲线 */
+  /* 两级数字阶：大读数（倒计时 / 主计数）/ 台账读数（规格行 / 表格） */
+  --f-ledger-size: 18px;
+  --f-ledger-weight: 700;
+  /* 分区纸色：交替出现的两种「纸」，永远不用深色块 */
+  --f-paper-sheet: #FFFDF6;
+  --f-paper-oat: #EBE4D1;
+  /* 状态表达（C）：文字色而非色块 */
+  --f-state-quiet: #8A8375;
+  --f-state-error: #A9542B;
+  --f-move-fast: 150ms;
+  --f-move: 210ms;
+}
+
+/* ==========================================================================
+   0. 页面容器 / 焦点 / 动效骨架
+   ========================================================================== */
+
+[data-style="F"] .page { padding-top: 0; }
+/* 详情页报尾 sticky：净空挂在页脚自身的 padding 上（与 A 同一条经验） */
+[data-style="F"] .f-detail { padding-bottom: 0; }
+[data-style="F"] .f-detail .footnote {
+  padding-bottom: calc(var(--lab-action-h) + var(--lab-space-5));
+}
+
+[data-style="F"] [role="button"] {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+[data-style="F"] [role="button"]:focus-visible,
+[data-style="F"] button:focus-visible,
+[data-style="F"] input:focus-visible {
+  outline: var(--lab-rule-strong-w) solid var(--lab-brand);
+  outline-offset: 2px;
+}
+
+@keyframes f-list-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+@keyframes f-ink-run { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+[data-style="F"] .f-list--in { animation: f-list-in var(--f-move) var(--lab-ease) both; }
+
+/* 图片：解码完成后由 JS 打 .is-in 再淡入，纸面上不闪 */
+[data-style="F"] .photo img { opacity: 0; }
+[data-style="F"] .photo.is-in img { opacity: 1; transition: opacity var(--f-move) var(--lab-ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-style="F"] .f-list--in { animation: none !important; }
+  [data-style="F"] .f-bar__main.is-loading::after { content: none !important; }
+  [data-style="F"] .f-tabs__ink,
+  [data-style="F"] .photo.is-in img { transition: none !important; }
+  [data-style="F"] .toast { transition: none !important; }
+}
+
+/* 满幅（出血）：纸带贴到设备两侧 */
+[data-style="F"] .f-bleed {
+  margin-left: calc(-1 * var(--lab-page-x));
+  margin-right: calc(-1 * var(--lab-page-x));
+}
+
+/* ==========================================================================
+   1. 排版基元
+   ========================================================================== */
+
+[data-style="F"] .f-serif { font-family: var(--f-serif); }
+
+[data-style="F"] .f-kicker {
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  line-height: var(--lab-body-lh);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+}
+
+[data-style="F"] .f-caption {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+}
+
+[data-style="F"] .f-body {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-body-weight);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+
+/* 导语：首字下沉（A 的签名处理保留；C3 —— 下沉字回归正文墨色，不再占一支绿） */
+[data-style="F"] .f-lede {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+  margin-top: var(--lab-space-3);
+}
+[data-style="F"] .f-lede::first-letter {
+  float: left;
+  font-family: var(--f-serif);
+  font-size: calc(var(--lab-display-size) * 1.5);
+  line-height: 1;
+  font-weight: var(--lab-display-weight);
+  color: var(--lab-text-1);
+  margin: var(--lab-space-1) var(--lab-space-3) 0 0;
+}
+
+/* 行内事实：指标是句子的一部分 */
+[data-style="F"] .f-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--lab-space-1) var(--lab-space-2);
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-2);
+}
+[data-style="F"] .f-facts__item { font-variant-numeric: var(--lab-num-spacing); }
+[data-style="F"] .f-facts__sep { color: var(--lab-text-3); }
+[data-style="F"] .f-facts__item.is-hi { color: var(--lab-brand); font-weight: 600; }
+
+/* 引文 / 便笺正文 */
+[data-style="F"] .f-quote {
+  font-family: var(--f-serif);
+  font-size: var(--lab-section-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+  margin-top: var(--lab-space-3);
+  padding-left: var(--lab-space-4);
+  border-left: var(--lab-border-width) solid var(--lab-border);
+}
+
+/* 说明行：只读 / 截止 / 来源 */
+[data-style="F"] .f-note-line {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-3);
+  padding-top: var(--lab-space-3);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+}
+[data-style="F"] .f-note-line__k {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+}
+[data-style="F"] .f-note-line--accent .f-note-line__k { color: var(--lab-accent); }
+
+/* 文字链 */
+[data-style="F"] .f-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  min-height: var(--lab-touch);
+  font-size: var(--lab-caption-size);
+  font-weight: 600;
+  color: var(--lab-brand);
+  font-variant-numeric: var(--lab-num-spacing);
+  transition: opacity var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-link .lab-icon { width: 14px; height: 14px; transition: transform var(--f-move-fast) var(--lab-ease); }
+[data-style="F"] .f-link:active { opacity: .6; }
+[data-style="F"] .f-link:active .lab-icon { transform: translateX(3px); }
+[data-style="F"] .f-link--sm { min-height: 0; }
+
+/* ==========================================================================
+   2. 工位分区（E 的分区组织 × A 的纸）—— F 的签名结构
+   ========================================================================== */
+
+/* 纸带：满幅 + 交替纸色 + 顶部发丝线。绝不用深色重块。 */
+[data-style="F"] .f-zone {
+  margin-top: var(--lab-section-gap);
+  padding: var(--lab-space-3) var(--lab-page-x) var(--lab-space-4);
+  background: var(--f-paper-sheet);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-zone--oat { background: var(--f-paper-oat); }
+[data-style="F"] .f-zone--flush { margin-top: 0; }
+
+/* 工位标签：编号 + 名称 + 右侧计数；活动工位加 2px 墨线 */
+[data-style="F"] .f-zone__tab {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-2);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-zone.is-current .f-zone__tab {
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="F"] .f-zone__no {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-zone.is-current .f-zone__no { color: var(--lab-brand); }
+[data-style="F"] .f-zone__name {
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+  min-width: 0;
+}
+[data-style="F"] .f-zone__meta {
+  margin-left: auto;
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  letter-spacing: .3px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="F"] .f-zone__body { margin-top: var(--lab-space-3); }
+[data-style="F"] .f-zone__body--tight { margin-top: var(--lab-space-2); }
+[data-style="F"] .f-zone__caption {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-kicker-size);
+  letter-spacing: .3px;
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+
+/* 分区操作条（E 的页内操作语言，纸滤版：发丝线上方一行，主次分明） */
+[data-style="F"] .f-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-4);
+  padding-top: var(--lab-space-3);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+}
+/* P0-4：说明句可以占满剩余宽度，按钮不得被挤到折行 */
+[data-style="F"] .f-actions .btn { flex: none; white-space: nowrap; }
+[data-style="F"] .f-actions__note {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-3);
+}
+[data-style="F"] .f-actions__note .num { color: var(--lab-text-2); }
+
+/* 分区内的二级切分头 */
+[data-style="F"] .f-subhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-4);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-subhead:first-child { margin-top: 0; }
+[data-style="F"] .f-subhead__n {
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+
+/* 人先于数（E1）：协作页工位 01 首行 —— 头像 + 姓名 + 签到态，人在数之前 */
+[data-style="F"] .f-who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lab-space-2) var(--lab-space-3);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-who__item { display: inline-flex; align-items: center; gap: var(--lab-space-1); }
+[data-style="F"] .f-who__id {
+  width: calc(var(--lab-space-8) - var(--lab-space-4));
+  height: calc(var(--lab-space-8) - var(--lab-space-4));
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lab-surface-2);
+  color: var(--lab-text-2);
+  font-family: var(--f-serif);
+  font-size: var(--lab-caption-size);
+}
+[data-style="F"] .f-who__name {
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+}
+[data-style="F"] .f-who__mark { width: var(--lab-space-4); height: var(--lab-space-4); flex: none; color: var(--lab-success); }
+[data-style="F"] .f-who__mark.is-off { color: var(--lab-text-3); }
+[data-style="F"] .f-who__more {
+  margin-left: auto;
+  font-size: var(--lab-kicker-size);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+  font-variant-numeric: var(--lab-num-spacing);
+}
+
+/* 分区内的列表 / 分栏 / 网格容器（分区自带间距，容器内不再重复留白） */
+[data-style="F"] .f-mlist { margin-top: var(--lab-space-1); }
+[data-style="F"] .f-cars { margin-top: var(--lab-space-2); }
+[data-style="F"] .f-specs { margin-top: var(--lab-space-2); }
+[data-style="F"] .f-zone__body > .f-tabs,
+[data-style="F"] .f-zone__body > .f-seg,
+[data-style="F"] .f-zone__body > .f-search { margin-top: 0; }
+[data-style="F"] .f-zone__body > .f-who { margin-top: 0; }
+[data-style="F"] .f-tabbody { margin-top: var(--lab-space-3); }
+[data-style="F"] .f-zone__body > .f-readout { margin-top: var(--lab-space-4); }
+[data-style="F"] .f-zone__body > .f-ledger { margin-top: var(--lab-space-1); }
+[data-style="F"] .f-zone__body > .f-profile { margin-top: var(--lab-space-1); }
+[data-style="F"] .f-zone__body > .f-spark { margin-top: var(--lab-space-2); }
+[data-style="F"] .f-zone__body > .f-legend { margin-top: 0; }
+[data-style="F"] .f-zone__body > .f-countdown { margin-top: var(--lab-space-2); }
+[data-style="F"] .f-zone__body > .f-quad,
+[data-style="F"] .f-zone__body > .f-counts,
+[data-style="F"] .f-zone__body > .f-tri,
+[data-style="F"] .f-zone__body > .f-actions { margin-top: var(--lab-space-3); }
+[data-style="F"] .f-zone__body > .f-quad { margin-top: var(--lab-space-3); }
+[data-style="F"] .f-actions:last-child { margin-top: var(--lab-space-3); }
+
+/* 台账行内的签到格（32px 方形按钮，不撑行高） */
+[data-style="F"] .f-toggle--cell {
+  width: var(--lab-space-8);
+  height: var(--lab-space-8);
+  margin-left: auto;
+}
+
+/* 时段列：15px 正文级 + 等宽数字（比读数列轻一档，但仍是正文级） */
+[data-style="F"] .f-cell--time {
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+
+/* 成员行内的「你」锚点 */
+[data-style="F"] .f-mrow__name .you {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: var(--lab-space-1);
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .6px;
+  color: var(--lab-brand);
+}
+[data-style="F"] .f-mrow__name .you::before {
+  content: '';
+  width: var(--lab-space-2);
+  height: var(--lab-space-2);
+  background: var(--lab-brand);
+  flex: none;
+}
+
+/* 编者按内的规格行：末行不画线 */
+[data-style="F"] .f-callout__specs { margin-top: var(--lab-space-2); }
+[data-style="F"] .f-callout__specs .f-spec:last-child { border-bottom: 0; }
+
+/* 月份时间轴：比工位标签更轻，但保留 2px 墨线 */
+[data-style="F"] .f-month {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-section-gap);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="F"] .f-month__k {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-month__n {
+  margin-left: auto;
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   3. 台账纪律（B）—— 规格行 / 四联读数 / 表格台账
+   ========================================================================== */
+
+/* 规格行：标签列定宽 + 值右对齐 + 单位常显 + 右侧备注
+   A1 的病根修法：三列写死为「定宽标签 / 弹性值 / 定宽注记」。
+   注记列的定宽（64px ≥ 5 个 12px 字宽）是 CJK 不再逐字竖排的唯一保证——
+   只要注记列是可伸缩的 auto，它就会被值列挤到 0，CJK 逐字折行。 */
+[data-style="F"] .f-spec {
+  display: grid;
+  grid-template-columns:
+    calc(var(--lab-space-8) + var(--lab-space-4))
+    minmax(0, 1fr)
+    calc(var(--lab-space-8) + var(--lab-space-6));
+  gap: var(--lab-space-2);
+  align-items: baseline;
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-spec:last-child { border-bottom: var(--lab-border-width) solid var(--lab-border); }
+[data-style="F"] .f-spec__k {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+[data-style="F"] .f-spec__v {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 3px;
+  min-width: 0;
+  font-size: var(--f-ledger-size);
+  font-weight: var(--f-ledger-weight);
+  line-height: 1.25;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  text-align: right;
+  white-space: nowrap;
+}
+[data-style="F"] .f-spec__v--word {
+  font-family: var(--f-serif);
+  font-size: var(--lab-section-size);
+  font-weight: var(--lab-section-weight);
+  font-variant-numeric: normal;
+}
+[data-style="F"] .f-spec__u {
+  flex: none;
+  font-size: var(--lab-caption-size);
+  font-weight: 400;
+  color: var(--lab-text-3);
+  font-variant-numeric: normal;
+}
+[data-style="F"] .f-spec__n {
+  min-width: 0;
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-3);
+  text-align: right;
+}
+[data-style="F"] .f-spec.is-hi .f-spec__v { color: var(--lab-brand); }
+
+/* 四联读数：一条横排 4 格，竖发丝线分隔，数字右对齐 */
+[data-style="F"] .f-quad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-quad__cell {
+  min-width: 0;
+  padding: var(--lab-space-2) var(--lab-space-1) var(--lab-space-2) 0;
+  border-left: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-quad__cell:first-child { border-left: 0; padding-left: 0; }
+[data-style="F"] .f-quad__cell:last-child { padding-right: 0; }
+[data-style="F"] .f-quad__k {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+  overflow: hidden;
+}
+[data-style="F"] .f-quad__v {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 2px;
+  margin-top: var(--lab-space-1);
+  font-size: var(--f-ledger-size);
+  font-weight: var(--f-ledger-weight);
+  line-height: 1.2;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="F"] .f-quad__u {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 400;
+  color: var(--lab-text-3);
+  font-variant-numeric: normal;
+}
+/* 日期格（截止）：日期与时刻各占一行，右缘不再挤压（P1-8） */
+[data-style="F"] .f-quad__cell.is-narrow .f-quad__v {
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 0;
+}
+[data-style="F"] .f-quad__cell.is-hi .f-quad__v { color: var(--lab-brand); }
+
+/* 三联读数（集合三事实）：集合点整行、其余两格并排 —— 集合点折行不再撑高三列行（E7） */
+[data-style="F"] .f-tri {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-tri__cell { min-width: 0; padding-right: var(--lab-space-3); }
+[data-style="F"] .f-tri__cell + .f-tri__cell {
+  border-left: var(--lab-border-width) solid var(--lab-border);
+  padding-left: var(--lab-space-3);
+}
+[data-style="F"] .f-tri__cell:last-child { padding-right: 0; }
+[data-style="F"] .f-tri__cell--wide {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-2);
+  padding-left: 0;
+}
+[data-style="F"] .f-tri__k {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+[data-style="F"] .f-tri__v {
+  font-size: var(--lab-body-size);
+  color: var(--lab-text-1);
+  margin-top: var(--lab-space-1);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-tri__v--wide { margin-top: 0; white-space: nowrap; }
+
+/* 计数格：3 × 2，数字在上标签在下（B 的右对齐纪律用在纵向格上；F3 统一「标签左/数值右」） */
+[data-style="F"] .f-counts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-counts__cell {
+  min-width: 0;
+  padding: var(--lab-space-1) var(--lab-space-3);
+  border-left: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-counts__cell:nth-child(3n+1) { border-left: 0; padding-left: 0; }
+[data-style="F"] .f-counts__cell:nth-child(3n) { padding-right: 0; }
+[data-style="F"] .f-counts__cell:nth-child(n+4) { border-top: var(--lab-border-width) solid var(--lab-border); }
+[data-style="F"] .f-counts__v {
+  font-size: var(--f-ledger-size);
+  font-weight: var(--f-ledger-weight);
+  line-height: 1.15;
+  color: var(--lab-text-1);
+  text-align: right;
+  font-variant-numeric: var(--lab-num-spacing);
+}
+/* 「待安排车辆」是全站仅剩的锈色待办语义（C1 白名单内） */
+[data-style="F"] .f-counts__cell.is-hi .f-counts__v { color: var(--lab-accent); }
+[data-style="F"] .f-counts__k {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* 细线进度：2px 发丝 + 品牌色填充 */
+[data-style="F"] .f-meter {
+  height: var(--lab-rule-strong-w);
+  margin-top: var(--lab-space-2);
+  background: var(--lab-border);
+}
+[data-style="F"] .f-meter__fill {
+  display: block;
+  height: 100%;
+  background: var(--lab-brand);
+  transition: width var(--f-move) var(--lab-ease);
+}
+
+/* 倒计时（D 的工具件）：标签左 / 读数右，说明另起一行。
+   A3 的修法：三格挤在一行时，说明文字（flex:none + nowrap）会把读数压成 0 宽，
+   于是「距出发集合」与「1 天 00 时」零距碰撞。改成两行栅格后两者永不相撞。 */
+[data-style="F"] .f-countdown {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--lab-space-3);
+  align-items: baseline;
+  margin-top: var(--lab-space-3);
+  padding: var(--lab-space-3) 0;
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-countdown__k {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+[data-style="F"] .f-countdown__v {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: var(--lab-space-2);
+  min-width: 0;
+  font-size: var(--lab-data-size);
+  font-weight: var(--lab-data-weight);
+  line-height: 1.1;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  text-align: right;
+  white-space: nowrap;
+}
+/* 临期 = 警示，锈色白名单内（C1） */
+[data-style="F"] .f-countdown__v.is-soon { color: var(--lab-accent); }
+[data-style="F"] .f-countdown__u {
+  flex: none;
+  font-size: var(--lab-caption-size);
+  font-weight: 400;
+  color: var(--lab-text-3);
+}
+[data-style="F"] .f-countdown__n {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  min-width: 0;
+  margin-top: 2px;
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-3);
+  text-align: right;
+}
+
+/* 表格台账（B 的表格化扫读）：表头 + 数据行，列宽写死，数字列右对齐 */
+[data-style="F"] .f-ledger { margin-top: var(--lab-space-2); }
+[data-style="F"] .f-ledger__head,
+[data-style="F"] .f-ledger__row {
+  display: grid;
+  grid-template-columns: var(--f-led-cols, 1.6fr 1fr .9fr .8fr);
+  gap: var(--lab-space-2);
+  align-items: baseline;
+}
+[data-style="F"] .f-ledger__head {
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="F"] .f-ledger__head .f-cell {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .6px;
+  color: var(--lab-text-3);
+}
+[data-style="F"] .f-ledger__row {
+  min-height: var(--lab-row-h);
+  padding: var(--lab-space-3) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  transition: opacity var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-ledger__row:active { opacity: .6; }
+[data-style="F"] .f-ledger__row.is-you { background: rgba(39, 80, 63, .06); }
+[data-style="F"] .f-ledger__row.is-locked { opacity: .62; }
+/* 紧凑台账（D1）：逐时/窗口判定表每行压到单行，行高由 --lab-row-h 的台面高降到字高 */
+[data-style="F"] .f-ledger--tight .f-ledger__head { padding: var(--lab-space-1) 0; }
+[data-style="F"] .f-ledger--tight .f-ledger__row {
+  min-height: 0;
+  padding: var(--lab-space-1) 0;
+}
+/* V2-6：逐时判定是六列密集表，8px 槽位在 375 上不够放六列真实读数 —— 单独收成 4px 槽位。
+   窗口判定（5 列，1.6fr…）槽位不变。 */
+[data-style="F"] .f-ledger--hourly .f-ledger__head,
+[data-style="F"] .f-ledger--hourly .f-ledger__row { gap: var(--lab-space-1); }
+
+[data-style="F"] .f-cell {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+  min-width: 0;
+}
+[data-style="F"] .f-cell--name {
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+}
+[data-style="F"] .f-cell--n {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 2px;
+  font-size: var(--f-ledger-size);
+  font-weight: var(--f-ledger-weight);
+  line-height: 1.2;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  text-align: right;
+  white-space: nowrap;
+}
+[data-style="F"] .f-cell--u {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 2px;
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  text-align: right;
+  white-space: nowrap;
+}
+[data-style="F"] .f-cell__u {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 400;
+  color: var(--lab-text-3);
+  font-variant-numeric: normal;
+}
+[data-style="F"] .f-cell--no {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .8px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-cell--word {
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-1);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[data-style="F"] .f-cell--r { text-align: right; }
+[data-style="F"] .f-cell--ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* 「你」锚点：形状 + 文字双通道（不用彩色描边框做状态） */
+[data-style="F"] .f-you {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: var(--lab-space-1);
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .6px;
+  color: var(--lab-brand);
+}
+[data-style="F"] .f-you::before {
+  content: '';
+  width: var(--lab-space-2);
+  height: var(--lab-space-2);
+  background: var(--lab-brand);
+  flex: none;
+}
+
+/* ==========================================================================
+   4. 状态词（工牌式：文字 + 实心方点；禁用态挖空方点）
+   ========================================================================== */
+
+[data-style="F"] .f-word {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  font-size: var(--lab-caption-size);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--lab-text-2);
+  white-space: nowrap;
+}
+[data-style="F"] .f-word::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex: none;
+  background: currentColor;
+}
+[data-style="F"] .f-word--success { color: var(--lab-success); }
+[data-style="F"] .f-word--warning { color: var(--lab-warning); }
+[data-style="F"] .f-word--danger { color: var(--lab-danger); }
+[data-style="F"] .f-word--info { color: var(--lab-info); }
+/* C1/V2-1：无生产者（word() 只产出 success/warning/info/off/danger），
+   故不留 f-word--accent —— 锈色不得作为通用状态词色重新渗回。 */
+/* 禁用 / 已失效：颜色退到三级 + 方点挖空（形状也是信号） */
+[data-style="F"] .f-word--off { color: var(--lab-text-3); }
+[data-style="F"] .f-word--off::before { background: transparent; box-shadow: inset 0 0 0 1px currentColor; }
+
+/* ==========================================================================
+   5. 发现 — 工坊目录
+   ========================================================================== */
+
+[data-style="F"] .f-masthead { padding-top: var(--lab-space-6); }
+[data-style="F"] .f-masthead__issue {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-masthead__title {
+  font-family: var(--f-serif);
+  font-size: calc(var(--lab-display-size) * 1.2);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  margin-top: var(--lab-space-4);
+}
+[data-style="F"] .f-masthead__lede {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-2);
+  margin-top: var(--lab-space-3);
+  max-width: 32em;
+}
+[data-style="F"] .f-tools { margin-top: var(--lab-space-4); }
+
+/* 筛选：文字游标 + 计数 + 单条滑动墨条 */
+[data-style="F"] .f-tabs {
+  position: relative;
+  display: flex;
+  gap: var(--lab-space-5);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-tabs__item {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--lab-space-1);
+  padding: 0 0 var(--lab-space-2);
+  font-size: var(--lab-body-size);
+  color: var(--lab-text-2);
+  transition: color var(--f-move-fast) var(--lab-ease), opacity var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-tabs__item:active { opacity: .5; }
+[data-style="F"] .f-tabs__item.is-active { color: var(--lab-text-1); font-weight: 600; }
+[data-style="F"] .f-tabs__item.is-disabled { color: var(--lab-text-3); cursor: default; opacity: .7; }
+[data-style="F"] .f-tabs__n {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .4px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-tabs__item.is-active .f-tabs__n { color: var(--lab-brand); }
+[data-style="F"] .f-tabs__ink {
+  position: absolute;
+  left: 0;
+  bottom: calc(-1 * var(--lab-border-width));
+  height: var(--lab-rule-strong-w);
+  background: var(--lab-border-strong);
+  transition: transform var(--f-move) var(--lab-ease), width var(--f-move) var(--lab-ease);
+}
+
+[data-style="F"] .f-search {
+  transition: border-color var(--f-move-fast) var(--lab-ease), color var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-search:focus-within { border-bottom-color: var(--lab-border-strong); }
+[data-style="F"] .f-search:focus-within .lab-icon { color: var(--lab-brand); }
+[data-style="F"] .f-search__clear {
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--f-move-fast) var(--lab-ease), color var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-search.has-q .f-search__clear { opacity: 1; pointer-events: auto; }
+[data-style="F"] .f-search__clear:active { color: var(--lab-text-1); opacity: .6; }
+
+/* 头条：整版封面（16:10 满幅）+ 提要 + 四联读数 + 操作行 */
+[data-style="F"] .f-feature {
+  margin-top: var(--lab-section-gap);
+  transition: opacity var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-feature:active { opacity: .74; }
+[data-style="F"] .f-feature__media { position: relative; }
+[data-style="F"] .f-feature__media .photo { height: var(--f-cover-h); }
+/* 日期牌：直角墨牌（工坊标签），不是胶囊 */
+[data-style="F"] .f-feature__stamp {
+  position: absolute;
+  left: var(--lab-page-x);
+  top: var(--lab-space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: var(--lab-space-2) var(--lab-space-3);
+  background: rgba(30, 42, 35, .74);
+  color: var(--lab-action-text);
+  line-height: 1.25;
+}
+[data-style="F"] .f-feature__stamp-d {
+  font-size: var(--lab-caption-size);
+  letter-spacing: .4px;
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-feature__stamp-w { font-size: var(--lab-kicker-size); letter-spacing: var(--lab-kicker-ls); }
+[data-style="F"] .f-feature__body { padding-top: var(--lab-space-4); }
+[data-style="F"] .f-feature__title {
+  font-family: var(--f-serif);
+  font-size: var(--lab-display-size);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  margin-top: var(--lab-space-2);
+}
+[data-style="F"] .f-feature__route {
+  font-size: var(--lab-body-size);
+  color: var(--lab-text-2);
+  margin-top: var(--lab-space-1);
+}
+[data-style="F"] .f-feature__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-3);
+}
+
+/* 专题条目：3:2 满幅领图 + 台账读数 */
+[data-style="F"] .f-pick {
+  margin-top: var(--lab-space-5);
+  transition: opacity var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-pick:active { opacity: .74; }
+[data-style="F"] .f-pick .photo { height: var(--f-lead-h); }
+[data-style="F"] .f-pick__body { padding-top: var(--lab-space-3); }
+[data-style="F"] .f-pick__kickerrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+}
+[data-style="F"] .f-pick__kickerrow .f-kicker { white-space: nowrap; }
+[data-style="F"] .f-pick__title {
+  font-family: var(--f-serif);
+  font-size: var(--lab-title-size);
+  font-weight: var(--lab-title-weight);
+  line-height: var(--lab-title-lh);
+  margin-top: var(--lab-space-2);
+}
+[data-style="F"] .f-pick__dek {
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-2);
+  margin-top: var(--lab-space-1);
+}
+
+/* 工位行：序号 + 缩略图 + 主栏 + 数字栏（B 的右对齐数字列） */
+[data-style="F"] .f-wrow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lab-space-2);
+  padding: var(--lab-space-3) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  transition: opacity var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-wrow:active { opacity: .6; }
+[data-style="F"] .f-wrow__idx {
+  flex: none;
+  width: var(--lab-space-7);
+  padding-top: 2px;
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .8px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-wrow__thumb {
+  width: var(--f-thumb);
+  height: var(--f-thumb);
+  flex: none;
+  transition: transform var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-wrow:active .f-wrow__thumb { transform: scale(.96); }
+[data-style="F"] .f-wrow__thumb .photo { height: 100%; }
+[data-style="F"] .f-wrow__thumb .photo__credit { display: none; }
+[data-style="F"] .f-wrow__main { flex: 1; min-width: 0; }
+[data-style="F"] .f-wrow__title {
+  font-family: var(--f-serif);
+  font-size: var(--lab-section-size);
+  font-weight: var(--lab-section-weight);
+  line-height: var(--lab-section-lh);
+  color: var(--lab-text-1);
+}
+[data-style="F"] .f-wrow__meta {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+  margin-top: 2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+[data-style="F"] .f-wrow__meta .num { color: var(--lab-text-1); }
+/* 数字栏：三行右对齐等宽数字，宽度写死，扫读时眼睛只走这一列 */
+[data-style="F"] .f-wrow__nums {
+  flex: none;
+  width: calc(var(--lab-space-8) + var(--lab-space-7) - var(--lab-space-4));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-wrow__seats {
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+  white-space: nowrap;
+}
+[data-style="F"] .f-wrow__seats.is-tight { color: var(--lab-brand); }
+[data-style="F"] .f-wrow__seats.is-none { font-size: var(--lab-caption-size); font-weight: 400; color: var(--lab-text-3); }
+[data-style="F"] .f-wrow__when {
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   6. 详情 — 规格单
+   ========================================================================== */
+
+[data-style="F"] .f-hero__media { position: relative; height: var(--f-cover-h); }
+[data-style="F"] .f-hero .photo { height: 100%; }
+[data-style="F"] .f-hero__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, .06) 26%, rgba(0, 0, 0, .62) 100%);
+}
+[data-style="F"] .f-hero__veil {
+  position: absolute;
+  inset: 0;
+  background: var(--f-paper-oat);
+  opacity: .88;
+}
+[data-style="F"] .f-hero__voidtag {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 var(--lab-page-x) var(--lab-space-4);
+}
+[data-style="F"] .f-hero__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 var(--lab-page-x) var(--lab-space-4);
+}
+[data-style="F"] .f-hero__kicker { color: var(--lab-on-dark); }
+[data-style="F"] .f-hero__title {
+  font-family: var(--f-serif);
+  font-size: var(--lab-display-size);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  color: var(--lab-on-dark);
+  margin-top: var(--lab-space-2);
+}
+[data-style="F"] .f-hero__meta {
+  font-size: var(--lab-caption-size);
+  color: var(--lab-on-dark);
+  opacity: .88;
+  margin-top: var(--lab-space-2);
+}
+[data-style="F"] .f-hero--void .f-hero__media::after { background: none; }
+
+[data-style="F"] .f-sheet { padding-top: var(--lab-space-4); }
+[data-style="F"] .f-statusline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-statusline__t {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-3);
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-2);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="F"] .f-statusline__n { color: var(--lab-text-1); font-weight: 600; }
+[data-style="F"] .f-statusline__d { color: var(--lab-text-3); }
+[data-style="F"] .f-sheet__title {
+  font-family: var(--f-serif);
+  font-size: var(--lab-title-size);
+  font-weight: var(--lab-title-weight);
+  line-height: var(--lab-title-lh);
+  margin-top: var(--lab-space-3);
+}
+[data-style="F"] .f-sheet__sub {
+  font-size: var(--lab-body-size);
+  color: var(--lab-text-2);
+  margin-top: var(--lab-space-1);
+}
+
+/* 海拔剖面（D 的工具件 × 纸滤：发丝基线 + 品牌墨线 + 陶土登顶标记） */
+[data-style="F"] .f-profile { margin-top: var(--lab-space-3); }
+[data-style="F"] .f-profile__plot { position: relative; height: var(--f-profile-h); }
+[data-style="F"] .f-profile__plot svg { display: block; width: 100%; height: 100%; }
+[data-style="F"] .f-profile__nodes {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  margin-top: var(--lab-space-1);
+}
+[data-style="F"] .f-profile__node {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .6px;
+  color: var(--lab-text-3);
+  text-align: center;
+  font-variant-numeric: var(--lab-num-spacing);
+}
+/* 登顶锚点（C1）：由陶土改墨 —— 定位标记不是警示，锈色留给真正的异常 */
+[data-style="F"] .f-profile__node.is-summit { color: var(--lab-text-1); font-weight: 700; }
+[data-style="F"] .f-profile__node.is-you { color: var(--lab-brand); }
+
+/* 行程叙事：编号 + 时刻 + 文字，按日分段 */
+[data-style="F"] .f-narr__day {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-4);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="F"] .f-narr__day:first-child { margin-top: 0; }
+[data-style="F"] .f-narr__d {
+  font-family: var(--f-serif);
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-narr__dn {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+[data-style="F"] .f-narr__item {
+  display: grid;
+  grid-template-columns: var(--lab-space-7) var(--lab-space-8) 1fr;
+  gap: var(--lab-space-2);
+  align-items: baseline;
+  padding: var(--lab-space-3) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-narr__no {
+  font-size: var(--f-ledger-size);
+  font-weight: var(--f-ledger-weight);
+  line-height: 1.1;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-narr__time {
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-2);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-narr__text {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+
+/* 装备：两栏台账（A 为单栏长行） */
+[data-style="F"] .f-gear {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--lab-space-4);
+}
+[data-style="F"] .f-gear__item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-2);
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-gear__no {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .6px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-gear__text {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-1);
+}
+
+/* 报尾操作条 */
+[data-style="F"] .f-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-4);
+  margin-top: var(--lab-section-gap);
+  padding: var(--lab-space-3) 0 var(--lab-space-2);
+  background: var(--lab-bg);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+}
+/* F2/V2-3：主操作瘦身 —— 不再通栏满铺，让报尾里「分享」回到同一量级的呼吸位。
+   深色块红线：本类名（.f-bar__main）是全站**唯一**被允许的深色块类名 ——
+   页面上可以有多处实例（详情报尾、协作工位 03 编者按），它们共用同一条收窄口径
+   （flex:0 1 auto + min-width:48%），不允许再出现第二种深色块类；此处只收窄，不改语义。 */
+[data-style="F"] .f-bar__main {
+  flex: 0 1 auto;
+  min-width: 48%;
+  position: relative;
+  overflow: hidden;
+}
+[data-style="F"] .f-bar__main.is-loading { opacity: .84; }
+[data-style="F"] .f-bar__main.is-loading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: var(--lab-rule-strong-w);
+  width: 100%;
+  background: var(--lab-action-text);
+  opacity: .45;
+  transform-origin: left center;
+  animation: f-ink-run 700ms var(--lab-ease) both;
+}
+[data-style="F"] .f-bar__main.is-done {
+  opacity: 1;
+  background: transparent;
+  color: var(--lab-success);
+  box-shadow: inset 0 0 0 var(--lab-border-width) var(--lab-success);
+}
+[data-style="F"] .f-bar__main.is-done:active { transform: none; opacity: 1; }
+[data-style="F"] .f-bar__main.is-done .lab-icon { width: 16px; height: 16px; }
+[data-style="F"] .f-share {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  min-height: var(--lab-action-h);
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  color: var(--lab-brand);
+  transition: opacity var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-share .lab-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-share:active { opacity: .6; }
+[data-style="F"] .f-share:active .lab-icon { transform: scale(.9); }
+[data-style="F"] .f-share[disabled] { color: var(--lab-text-3); }
+
+/* ==========================================================================
+   7. 协作 — 工位调度台
+   ========================================================================== */
+
+[data-style="F"] .f-chead { padding-top: var(--lab-space-6); }
+[data-style="F"] .f-headline {
+  font-family: var(--f-serif);
+  font-size: var(--lab-display-size);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  margin-top: var(--lab-space-3);
+}
+[data-style="F"] .f-chead__sub {
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+  margin-top: var(--lab-space-2);
+}
+
+[data-style="F"] .f-seg { margin-top: var(--lab-space-4); }
+[data-style="F"] .f-seg .seg__item {
+  padding: var(--lab-space-2) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+[data-style="F"] .f-seg .seg__item .n {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .4px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-seg .seg__item.is-active .n { color: var(--lab-brand); }
+
+/* 成员行（总览 / 现场共用）：比台账行更紧凑，左侧序号 */
+[data-style="F"] .f-mrow {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-3);
+  min-height: var(--lab-row-h);
+  padding: var(--lab-space-3) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-mrow__id {
+  width: calc(var(--lab-space-8) - var(--lab-space-2));
+  height: calc(var(--lab-space-8) - var(--lab-space-2));
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lab-surface-2);
+  color: var(--lab-text-2);
+  font-family: var(--f-serif);
+  font-size: var(--lab-caption-size);
+}
+[data-style="F"] .f-mrow__main { flex: 1; min-width: 0; }
+[data-style="F"] .f-mrow__name {
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+}
+[data-style="F"] .f-mrow__name .you { margin-left: var(--lab-space-1); }
+[data-style="F"] .f-mrow__meta {
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-2);
+  margin-top: 1px;
+  font-variant-numeric: var(--lab-num-spacing);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+[data-style="F"] .f-toggle {
+  flex: none;
+  width: var(--lab-touch);
+  height: var(--lab-touch);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lab-text-3);
+  transition: transform var(--f-move-fast) var(--lab-ease), color var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-toggle:active { transform: scale(.86); }
+[data-style="F"] .f-toggle.is-on { color: var(--lab-success); }
+[data-style="F"] .f-toggle.is-disabled { color: var(--lab-border-strong); cursor: default; }
+[data-style="F"] .f-toggle.is-disabled:active { transform: none; }
+
+/* 分车：工坊座位台（纸滤：司机位也是纸，不做深色块） */
+[data-style="F"] .f-car { margin-top: var(--lab-space-4); }
+[data-style="F"] .f-car__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-2);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-car__name {
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+}
+[data-style="F"] .f-car__plate {
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-2);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-car__load {
+  margin-left: auto;
+  flex: none;
+  font-size: var(--lab-caption-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="F"] .f-car__load .u { font-size: var(--lab-kicker-size); font-weight: 400; color: var(--lab-text-3); }
+[data-style="F"] .f-car__load.is-full { color: var(--lab-text-3); }
+[data-style="F"] .f-seats { margin-top: var(--lab-space-3); gap: var(--lab-space-2); }
+[data-style="F"] .f-seats .seat {
+  height: var(--lab-space-8);
+  border-radius: var(--lab-radius-img);
+  background: transparent;
+  border-color: var(--lab-border);
+  font-size: var(--lab-caption-size);
+  font-weight: 600;
+  color: var(--lab-text-2);
+}
+[data-style="F"] .f-seats .seat small { font-size: var(--lab-kicker-size); color: var(--lab-text-3); }
+[data-style="F"] .f-seats .seat--taken { background: var(--lab-surface); color: var(--lab-text-1); }
+[data-style="F"] .f-seats .seat--free { border-style: dashed; color: var(--lab-text-3); }
+/* 司机位：纸色 + 品牌左刻线（形状 + 文字双通道，替代深色块） */
+[data-style="F"] .f-seats .seat--driver {
+  background: var(--lab-surface-2);
+  color: var(--lab-text-1);
+  border-color: var(--lab-border);
+}
+[data-style="F"] .f-seats .seat--driver small { color: var(--lab-text-2); opacity: 1; }
+/* 「你」：实心品牌色方块（唯一的品牌实底，小面积） */
+[data-style="F"] .f-seats .seat--you {
+  background: var(--lab-brand);
+  border-color: var(--lab-brand);
+  color: var(--lab-action-text);
+}
+[data-style="F"] .f-seats .seat--you small { color: var(--lab-action-text); opacity: .82; }
+[data-style="F"] .f-seats .f-seat--driver {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  gap: var(--lab-space-2);
+  height: var(--lab-space-8);
+  padding: 0 var(--lab-space-3);
+  border-left: var(--lab-rule-strong-w) solid var(--lab-brand);
+}
+
+/* 编者按 callout：纸底 + 品牌绿 2px 左刻线 */
+[data-style="F"] .f-callout {
+  margin-top: var(--lab-space-3);
+  padding: var(--lab-space-3) var(--lab-space-4) var(--lab-space-4);
+  background: var(--f-paper-oat);
+  border-left: var(--lab-rule-strong-w) solid var(--lab-brand);
+  border-radius: 0;
+}
+[data-style="F"] .f-callout__text {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+  margin-top: var(--lab-space-2);
+}
+[data-style="F"] .f-callout__cta { width: auto; margin-top: var(--lab-space-3); }
+[data-style="F"] .f-callout .f-kicker { color: var(--lab-text-2); }
+[data-style="F"] .f-callout__cta.is-sent {
+  background: transparent;
+  color: var(--lab-brand);
+  box-shadow: inset 0 0 0 var(--lab-border-width) var(--lab-brand);
+}
+[data-style="F"] .f-callout__cta.is-sent:active { transform: none; }
+
+/* 便笺：墨线左刻线（C1 —— 陶土留给异常；顺带与错误块脱开形，不再读成故障） */
+[data-style="F"] .f-memo {
+  margin-top: var(--lab-space-3);
+  padding: var(--lab-space-3) var(--lab-space-4) var(--lab-space-4);
+  background: var(--f-paper-oat);
+  border-left: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+  border-radius: 0;
+}
+[data-style="F"] .f-memo .f-kicker { color: var(--lab-text-2); }
+[data-style="F"] .f-memo .f-body { margin-top: var(--lab-space-2); }
+
+/* ==========================================================================
+   8. 天气 — 气象单
+   ========================================================================== */
+
+[data-style="F"] .f-brief { padding-top: var(--lab-space-6); }
+[data-style="F"] .f-brief__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+}
+[data-style="F"] .f-brief__headline {
+  font-family: var(--f-serif);
+  font-size: var(--lab-display-size);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  margin-top: var(--lab-space-3);
+}
+[data-style="F"] .f-brief__stand {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-2);
+  margin-top: var(--lab-space-3);
+}
+
+[data-style="F"] .f-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lab-space-2) var(--lab-space-4);
+  margin-top: var(--lab-space-3);
+  font-size: var(--lab-kicker-size);
+  letter-spacing: .4px;
+  color: var(--lab-text-2);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-legend__item { display: inline-flex; align-items: center; gap: var(--lab-space-1); white-space: nowrap; }
+[data-style="F"] .f-legend__sw { width: var(--lab-space-3); height: var(--lab-space-3); display: inline-block; flex: none; }
+[data-style="F"] .f-legend__sw--cloud { background: var(--lab-surface-2); box-shadow: inset 0 0 0 1px var(--lab-border); }
+[data-style="F"] .f-legend__sw--temp { background: var(--lab-brand); }
+[data-style="F"] .f-legend__sw--precip { background: var(--lab-info); opacity: .34; }
+/* D2：关键窗口降为图下注记 —— 去掉色块与图例同级，只留一行小字 */
+[data-style="F"] .f-legend__bands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px var(--lab-space-3);
+  margin-top: var(--lab-space-1);
+  font-size: var(--lab-kicker-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-legend__bands > span { display: inline-flex; align-items: center; gap: var(--lab-space-1); }
+/* V2-4③：色样跟着图上的真实编码走 —— 3px 上缘短条，云海＝品牌绿，降雨＝锈 */
+[data-style="F"] .f-legend__sw--band { width: var(--lab-space-4); height: 3px; }
+[data-style="F"] .f-legend__sw--band.is-cloud { background: var(--lab-brand); }
+[data-style="F"] .f-legend__sw--band.is-rain { background: var(--lab-accent); }
+[data-style="F"] .f-units {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-kicker-size);
+  letter-spacing: .3px;
+  color: var(--lab-text-3);
+  text-align: right;
+  font-variant-numeric: var(--lab-num-spacing);
+}
+
+/* D5/V2-7：footer 节奏 —— 说明行之后的脚注不再叠第二道分区级间距，避免底部出现断层。
+   这条相邻选择器只可能命中天气页的「来源」行（其余页的说明行后面都不是脚注），
+   两行都是小字，间距收到 8 + 8，读起来是一段而不是两段。 */
+[data-style="F"] .f-note-line + .footnote {
+  margin-top: var(--lab-space-2);
+  padding-top: var(--lab-space-2);
+}
+
+/* 48 小时曲线 */
+[data-style="F"] .f-spark {
+  position: relative;
+  height: var(--f-spark-h);
+  margin-top: var(--lab-space-3);
+}
+[data-style="F"] .f-spark__plot { position: absolute; inset: 0; }
+[data-style="F"] .f-spark__plot svg { display: block; width: 100%; height: 100%; }
+/* 游标（C1）：墨色而非陶土 —— 它是阅读定位，不是异常 */
+[data-style="F"] .f-spark__marker {
+  position: absolute;
+  top: var(--lab-space-3);
+  bottom: var(--lab-space-5);
+  left: 0;
+  width: var(--lab-border-width);
+  background: var(--lab-border-strong);
+  pointer-events: none;
+}
+[data-style="F"] .f-spark__dot {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--lab-space-2);
+  height: var(--lab-space-2);
+  background: var(--lab-border-strong);
+  transform: translate(-50%, -50%);
+}
+/* D3：游标带读数，消「红点与读数不一致」的视觉歧义 */
+[data-style="F"] .f-spark__tag {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + var(--lab-space-1));
+  transform: translateY(-50%);
+  padding: 0 3px;
+  background: var(--f-paper-sheet);
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .3px;
+  color: var(--lab-text-1);
+  white-space: nowrap;
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-spark__tag.is-left { left: auto; right: calc(100% + var(--lab-space-1)); }
+[data-style="F"] .f-spark__rail { position: absolute; inset: 0; display: flex; }
+[data-style="F"] .f-spark__hit {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transition: background var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-spark__hit:hover { background: var(--lab-surface-2); }
+[data-style="F"] .f-spark__hit:active { background: var(--lab-border); }
+[data-style="F"] .f-spark__hit.is-on { background: var(--lab-surface-2); }
+[data-style="F"] .f-spark__rail.is-locked { pointer-events: none; opacity: .6; }
+
+/* 逐时读数（选中小时） */
+[data-style="F"] .f-readout__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="F"] .f-readout__time {
+  font-family: var(--f-serif);
+  font-size: var(--lab-section-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-readout__idx {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .6px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="F"] .f-readout__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--lab-space-5);
+  margin-top: var(--lab-space-1);
+}
+[data-style="F"] .f-readout__cell {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-2);
+  min-width: 0;
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="F"] .f-readout__k {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+[data-style="F"] .f-readout__v {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 2px;
+  min-width: 0;
+  font-size: var(--f-ledger-size);
+  font-weight: var(--f-ledger-weight);
+  line-height: 1.2;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  text-align: right;
+  white-space: nowrap;
+}
+[data-style="F"] .f-readout__v--word {
+  font-family: var(--f-serif);
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  font-variant-numeric: normal;
+}
+[data-style="F"] .f-readout__u {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 400;
+  color: var(--lab-text-3);
+  font-variant-numeric: normal;
+}
+
+/* 窗口判定表：5 列台账（数字右对齐 + 单位退位），行可点选联动曲线 */
+[data-style="F"] .f-win {
+  display: grid;
+  grid-template-columns: var(--f-win-cols, 1.5fr 1fr .82fr .82fr .82fr);
+  gap: var(--lab-space-2);
+  align-items: baseline;
+  margin: 0 calc(-1 * var(--lab-space-2));
+  padding: var(--lab-space-2) var(--lab-space-2);
+}
+[data-style="F"] .f-win--head {
+  padding-top: var(--lab-space-2);
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+  cursor: default;
+}
+[data-style="F"] .f-win--head .f-cell {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .6px;
+  color: var(--lab-text-3);
+}
+[data-style="F"] .f-win:not(.f-win--head) {
+  cursor: pointer;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  transition: background var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-win:not(.f-win--head):active { background: var(--lab-surface); }
+[data-style="F"] .f-win.is-off { pointer-events: none; opacity: .5; }
+
+/* ==========================================================================
+   9. 状态块（C 的表达：文字色 + 留白，绝不做红色块）
+   ========================================================================== */
+
+[data-style="F"] .f-state {
+  margin-top: var(--lab-section-gap);
+  padding: var(--lab-space-7) 0;
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+/* E4/V2-5①：整页级状态块吃掉「视口内剩余高度」并居中，消掉下半 1/3 空洞。
+   min-height = 视口高 − 2 × 本页 fill 顶部高（--f-fill-k 按页校准，= 2 × 实测 fillTop）：
+   块心因此恒落在视口中线（390×844 → y=422），而不是掉到折线以下。
+   下限取 240px（作业单给的是 280px，差 40px 的理由见下）：discover 的 fill 起点最低
+   （刊头 173px → fillTop 331），280px 下限会让块心落到 471，超出验收上限 470；
+   240px 下限 → 465px。其余三页的下限根本不生效（528 / 528 / 294），故该下限只影响 discover。 */
+[data-style="F"] .f-state--fill {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* V2-5③：工位头已经有自己的横线，这里再去上边框就是复检说的「双横线」；底边保留 */
+  border-top: 0;
+  min-height: max(240px, calc(100svh - var(--f-fill-k, 316px)));
+}
+/* 每页的 fill 起点不同 → 每页一个 k（值 = 2 × 该页 fillTop 的实测值，390×844） */
+[data-style="F"] .f-detail .f-state--fill { --f-fill-k: 316px; }
+[data-style="F"] .f-weather .f-state--fill { --f-fill-k: 316px; }
+[data-style="F"] .f-collab .f-state--fill { --f-fill-k: 550px; }
+[data-style="F"] .f-discover .f-state--fill { --f-fill-k: 662px; }
+[data-style="F"] .f-state + .footnote {
+  margin-top: var(--lab-space-4);
+  padding-top: 0;
+  border-top: 0;
+}
+[data-style="F"] .state-block { padding: var(--lab-space-7) var(--lab-space-2); gap: var(--lab-space-2); }
+[data-style="F"] .state-block .lab-icon { width: 24px; height: 24px; color: var(--f-state-quiet); }
+[data-style="F"] .state-block__title {
+  font-family: var(--f-serif);
+  font-size: var(--lab-title-size);
+  font-weight: var(--lab-title-weight);
+  line-height: var(--lab-title-lh);
+  color: var(--lab-text-1);
+}
+/* 错误态：陶土文字 + 2px 陶土左刻线（E3：换回 F 同族的刻线语汇，不用通用三角图标） */
+[data-style="F"] .state-block--error {
+  padding-left: var(--lab-space-4);
+  border-left: var(--lab-rule-strong-w) solid var(--f-state-error);
+}
+[data-style="F"] .state-block--error .state-block__title { color: var(--f-state-error); }
+[data-style="F"] .state-block__body {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-2);
+  max-width: 30ch;
+}
+[data-style="F"] .state-block--off .state-block__title { color: var(--f-state-quiet); }
+[data-style="F"] .state-block--off .lab-icon { color: var(--f-state-quiet); }
+
+/* ==========================================================================
+   10. 共享词汇在 F 下的重定义
+   ========================================================================== */
+
+[data-style="F"] .btn {
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  letter-spacing: .4px;
+  border-radius: var(--lab-radius-btn);
+}
+[data-style="F"] .btn--primary { background: var(--lab-action); color: var(--lab-action-text); }
+[data-style="F"] .btn--primary .lab-icon { width: 16px; height: 16px; }
+[data-style="F"] .btn--secondary { color: var(--lab-brand); box-shadow: inset 0 0 0 var(--lab-border-width) var(--lab-brand); }
+[data-style="F"] .btn--sm { min-height: 34px; padding: 0 12px; font-size: var(--lab-caption-size); font-weight: 600; }
+
+[data-style="F"] .badge { font-size: var(--lab-caption-size); }
+[data-style="F"] .badge::before { width: 5px; height: 5px; border-radius: 0; }
+
+[data-style="F"] .photo { border-radius: var(--lab-radius-img); }
+[data-style="F"] .photo__credit { font-size: 10px; }
+
+[data-style="F"] .skeleton { border-radius: 0; }
+
+[data-style="F"] .footnote {
+  margin-top: var(--lab-section-gap);
+  padding-top: var(--lab-space-4);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+}
+[data-style="F"] .f-foot__credit { color: var(--lab-text-2); }
+[data-style="F"] .f-foot__note { margin-top: 2px; color: var(--lab-text-3); }
+
+[data-style="F"] .input { padding: var(--lab-space-2) 0; }
+[data-style="F"] .input input { font-size: var(--lab-body-size); }
+[data-style="F"] .input .lab-icon { width: 16px; height: 16px; }
+
+[data-style="F"] .seg__item {
+  font-size: var(--lab-body-size);
+  font-weight: 500;
+  transition: color var(--f-move-fast) var(--lab-ease),
+    border-color var(--f-move-fast) var(--lab-ease),
+    opacity var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .seg__item:active { opacity: .5; }
+
+[data-style="F"] .toast {
+  bottom: 88px;
+  font-size: var(--lab-caption-size);
+  font-weight: 500;
+  letter-spacing: .2px;
+  border-radius: var(--lab-radius-btn);
+  transform: translateX(-50%) translateY(12px) scale(.96);
+  transition: opacity 150ms var(--lab-ease), transform var(--f-move) var(--lab-ease);
+}
+[data-style="F"] .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+
+/* 骨架高度档位：数值即档位名，全部由令牌 / 版式尺寸给出 */
+[data-style="F"] .f-skel-11 { height: var(--lab-kicker-size); }
+[data-style="F"] .f-skel-13 { height: var(--lab-body-size); }
+[data-style="F"] .f-skel-14 { height: var(--lab-body-size); }
+[data-style="F"] .f-skel-15 { height: var(--lab-body-size); }
+[data-style="F"] .f-skel-18 { height: var(--f-ledger-size); }
+[data-style="F"] .f-skel-25 { height: var(--lab-title-size); }
+[data-style="F"] .f-skel-30 { height: var(--lab-display-size); }
+[data-style="F"] .f-skel-40 { height: var(--lab-action-h); }
+[data-style="F"] .f-skel-56 { height: var(--lab-row-h); }
+[data-style="F"] .f-skel-72 { height: var(--f-thumb); }
+[data-style="F"] .f-skel-96 { height: var(--f-profile-h); }
+[data-style="F"] .f-skel-112 { height: var(--f-spark-h); }
+[data-style="F"] .f-skel-156 { height: var(--f-lead-h); }
+[data-style="F"] .f-skel-244 { height: var(--f-cover-h); }

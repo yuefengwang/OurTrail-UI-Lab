@@ -1,0 +1,280 @@
+/* ==========================================================================
+   OurTrail Visual Direction Lab — Design Tokens
+   契约来源: docs/ui-design/visual-direction-lab/design-tokens.md (§1 命名, §2 实例)
+   规则: 组件样式只消费 --lab-* 令牌；禁止组件 CSS 硬编码颜色/字号/圆角。
+   WXSS 迁移纪律: 全部字面量；无 color-mix / :has / backdrop-filter / dvh。
+   ========================================================================== */
+
+/* ---------- 共享基元 (与风格无关) ---------- */
+:root {
+  --lab-font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --lab-num-spacing: tabular-nums;
+
+  /* 间距标尺 (标尺共享, 使用方式各风格自定义) */
+  --lab-space-1: 4px;
+  --lab-space-2: 8px;
+  --lab-space-3: 12px;
+  --lab-space-4: 16px;
+  --lab-space-5: 20px;
+  --lab-space-6: 24px;
+  --lab-space-7: 32px;
+  --lab-space-8: 40px;
+
+  --lab-border-width: 1px;
+  --lab-rule-strong-w: 2px;
+  --lab-ease: cubic-bezier(.2, .65, .3, 1);
+}
+
+/* ==========================================================================
+   Style A — Alpine Editorial (山野编辑部)
+   ========================================================================== */
+[data-style="A"] {
+  --lab-bg: #F7F4EC;
+  --lab-surface: #FFFFFF;
+  --lab-surface-2: #EFEBDD;
+  --lab-text-1: #1B241F;
+  --lab-text-2: #66705F;
+  --lab-text-3: #8A917F;
+  --lab-border: #E4DDCB;
+  --lab-border-strong: #233029;
+  --lab-brand: #234B3C;
+  --lab-action: #234B3C;
+  --lab-action-text: #F7F4EC;
+  --lab-accent: #A8562E;
+  --lab-success: #2F6B4C;
+  --lab-warning: #8F6A1F;
+  --lab-danger: #A93F33;
+  --lab-info: #46657A;
+  --lab-dark-block: #182019;
+  --lab-on-dark: #F6F3EA;
+  --lab-overlay: rgba(24, 32, 25, .5);
+  --lab-photo-filter: none;
+
+  --lab-display-size: 30px; --lab-display-weight: 700; --lab-display-lh: 1.25; --lab-display-ls: -0.3px;
+  --lab-title-size: 26px; --lab-title-weight: 700; --lab-title-lh: 1.3;
+  --lab-section-size: 17px; --lab-section-weight: 600; --lab-section-lh: 1.4;
+  --lab-kicker-size: 11px; --lab-kicker-weight: 600; --lab-kicker-ls: 1.4px;
+  --lab-body-size: 15px; --lab-body-weight: 400; --lab-body-lh: 1.6;
+  --lab-caption-size: 12px; --lab-caption-weight: 400; --lab-caption-lh: 1.5;
+  --lab-data-size: 20px; --lab-data-weight: 700;
+
+  --lab-page-x: 24px;
+  --lab-section-gap: 32px;
+  --lab-row-h: 64px;
+  --lab-touch: 44px;
+  --lab-action-h: 48px;
+
+  --lab-radius-img: 2px;
+  --lab-radius-btn: 6px;
+  --lab-radius-card: 8px;
+  --lab-radius-chip: 999px;
+  --lab-shadow-1: 0 8px 24px rgba(27, 36, 31, .14);
+  --lab-icon-size: 20px;
+  --lab-icon-stroke: 1.5;
+  --lab-motion: 180ms;
+}
+
+/* ==========================================================================
+   Style B — Swiss Functional (瑞士功能主义)
+   ========================================================================== */
+[data-style="B"] {
+  --lab-bg: #F4F5F3;
+  --lab-surface: #FFFFFF;
+  --lab-surface-2: #ECEEEB;
+  --lab-text-1: #101413;
+  --lab-text-2: #5A615D;
+  --lab-text-3: #8A908C;
+  --lab-border: #D7DAD6;
+  --lab-border-strong: #1E2321;
+  --lab-brand: #16201C;
+  --lab-action: #16201C;
+  --lab-action-text: #FFFFFF;
+  --lab-accent: #16201C;
+  --lab-success: #1F7A4D;
+  --lab-warning: #A96B00;
+  --lab-danger: #B3372B;
+  --lab-info: #2C5F7C;
+  --lab-dark-block: #16201C;
+  --lab-on-dark: #FFFFFF;
+  --lab-overlay: rgba(16, 20, 19, .5);
+  --lab-photo-filter: grayscale(.2);
+
+  --lab-display-size: 28px; --lab-display-weight: 700; --lab-display-lh: 1.2; --lab-display-ls: -0.4px;
+  --lab-title-size: 20px; --lab-title-weight: 700; --lab-title-lh: 1.3;
+  --lab-section-size: 16px; --lab-section-weight: 700; --lab-section-lh: 1.4;
+  --lab-kicker-size: 12px; --lab-kicker-weight: 700; --lab-kicker-ls: 1px;
+  --lab-body-size: 14px; --lab-body-weight: 400; --lab-body-lh: 1.55;
+  --lab-caption-size: 11px; --lab-caption-weight: 500; --lab-caption-lh: 1.5;
+  --lab-data-size: 22px; --lab-data-weight: 700;
+
+  --lab-page-x: 20px;
+  --lab-section-gap: 20px;
+  --lab-row-h: 48px;
+  --lab-touch: 44px;
+  --lab-action-h: 44px;
+
+  --lab-radius-img: 0px;
+  --lab-radius-btn: 0px;
+  --lab-radius-card: 0px;
+  --lab-radius-chip: 2px;
+  --lab-shadow-1: 0 8px 24px rgba(16, 20, 19, .16);
+  --lab-icon-size: 16px;
+  --lab-icon-stroke: 1.5;
+  --lab-motion: 140ms;
+}
+
+/* ==========================================================================
+   Style C — Quiet Terrain (静野)
+   ========================================================================== */
+[data-style="C"] {
+  --lab-bg: #F1EFE8;
+  --lab-surface: #F8F6F0;
+  --lab-surface-2: #E8E5DB;
+  --lab-text-1: #303630;
+  --lab-text-2: #707668;
+  --lab-text-3: #93998C;
+  --lab-border: #DFDCD0;
+  --lab-border-strong: #C9C6BA;
+  --lab-brand: #4C5F49;
+  --lab-action: #4C5F49;
+  --lab-action-text: #F4F2EA;
+  --lab-accent: #7A8B6F;
+  --lab-success: #55755A;
+  --lab-warning: #8F7345;
+  --lab-danger: #9C5A50;
+  --lab-info: #5B7080;
+  --lab-dark-block: #3E4A3C;
+  --lab-on-dark: #F1EFE8;
+  --lab-overlay: rgba(62, 74, 60, .42);
+  --lab-photo-filter: saturate(.82) sepia(.08);
+
+  --lab-display-size: 26px; --lab-display-weight: 600; --lab-display-lh: 1.35; --lab-display-ls: 0px;
+  --lab-title-size: 22px; --lab-title-weight: 600; --lab-title-lh: 1.4;
+  --lab-section-size: 16px; --lab-section-weight: 600; --lab-section-lh: 1.45;
+  --lab-kicker-size: 12px; --lab-kicker-weight: 500; --lab-kicker-ls: 0.6px;
+  --lab-body-size: 15px; --lab-body-weight: 400; --lab-body-lh: 1.65;
+  --lab-caption-size: 12px; --lab-caption-weight: 400; --lab-caption-lh: 1.6;
+  --lab-data-size: 18px; --lab-data-weight: 600;
+
+  --lab-page-x: 22px;
+  --lab-section-gap: 28px;
+  --lab-row-h: 60px;
+  --lab-touch: 48px;
+  --lab-action-h: 48px;
+
+  --lab-radius-img: 10px;
+  --lab-radius-btn: 10px;
+  --lab-radius-card: 12px;
+  --lab-radius-chip: 999px;
+  --lab-shadow-1: 0 8px 24px rgba(48, 54, 48, .12);
+  --lab-icon-size: 20px;
+  --lab-icon-stroke: 1.5;
+  --lab-motion: 220ms;
+}
+
+/* ==========================================================================
+   Style D — Field Instrument (野外仪表)
+   ========================================================================== */
+[data-style="D"] {
+  --lab-bg: #F2F3EF;
+  --lab-surface: #FBFBF9;
+  --lab-surface-2: #E9ECE5;
+  --lab-text-1: #1E241F;
+  --lab-text-2: #5C645C;
+  --lab-text-3: #8B928A;
+  --lab-border: #D3D7CF;
+  --lab-border-strong: #A9B0A4;
+  --lab-brand: #274C3F;
+  --lab-action: #274C3F;
+  --lab-action-text: #F6F7F4;
+  --lab-accent: #A06A12;
+  --lab-success: #2C6B4A;
+  --lab-warning: #A06A12;
+  --lab-danger: #A63B2E;
+  --lab-info: #34586E;
+  --lab-dark-block: #24322A;
+  --lab-on-dark: #EFF2EC;
+  --lab-overlay: rgba(30, 36, 31, .5);
+  --lab-photo-filter: none;
+
+  --lab-display-size: 24px; --lab-display-weight: 700; --lab-display-lh: 1.25; --lab-display-ls: 0px;
+  --lab-title-size: 20px; --lab-title-weight: 700; --lab-title-lh: 1.3;
+  --lab-section-size: 15px; --lab-section-weight: 700; --lab-section-lh: 1.35;
+  --lab-kicker-size: 11px; --lab-kicker-weight: 600; --lab-kicker-ls: 0.8px;
+  --lab-body-size: 13.5px; --lab-body-weight: 400; --lab-body-lh: 1.5;
+  --lab-caption-size: 11px; --lab-caption-weight: 400; --lab-caption-lh: 1.5;
+  --lab-data-size: 28px; --lab-data-weight: 700;
+
+  --lab-page-x: 16px;
+  --lab-section-gap: 20px;
+  --lab-row-h: 44px;
+  --lab-touch: 44px;
+  --lab-action-h: 44px;
+
+  --lab-radius-img: 2px;
+  --lab-radius-btn: 3px;
+  --lab-radius-card: 3px;
+  --lab-radius-chip: 2px;
+  --lab-shadow-1: 0 8px 24px rgba(30, 36, 31, .14);
+  --lab-icon-size: 18px;
+  --lab-icon-stroke: 2;
+  --lab-motion: 140ms;
+
+  /* D 专用: 图表数据色 (仅图表/剖面使用) */
+  --lab-data-elev: #6B5E3F;
+  --lab-data-wind: #4A7A96;
+  --lab-data-precip: #3E6E93;
+  --lab-data-temp-cold: #4A7A96;
+  --lab-data-temp-warm: #B4614A;
+  --lab-data-sun: #C08A2E;
+  --lab-data-grid: #E4E7DF;
+}
+
+/* ==========================================================================
+   Style E — Expedition Modern (远征现代)
+   ========================================================================== */
+[data-style="E"] {
+  --lab-bg: #EFEDE7;
+  --lab-surface: #FFFFFF;
+  --lab-surface-2: #E4E1D8;
+  --lab-text-1: #1C201B;
+  --lab-text-2: #666D63;
+  --lab-text-3: #8D938A;
+  --lab-border: #D9D5C9;
+  --lab-border-strong: #20241F;
+  --lab-brand: #1F5C43;
+  --lab-action: #20241F;
+  --lab-action-text: #F2F0E9;
+  --lab-accent: #D9A227;
+  --lab-success: #2E7D4F;
+  --lab-warning: #B07C12;
+  --lab-danger: #B23B2E;
+  --lab-info: #47687C;
+  --lab-dark-block: #20241F;
+  --lab-on-dark: #F2F0E9;
+  --lab-overlay: rgba(32, 36, 31, .55);
+  --lab-photo-filter: brightness(.86) contrast(1.02);
+
+  --lab-display-size: 32px; --lab-display-weight: 800; --lab-display-lh: 1.15; --lab-display-ls: -0.5px;
+  --lab-title-size: 24px; --lab-title-weight: 800; --lab-title-lh: 1.2;
+  --lab-section-size: 18px; --lab-section-weight: 700; --lab-section-lh: 1.3;
+  --lab-kicker-size: 11px; --lab-kicker-weight: 700; --lab-kicker-ls: 1.5px;
+  --lab-body-size: 14.5px; --lab-body-weight: 400; --lab-body-lh: 1.6;
+  --lab-caption-size: 12px; --lab-caption-weight: 400; --lab-caption-lh: 1.55;
+  --lab-data-size: 32px; --lab-data-weight: 800;
+
+  --lab-page-x: 20px;
+  --lab-section-gap: 24px;
+  --lab-row-h: 56px;
+  --lab-touch: 44px;
+  --lab-action-h: 52px;
+
+  --lab-radius-img: 2px;
+  --lab-radius-btn: 2px;
+  --lab-radius-card: 2px;
+  --lab-radius-chip: 999px;
+  --lab-shadow-1: 0 8px 24px rgba(32, 36, 31, .18);
+  --lab-icon-size: 20px;
+  --lab-icon-stroke: 2;
+  --lab-motion: 160ms;
+}

@@ -1,0 +1,1302 @@
+﻿/* ==========================================================================
+   Style B — Swiss Functional（瑞士功能主义）
+   网格即秩序 · 规则线取代容器 · 层级靠字重与位置 · 零圆角零阴影 · 表格化可扫描
+   全部规则限定在 [data-style="B"] 作用域内；颜色/字号/间距/圆角一律消费 --lab-* 令牌。
+
+   第二轮视觉雕琢（Round 2）：
+   · 唯一信号色 --b-signal（国际信号红），纪律化使用，总面积 ≤5%
+   · 摄影系统：全站照片走 grayscale(1) + 微对比 + 硬裁切，图注微号大写（PLATE nn）
+   · 两级线：章节 2px 墨线 / 表内 1px 发丝；页头海报化（display 加大、字距更紧）
+   · 状态词由「五色语义」收敛为 墨 / 灰 / 信号 三档；选中与当前行用信号色标记
+   红线：零圆角、零阴影、灰度主导、信息密度不降。
+   ========================================================================== */
+
+/* ---------- 0.0 信号色与本风格派生令牌（本风格唯一彩色，全部声明在此） ----------
+   --b-signal       信号红，填充 / 色条 / 边框 / 主按钮底色（与白字 4.8:1）
+   --b-signal-ink   同色系深一档，专供小号文字（在 --lab-bg 上 6.3:1）
+   --b-signal-deep  主按钮按压态
+   --b-signal-wash  当前行 / 窗口行的极浅信号底（不做大面积铺色）                */
+[data-style="B"] {
+  --b-signal: #D2382C;
+  --b-signal-ink: #A8271C;
+  --b-signal-deep: #8E2018;
+  --b-signal-wash: #F7E8E6;
+
+  /* 页头海报化：display 加大、字距更紧、行距更紧 */
+  --lab-display-size: 34px;
+  --lab-display-lh: 1.08;
+  --lab-display-ls: -0.9px;
+
+  /* 动效基准 140ms → 180ms（150–200ms 档） */
+  --lab-motion: 180ms;
+
+  /* 全站照片统一瑞士黑白处理（覆盖共享令牌里的低强度灰度）
+     hero 版对比更强：图幅大、细节多，才撑得住版面。 */
+  --lab-photo-filter: grayscale(1) contrast(1.06) brightness(1.03);
+  --lab-photo-filter-hero: grayscale(1) contrast(1.14) brightness(1.02);
+}
+
+/* ---------- 0. 作用域内基底重整：把共享原语拉回「方角 + 线」语言 ---------- */
+[data-style="B"] .page { padding-top: var(--lab-space-3); }
+
+/* 图片：加载完成前不显示，加载后淡入（§2-9 图片淡入；本地资源，180ms 足够） */
+[data-style="B"] .photo img { opacity: 0; transition: opacity var(--lab-motion) var(--lab-ease); }
+[data-style="B"] .photo img.is-ready { opacity: 1; }
+
+/* 焦点：本风格唯一允许的有彩描边就是键盘焦点环 */
+[data-style="B"] :focus-visible {
+  outline: var(--lab-rule-strong-w) solid var(--b-signal-ink);
+  outline-offset: 1px;
+}
+[data-style="B"] .input input:focus-visible,
+[data-style="B"] .input:focus-within { outline: none; }
+
+/* 按钮：直角 + 「压下去」而非「缩小」——瑞士语汇里没有弹性缩放 */
+[data-style="B"] .btn {
+  border-radius: var(--lab-radius-btn);
+  transition: background var(--lab-motion) var(--lab-ease), color var(--lab-motion) var(--lab-ease),
+              border-color var(--lab-motion) var(--lab-ease), opacity var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .btn:active { transform: none; opacity: 1; }
+/* 次按钮用真边框替代共享原语的 inset 阴影（本风格零阴影） */
+[data-style="B"] .btn--secondary {
+  border: var(--lab-border-width) solid var(--lab-border-strong);
+  box-shadow: none;
+  color: var(--lab-text-1);
+}
+[data-style="B"] .btn--secondary:active { background: var(--lab-surface-2); }
+[data-style="B"] .btn--danger { box-shadow: none; border: var(--lab-border-width) solid var(--lab-danger); }
+[data-style="B"] .btn[disabled] { opacity: 1; color: var(--lab-text-3); background: var(--lab-surface-2); }
+
+/* 主操作按钮：全站唯一的信号色实心块 */
+[data-style="B"] .btn--primary { background: var(--b-signal); color: var(--lab-action-text); }
+[data-style="B"] .btn--primary:active { background: var(--b-signal-deep); }
+[data-style="B"] .btn--primary:disabled { background: var(--lab-surface-2); color: var(--lab-text-3); }
+
+/* toast：直角 + 信号色顶线，进入/退出沿用共享原语的位移 */
+[data-style="B"] .toast {
+  border-radius: var(--lab-radius-btn);
+  box-shadow: none;
+  border-top: var(--lab-rule-strong-w) solid var(--b-signal);
+  background: var(--lab-dark-block);
+}
+
+[data-style="B"] .avatar { border-radius: var(--lab-radius-card); }
+[data-style="B"] .skeleton { border-radius: var(--lab-radius-card); }
+[data-style="B"] .note { border-radius: var(--lab-radius-card); }
+
+/* 状态词：共享 badge 的圆点在本风格没有意义 → 隐去点，改由 .b-tag 的 1px 边框矩形承担 */
+[data-style="B"] .badge::before { display: none; }
+[data-style="B"] .badge { letter-spacing: var(--lab-kicker-ls); font-weight: var(--lab-kicker-weight); }
+
+/* 触控高度统一到 --lab-touch，零装饰 */
+[data-style="B"] .seg__item {
+  min-height: var(--lab-touch);
+  padding: 0 var(--lab-space-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--lab-body-size);
+}
+[data-style="B"] .btn--ghost { min-height: var(--lab-touch); }
+/* 本风格所有按钮一律守住 --lab-touch 触控高度（含行内小按钮） */
+[data-style="B"] .btn--sm {
+  min-height: var(--lab-touch);
+  padding: 0 var(--lab-space-4);
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+}
+
+/* 空/错状态块：左对齐 + 上下规则线包裹（本风格的状态块不是居中卡片，是一条「无数据」公告） */
+[data-style="B"] .state-block {
+  align-items: flex-start;
+  text-align: left;
+  gap: var(--lab-space-2);
+  padding: var(--lab-space-6) 0;
+}
+[data-style="B"] .state-block .lab-icon { color: var(--b-signal); }
+[data-style="B"] .state-block__title { font-size: var(--lab-title-size); font-weight: var(--lab-title-weight); line-height: var(--lab-title-lh); }
+[data-style="B"] .state-block__body { max-width: 34ch; }
+[data-style="B"] .state-block__action { margin-top: var(--lab-space-1); }
+
+/* ---------- 1. 页头：海报化（上/下 2px 墨线把标题夹成一块版面） ---------- */
+[data-style="B"] .b-head {
+  padding-top: var(--lab-space-2);
+  padding-bottom: var(--lab-space-4);
+  border-top: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="B"] .b-head__kick {
+  display: block;
+  color: var(--lab-text-3);
+  margin-bottom: var(--lab-space-2);
+}
+/* display 由 --lab-display-* 在令牌块里放大到 34px / 字距 -0.9px */
+[data-style="B"] .b-head__title { margin: 0; }
+[data-style="B"] .b-head__sub {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-body-size);
+  color: var(--lab-text-2);
+  line-height: var(--lab-body-lh);
+}
+[data-style="B"] .b-head__sub + .b-head__sub { margin-top: var(--lab-space-1); }
+/* 副信息行：标签（左）与状态矩形（右）共基线，长标题不被状态挤掉 */
+[data-style="B"] .b-head__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-2);
+}
+[data-style="B"] .b-head__row .b-head__lead { flex: 1; min-width: 0; }
+[data-style="B"] .b-head__row .b-head__sub { margin-top: 0; }
+[data-style="B"] .b-head__tag { flex: none; }
+
+/* ---------- 2. 签名式 2px 分区规则（章节级线，与表内 1px 发丝拉开层级） ---------- */
+[data-style="B"] .b-sect {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-section-gap);
+  padding-top: var(--lab-space-2);
+  border-top: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="B"] .b-sect--first { margin-top: var(--lab-space-5); }
+[data-style="B"] .b-sect__l {
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  line-height: 1;
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-sect__n {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+
+/* ---------- 3. 状态标签：三档色阶，只有信号档带框 ----------
+   常态词（报名中 / 已通过 / 已成行）不加框：表格里同一种框重复 8 次只会变成噪声，
+   把边框留给真正需要被看见的那一档。 */
+[data-style="B"] .b-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(var(--lab-space-3) * 2);
+  padding: 0 var(--lab-space-2);
+  border: var(--lab-border-width) solid transparent;
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  line-height: 1;
+  color: var(--lab-text-1);
+  white-space: nowrap;
+  transition: color var(--lab-motion) var(--lab-ease), border-color var(--lab-motion) var(--lab-ease);
+}
+/* 灰档：终态 / 候补——存在，但不再是「今天要做的事」 */
+[data-style="B"] .b-tag--mute { color: var(--lab-text-3); }
+/* 信号档：名额紧张 / 待审核 / 已取消 / 关键天气窗口——全站唯一需要被看见的一档 */
+[data-style="B"] .b-tag--signal { color: var(--b-signal-ink); border-color: var(--b-signal); }
+[data-style="B"] .b-tag--fill { background: var(--b-signal); color: var(--lab-action-text); border-color: var(--b-signal); }
+
+/* ---------- 4. 元信息行（结果计数 / 排序说明） ---------- */
+[data-style="B"] .b-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  padding: var(--lab-space-2) 0;
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+}
+[data-style="B"] .b-meta b {
+  font-weight: var(--lab-kicker-weight);
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+
+/* ---------- 5. 工具栏：双行微号 tabs（标签 + 计数）+ 下划线搜索框 ---------- */
+[data-style="B"] .b-toolbar {
+  display: flex;
+  align-items: stretch;
+  gap: var(--lab-space-2);
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="B"] .b-tabs { display: flex; align-items: stretch; flex: none; }
+[data-style="B"] .b-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1px;
+  min-height: var(--lab-touch);
+  padding: 0 var(--lab-space-2);
+  color: var(--lab-text-2);
+  border-bottom: var(--lab-rule-strong-w) solid transparent;
+  white-space: nowrap;
+  transition: color var(--lab-motion) var(--lab-ease), border-color var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-tab__l {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  line-height: 1.1;
+}
+[data-style="B"] .b-tab__n {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-kicker-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  letter-spacing: 0;
+  line-height: 1.1;
+  color: var(--lab-text-3);
+  transition: color var(--lab-motion) var(--lab-ease);
+}
+/* 选中：标签升为墨色加粗 + 计数升为信号色 + 2px 信号色墨条 */
+[data-style="B"] .b-tab.is-active {
+  color: var(--lab-text-1);
+  border-bottom-color: var(--b-signal);
+}
+[data-style="B"] .b-tab.is-active .b-tab__l { font-weight: var(--lab-kicker-weight); }
+[data-style="B"] .b-tab.is-active .b-tab__n { color: var(--b-signal-ink); }
+[data-style="B"] .b-tab.is-off { color: var(--lab-text-3); pointer-events: none; }
+
+/* 搜索框不设自身底边：让工具栏的 2px 强规则整条贯通（聚焦时才自己画一条同位的规则） */
+[data-style="B"] .b-search {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--lab-touch);
+  border-bottom-width: 0;
+}
+[data-style="B"] .b-search input { min-width: 0; font-size: var(--lab-body-size); }
+[data-style="B"] .b-search:focus-within { border-bottom: var(--lab-rule-strong-w) solid var(--b-signal); }
+[data-style="B"] .b-search:focus-within input { color: var(--lab-text-1); }
+[data-style="B"] .b-search.is-off { pointer-events: none; }
+[data-style="B"] .b-search.is-off input { color: var(--lab-text-3); }
+
+/* ---------- 6. 索引表（发现页签名行结构：日期 / PLATE 缩略图 / 活动 / KM·M / 状态 / →） ---------- */
+[data-style="B"] .b-idx {
+  display: grid;
+  grid-template-columns: 38px 48px minmax(0, 1fr) 44px 54px 10px;
+  column-gap: var(--lab-space-1);
+  align-items: center;
+  width: 100%;
+  text-align: left;
+}
+[data-style="B"] .b-idx--head {
+  min-height: var(--lab-touch);
+  align-items: end;
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-idx--head .b-cell {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  line-height: 1;
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+[data-style="B"] .b-idx--head .b-cell--n { text-align: right; }
+[data-style="B"] .b-idx-row {
+  min-height: calc(var(--lab-row-h) + var(--lab-space-2));
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  cursor: pointer;
+  transition: background var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-idx-row:active { background: var(--lab-surface-2); }
+[data-style="B"] .b-idx-row .b-cell { min-width: 0; }
+
+/* PLATE：硬裁切方形黑白缩略图（列宽 = 行高纪律，48px 网格单位） */
+[data-style="B"] .b-idx__ph {
+  position: relative;
+  width: calc(var(--lab-space-8) + var(--lab-space-2));
+  height: calc(var(--lab-space-8) + var(--lab-space-2));
+  overflow: hidden;
+  background: var(--lab-surface-2);
+  filter: var(--lab-photo-filter);
+  transition: filter var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-idx__ph img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-idx__ph img.is-ready { opacity: 1; }
+[data-style="B"] .b-idx-row:active .b-idx__ph { filter: grayscale(1) contrast(1.24) brightness(1.06); }
+[data-style="B"] .b-idx__ph-no {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 0 var(--lab-space-1);
+  background: var(--lab-border-strong);
+  color: var(--lab-on-dark);
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-kicker-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+[data-style="B"] .b-idx__main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+[data-style="B"] .b-idx__t {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-section-weight);
+  letter-spacing: var(--lab-display-ls);
+  line-height: 1.25;
+  color: var(--lab-text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 索引行内的状态矩形用最紧内边距：保证「名额紧张」也落在 54px 列内不换行 */
+[data-style="B"] .b-idx__rowtag .b-tag {
+  padding: 0 var(--lab-space-1);
+  letter-spacing: 0;
+}
+[data-style="B"] .b-idx__r {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  line-height: 1.2;
+  color: var(--lab-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[data-style="B"] .b-idx__go {
+  color: var(--lab-text-3);
+  display: flex;
+  justify-content: flex-end;
+  transition: transform var(--lab-motion) var(--lab-ease), color var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-idx-row:active .b-idx__go { transform: translateX(2px); color: var(--lab-text-1); }
+
+/* 日期块（MM/DD + 周X 两行 tabular） */
+[data-style="B"] .b-date { display: flex; flex-direction: column; gap: 1px; }
+[data-style="B"] .b-date__d {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-display-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  line-height: 1.15;
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-date__w {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  line-height: 1.2;
+  color: var(--lab-text-3);
+}
+
+/* 数字块（km · ↑m 右对齐 tabular；单位统一提到表头做微号大写） */
+[data-style="B"] .b-num { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+[data-style="B"] .b-num__r { display: flex; align-items: baseline; gap: 2px; }
+[data-style="B"] .b-num__v {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-section-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  line-height: 1.2;
+  color: var(--lab-text-1);
+  white-space: nowrap;
+}
+[data-style="B"] .b-num__v--sub {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  color: var(--lab-text-2);
+}
+
+/* ---------- 7. 头条：整幅黑白大图（PLATE 01）+ 海报级标题 + 完整事实格 ---------- */
+/* 图注统一体：实底黑条 + 微号大写拉丁/编号，替代一切装饰性说明 */
+[data-style="B"] .b-plate {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lab-space-2);
+  padding: var(--lab-space-1) var(--lab-space-2);
+  background: var(--lab-dark-block);
+  color: var(--lab-on-dark);
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  font-variant-numeric: var(--lab-num-spacing);
+  line-height: 1.4;
+}
+[data-style="B"] .b-plate span {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[data-style="B"] .b-plate__no { flex: none; }
+
+[data-style="B"] .b-lead { padding-bottom: var(--lab-space-4); }
+[data-style="B"] .b-lead__fig {
+  position: relative;
+  height: calc(var(--lab-space-7) * 5 + var(--lab-space-5));
+  overflow: hidden;
+  background: var(--lab-surface-2);
+}
+/* photo() 自带 position:relative，这里压成满幅，避免父级高度为 0 */
+[data-style="B"] .b-lead__fig > .photo { position: absolute; inset: 0; }
+[data-style="B"] .b-lead__fig img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: var(--lab-photo-filter-hero);
+  opacity: 0;
+  transition: opacity var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-lead__fig img.is-ready { opacity: 1; }
+[data-style="B"] .b-lead__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lab-space-2);
+  padding-top: var(--lab-space-2);
+}
+/* 「当前条目」标记：信号色竖条 + 信号色微号大写 */
+[data-style="B"] .b-lead__kick {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  min-width: 0;
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--b-signal-ink);
+}
+[data-style="B"] .b-lead__kick::before {
+  content: '';
+  flex: none;
+  width: var(--lab-rule-strong-w);
+  align-self: stretch;
+  min-height: var(--lab-space-4);
+  background: var(--b-signal);
+}
+[data-style="B"] .b-lead__t {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-display-size);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  color: var(--lab-text-1);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+[data-style="B"] .b-lead__l {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-2);
+}
+[data-style="B"] .b-lead__l--dim {
+  color: var(--lab-text-3);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+[data-style="B"] .b-lead__f {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: var(--lab-space-3);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-lead__cell {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-2);
+  padding: var(--lab-space-2) var(--lab-space-3) var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  min-width: 0;
+}
+[data-style="B"] .b-lead__cell:nth-child(odd) { padding-right: var(--lab-space-3); }
+[data-style="B"] .b-lead__cell:nth-child(even) {
+  border-left: var(--lab-border-width) solid var(--lab-border);
+  padding-left: var(--lab-space-3);
+  padding-right: 0;
+}
+[data-style="B"] .b-lead__k {
+  flex: none;
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  width: calc(var(--lab-space-7) + var(--lab-space-2));
+}
+[data-style="B"] .b-lead__v {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-caption-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  line-height: 1.4;
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-lead__go {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lab-space-2);
+  min-height: var(--lab-touch);
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+  cursor: pointer;
+}
+[data-style="B"] .b-lead__go:active { background: var(--lab-surface-2); }
+[data-style="B"] .b-lead__cta {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-1);
+  white-space: nowrap;
+  transition: transform var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-lead__go:active .b-lead__cta { transform: translateX(2px); }
+[data-style="B"] .b-lead__meta {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- 8. 规则线包裹的状态块 ---------- */
+[data-style="B"] .b-framed {
+  border-top: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  min-height: var(--lab-touch);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  font-size: var(--lab-body-size);
+  color: var(--lab-text-2);
+}
+
+/* 协作页头版下方的「报头图版」：72px 宽幅硬裁切黑白带，给纯表格页一个视觉锚点 */
+[data-style="B"] .b-band {
+  position: relative;
+  height: calc(var(--lab-space-8) + var(--lab-space-7));
+  overflow: hidden;
+  background: var(--lab-surface-2);
+}
+[data-style="B"] .b-band > .photo { position: absolute; inset: 0; }
+[data-style="B"] .b-band img {
+  filter: var(--lab-photo-filter);
+  opacity: 0;
+  transition: opacity var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-band img.is-ready { opacity: 1; }
+
+/* 分段控件：选中墨条与发现页 tabs 统一为信号色 */
+[data-style="B"] .seg__item.is-active {
+  color: var(--lab-text-1);
+  font-weight: var(--lab-kicker-weight);
+  border-bottom-color: var(--b-signal);
+}
+
+/* ---------- 9. 参数网格（详情 2 列：标签左灰 / 值右） ----------
+   不自带顶部线：它的上方永远是页头 2px 墨线或章节规则，避免相邻双线。 */
+[data-style="B"] .b-spec {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-left: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-spec__cell {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-2);
+  padding: var(--lab-space-3) var(--lab-space-2) var(--lab-space-3) 0;
+  border-right: var(--lab-border-width) solid var(--lab-border);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  min-width: 0;
+}
+[data-style="B"] .b-spec__k {
+  flex: none;
+  width: calc(var(--lab-space-8) + var(--lab-space-2));
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+}
+[data-style="B"] .b-spec__v {
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-caption-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  line-height: 1.4;
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-spec__v--big { font-weight: var(--lab-section-weight); }
+
+/* ---------- 10. 表格（同行人 / 名单 / 现场） ----------
+   列宽由 grid 模板锁死：表头与数据行必须共用同一个修饰符，纵向才对得齐。 */
+[data-style="B"] .b-tbl {
+  display: grid;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  column-gap: var(--lab-space-2);
+}
+/* 详情 · 同行人：姓名 / 身份 / 出行 / 座位 / 状态 */
+[data-style="B"] .b-tbl--mates { grid-template-columns: minmax(0, 1fr) 40px 38px 28px 54px; }
+/* 协作 · 名单：姓名 / 出行 / 座位 / 状态 / 审核 */
+[data-style="B"] .b-tbl--roster { grid-template-columns: minmax(0, 1fr) 36px 28px 54px 28px; }
+/* 协作 · 现场：签到 / 成员 / 时间（与 .b-chkin 同列模板） */
+[data-style="B"] .b-tbl--site { grid-template-columns: calc(var(--lab-space-3) + var(--lab-space-4)) minmax(0, 1fr) 48px; }
+[data-style="B"] .b-tbl--head {
+  min-height: var(--lab-touch);
+  align-items: end;
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-tbl--head .b-cell {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  line-height: 1;
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+[data-style="B"] .b-tbl--head .b-cell--n { text-align: right; }
+[data-style="B"] .b-tbl--roster .b-chkwrap { justify-content: flex-end; }
+[data-style="B"] .b-trow {
+  align-items: center;
+  min-height: var(--lab-touch);
+  padding: var(--lab-space-1) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  transition: background var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-trow:last-child { border-bottom: 0; }
+[data-style="B"] .b-trow .b-tag { padding: 0 var(--lab-space-1); letter-spacing: 0; }
+[data-style="B"] .b-cell { min-width: 0; }
+[data-style="B"] .b-cell--n { text-align: right; font-variant-numeric: var(--lab-num-spacing); }
+[data-style="B"] .b-cell--name {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-section-weight);
+  color: var(--lab-text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[data-style="B"] .b-cell--txt {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-2);
+}
+[data-style="B"] .b-cell--num {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-caption-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-trow.is-locked { color: var(--lab-text-3); }
+[data-style="B"] .b-trow.is-locked .b-cell--name,
+[data-style="B"] .b-trow.is-locked .b-cell--num,
+[data-style="B"] .b-trow.is-locked .b-cell--txt { color: var(--lab-text-3); }
+
+/* ---------- 11. 大方格复选框（名单审核 / 现场签到） ---------- */
+[data-style="B"] .b-chk {
+  width: calc(var(--lab-space-3) + var(--lab-space-4));
+  height: calc(var(--lab-space-3) + var(--lab-space-4));
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--lab-border-width) solid var(--lab-text-2);
+  background: var(--lab-surface);
+  color: var(--lab-action-text);
+  cursor: pointer;
+  transition: background var(--lab-motion) var(--lab-ease), border-color var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-chk .lab-icon { width: var(--lab-icon-size); height: var(--lab-icon-size); }
+[data-style="B"] .b-chk.is-on { background: var(--b-signal); border-color: var(--b-signal); }
+[data-style="B"] .b-chk.is-off { background: var(--lab-surface); }
+[data-style="B"] .b-chk.is-locked { border-color: var(--lab-border); color: var(--lab-text-3); cursor: default; }
+[data-style="B"] .b-chkwrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: var(--lab-touch);
+  cursor: pointer;
+  transition: background var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-chkwrap:not(.is-locked):active { background: var(--lab-surface-2); }
+[data-style="B"] .b-chkwrap.is-locked { cursor: default; }
+
+/* 现场签到行（列模板与 .b-tbl--site 表头一致；左侧留出色条槽位） */
+[data-style="B"] .b-chkin {
+  position: relative;
+  display: grid;
+  grid-template-columns: calc(var(--lab-space-3) + var(--lab-space-4)) minmax(0, 1fr) 48px;
+  column-gap: var(--lab-space-3);
+  align-items: center;
+  width: 100%;
+  min-height: calc(var(--lab-touch) + var(--lab-space-1));
+  padding-left: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-chkin::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--lab-rule-strong-w);
+  background: transparent;
+}
+/* 已到点 = 当前行：信号色条 + 信号色时刻 */
+[data-style="B"] .b-chkin.is-now::before { background: var(--b-signal); }
+[data-style="B"] .b-chkin.is-now .b-chkin__t { color: var(--b-signal-ink); font-weight: var(--lab-section-weight); }
+[data-style="B"] .b-chkin:active { background: var(--lab-surface-2); }
+[data-style="B"] .b-chkin__m { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+[data-style="B"] .b-chkin__n {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-section-weight);
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-chkin__d {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[data-style="B"] .b-chkin__t {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-caption-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  color: var(--lab-text-2);
+  text-align: right;
+}
+[data-style="B"] .b-chkin.is-locked { cursor: default; }
+[data-style="B"] .b-chkin.is-locked .b-chkin__n { color: var(--lab-text-3); font-weight: var(--lab-caption-weight); }
+[data-style="B"] .b-chkin.is-locked .b-chkin__t { color: var(--lab-text-3); }
+
+/* ---------- 12. 行程编号节点行 ---------- */
+[data-style="B"] .b-node {
+  display: grid;
+  grid-template-columns: 24px 46px minmax(0, 1fr);
+  column-gap: var(--lab-space-2);
+  align-items: baseline;
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-node:last-child { border-bottom: 0; }
+[data-style="B"] .b-node__no {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-kicker-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+}
+[data-style="B"] .b-node__t {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-section-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-node__x {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-body-weight);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+
+/* ---------- 13. 要求清单（复选框式纯展示行） ---------- */
+[data-style="B"] .b-req {
+  display: grid;
+  grid-template-columns: calc(var(--lab-space-3) + var(--lab-space-1)) minmax(0, 1fr);
+  column-gap: var(--lab-space-3);
+  align-items: start;
+  padding: var(--lab-space-3) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-req:last-child { border-bottom: 0; }
+[data-style="B"] .b-req__box {
+  width: calc(var(--lab-space-3) + var(--lab-space-1));
+  height: calc(var(--lab-space-3) + var(--lab-space-1));
+  border: var(--lab-border-width) solid var(--lab-text-2);
+  background: var(--lab-surface);
+}
+[data-style="B"] .b-req__x {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+
+/* ---------- 14. 费用明细行 ---------- */
+[data-style="B"] .b-fee { border-top: var(--lab-border-width) solid var(--lab-border); }
+[data-style="B"] .b-fee__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  padding: var(--lab-space-3) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-fee__k {
+  font-size: var(--lab-body-size);
+  color: var(--lab-text-2);
+  min-width: 0;
+}
+[data-style="B"] .b-fee__v {
+  flex: none;
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-caption-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-fee__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  padding: var(--lab-space-3) 0;
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="B"] .b-fee__total .b-fee__k { font-weight: var(--lab-section-weight); color: var(--lab-text-1); }
+[data-style="B"] .b-fee__total .b-fee__v { font-size: var(--lab-data-size); font-weight: var(--lab-data-weight); }
+
+/* ---------- 15. 详情 hero：海报尺度硬裁切黑白图 + 实底 PLATE 图注 ---------- */
+[data-style="B"] .b-fig {
+  position: relative;
+  height: calc(var(--lab-space-7) * 5 + var(--lab-space-6) + var(--lab-space-2));
+  margin-top: var(--lab-space-4);
+  border-radius: var(--lab-radius-img);
+  overflow: hidden;
+}
+[data-style="B"] .b-fig img {
+  filter: var(--lab-photo-filter-hero);
+  opacity: 0;
+  transition: opacity var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-fig img.is-ready { opacity: 1; }
+/* hero 之后的第一张网格补一条发丝线，与上方 hero 的下边缘分层 */
+[data-style="B"] .b-fig + .b-spec { border-top: var(--lab-border-width) solid var(--lab-border); }
+
+/* ---------- 16. 底部方角操作条（sticky，信号色实心主操作 + 线框次操作） ---------- */
+[data-style="B"] .b-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  margin-top: var(--lab-space-5);
+  padding: var(--lab-space-3) 0;
+  background: var(--lab-bg);
+  border-top: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="B"] .b-bar .btn--primary {
+  flex: 1;
+  letter-spacing: var(--lab-kicker-ls);
+  font-weight: var(--lab-kicker-weight);
+}
+[data-style="B"] .b-bar .btn--secondary {
+  flex: none;
+  min-width: calc(var(--lab-space-8) * 2);
+  color: var(--lab-text-1);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+}
+
+/* ---------- 17. 协作：阶段 + 三格计数（线分格；顶部线由页头墨线承担） ---------- */
+[data-style="B"] .b-counts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-count {
+  padding: var(--lab-space-3) var(--lab-space-3) var(--lab-space-3) 0;
+  border-right: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-count:last-child { border-right: 0; padding-right: 0; }
+[data-style="B"] .b-count__k {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+}
+[data-style="B"] .b-count__v {
+  margin-top: 2px;
+  font-size: var(--lab-data-size);
+  font-weight: var(--lab-data-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  line-height: 1.1;
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-count__v sup {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  vertical-align: baseline;
+  color: var(--lab-text-3);
+}
+[data-style="B"] .b-count__s {
+  margin-top: var(--lab-space-1);
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 唯一需要被处理的一项 → 数字升为信号色并加信号色上标点 */
+[data-style="B"] .b-count.is-hot .b-count__v { color: var(--b-signal-ink); }
+[data-style="B"] .b-count.is-hot .b-count__k { color: var(--lab-text-2); }
+
+/* ---------- 18. 协作：分车块 ---------- */
+[data-style="B"] .b-veh { padding-bottom: var(--lab-space-5); }
+[data-style="B"] .b-veh__head {
+  display: grid;
+  grid-template-columns: calc(var(--lab-space-7) + var(--lab-space-3)) minmax(0, 1fr) auto;
+  column-gap: var(--lab-space-2);
+  align-items: baseline;
+  padding-bottom: var(--lab-space-2);
+}
+[data-style="B"] .b-veh__l {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-display-weight);
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-veh__m {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  font-variant-numeric: var(--lab-num-spacing);
+  color: var(--lab-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[data-style="B"] .b-veh__c {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-section-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-veh__c em {
+  font-style: normal;
+  color: var(--lab-text-3);
+}
+[data-style="B"] .b-driver { margin-bottom: var(--lab-space-2); }
+[data-style="B"] .b-driver .seat { width: 100%; }
+
+[data-style="B"] .seat-grid { gap: var(--lab-space-1); }
+[data-style="B"] .seat {
+  height: var(--lab-touch);
+  border-radius: var(--lab-radius-btn);
+  gap: 0;
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-caption-weight);
+  color: var(--lab-text-1);
+  background: var(--lab-surface);
+  border-color: var(--lab-border);
+}
+[data-style="B"] .seat small {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+}
+[data-style="B"] .seat--taken { background: var(--lab-surface); color: var(--lab-text-1); border-color: var(--lab-text-2); }
+[data-style="B"] .seat--free {
+  background: var(--lab-surface-2);
+  color: var(--lab-text-3);
+  border-color: var(--lab-surface-2);
+}
+[data-style="B"] .seat--driver { background: var(--lab-brand); color: var(--lab-action-text); border-color: var(--lab-brand); }
+[data-style="B"] .seat--driver small { color: var(--lab-on-dark); opacity: .72; }
+
+/* ---------- 19. 下一步单行 ---------- */
+[data-style="B"] .b-next {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--lab-space-3);
+  align-items: center;
+  min-height: calc(var(--lab-touch) + var(--lab-space-2));
+  padding: var(--lab-space-3) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  cursor: pointer;
+}
+[data-style="B"] .b-next:active { background: var(--lab-surface-2); }
+[data-style="B"] .b-next__v {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-next__a {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-1);
+  white-space: nowrap;
+}
+
+/* ---------- 20. 天气：窗口结论强线（信号色标记）+ 选中汇总行 ---------- */
+[data-style="B"] .b-window {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lab-space-1);
+  padding: var(--lab-space-3) 0;
+  border-top: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-window__k {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--b-signal-ink);
+}
+[data-style="B"] .b-window__k::before {
+  content: '';
+  width: var(--lab-space-3);
+  height: var(--lab-space-3);
+  flex: none;
+  background: var(--b-signal);
+}
+[data-style="B"] .b-window__v {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-caption-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-sum {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lab-space-1) var(--lab-space-2);
+  min-height: var(--lab-touch);
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  color: var(--lab-text-2);
+}
+[data-style="B"] .b-sum b { font-weight: var(--lab-kicker-weight); color: var(--lab-text-1); }
+/* 汇总行第一项即「当前选中」，用信号色与矩阵里的色条呼应 */
+[data-style="B"] .b-sum__sel {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  font-weight: var(--lab-kicker-weight);
+  color: var(--b-signal-ink);
+}
+[data-style="B"] .b-sum__sel b { color: var(--b-signal-ink); }
+[data-style="B"] .b-sum__sel::before {
+  content: '';
+  width: var(--lab-rule-strong-w);
+  height: var(--lab-space-3);
+  flex: none;
+  background: var(--b-signal);
+}
+[data-style="B"] .b-sum i { font-style: normal; color: var(--lab-text-3); }
+
+/* ---------- 21. 天气：预报矩阵（左色条槽位 + 窗口行信号色 + 日分隔 2px 墨线） ---------- */
+[data-style="B"] .b-mx__row,
+[data-style="B"] .b-mx__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 62px 40px 40px 40px 40px;
+  column-gap: var(--lab-space-1);
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding-left: var(--lab-space-2);
+}
+[data-style="B"] .b-mx__head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  min-height: var(--lab-touch);
+  background: var(--lab-bg);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-mx__head .b-cell {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  line-height: 1;
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+/* 日分组：2px 墨线起头，去掉灰底，改由「右侧计数 + 现在」标记承担 */
+[data-style="B"] .b-mx__day {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-2);
+  padding: var(--lab-space-2) 0 var(--lab-space-1);
+  border-top: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-1);
+}
+[data-style="B"] .b-mx__day:first-child { border-top: 0; }
+[data-style="B"] .b-mx__day span {
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+/* 「现在」= 唯一需要被看见的时间锚点 → 信号色方块 + 信号色微号 */
+[data-style="B"] .b-mx__day.is-now span {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  color: var(--b-signal-ink);
+  font-weight: var(--lab-kicker-weight);
+}
+[data-style="B"] .b-mx__day.is-now span::before {
+  content: '';
+  width: var(--lab-space-2);
+  height: var(--lab-space-2);
+  flex: none;
+  background: var(--b-signal);
+}
+
+[data-style="B"] .b-mx__row {
+  position: relative;
+  min-height: var(--lab-touch);
+  padding-top: var(--lab-space-1);
+  padding-bottom: var(--lab-space-1);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+  cursor: pointer;
+  transition: background var(--lab-motion) var(--lab-ease), border-color var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-mx__row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--lab-rule-strong-w);
+  background: transparent;
+}
+[data-style="B"] .b-mx__row:active { background: var(--lab-surface-2); }
+[data-style="B"] .b-mx__row.is-off { cursor: default; pointer-events: none; }
+[data-style="B"] .b-mx__row.is-off .b-mx__cell { color: var(--lab-text-3); }
+[data-style="B"] .b-mx__cell {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-caption-weight);
+  font-variant-numeric: var(--lab-num-spacing);
+  color: var(--lab-text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[data-style="B"] .b-mx__cell--dim { color: var(--lab-text-2); }
+[data-style="B"] .b-mx__cell--n { text-align: right; }
+[data-style="B"] .b-mx__note {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: 0;
+  color: var(--lab-text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 关键窗口小时：信号色条 + 极浅信号底（不做大面积铺色） */
+[data-style="B"] .b-mx__row.is-key { background: var(--b-signal-wash); }
+[data-style="B"] .b-mx__row.is-key::before,
+[data-style="B"] .b-mx__row.is-sel::before { background: var(--b-signal); }
+[data-style="B"] .b-mx__row.is-key .b-mx__note { color: var(--b-signal-ink); }
+/* 当前选中：底色 + 2px 信号色底线，数字提为墨色加粗 */
+[data-style="B"] .b-mx__row.is-sel {
+  background: var(--b-signal-wash);
+  border-bottom-color: var(--b-signal);
+}
+[data-style="B"] .b-mx__row.is-sel .b-mx__cell { font-weight: var(--lab-kicker-weight); }
+[data-style="B"] .b-mx__row.is-sel .b-mx__cell--dim { color: var(--lab-text-2); }
+
+/* ---------- 22. 提示条 / 脚注 / 骨架 ---------- */
+[data-style="B"] .note--line {
+  background: transparent;
+  border-left: var(--lab-rule-strong-w) solid var(--b-signal);
+  color: var(--lab-text-2);
+  padding: var(--lab-space-1) 0 var(--lab-space-1) var(--lab-space-3);
+}
+[data-style="B"] .footnote {
+  padding-top: var(--lab-space-3);
+  margin-top: var(--lab-section-gap);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="B"] .b-skel-12 { height: var(--lab-space-3); }
+[data-style="B"] .b-skel-20 { height: calc(var(--lab-space-4) + var(--lab-space-1)); }
+[data-style="B"] .b-skel-28 { height: calc(var(--lab-space-5) + var(--lab-space-2)); }
+[data-style="B"] .b-skel-44 { height: var(--lab-touch); }
+[data-style="B"] .b-skel-56 { height: calc(var(--lab-row-h) + var(--lab-space-2)); }
+[data-style="B"] .b-skel-lead { height: calc(var(--lab-space-7) * 5 + var(--lab-space-5)); }
+[data-style="B"] .b-skel-hero { height: calc(var(--lab-space-7) * 5 + var(--lab-space-6) + var(--lab-space-2)); }
+
+/* ---------- 23. 微元素：箭头按压位移、节点序号、车辆块规则 ---------- */
+[data-style="B"] .b-next__a,
+[data-style="B"] .b-window .lab-icon {
+  transition: transform var(--lab-motion) var(--lab-ease);
+}
+[data-style="B"] .b-next:active .b-next__a { transform: translateX(2px); }
+
+/* 行程节点：序号列用等宽数字 + 微号，末段与「要求」清单的首行间距对齐 */
+[data-style="B"] .b-node__no { color: var(--lab-text-3); }
+
+/* 分车块：车辆头以 2px 墨线起头，与其它章节规则同级 */
+[data-style="B"] .b-veh__head {
+  border-top: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+  padding-top: var(--lab-space-2);
+}
+
+/* ---------- 24. 降级动效：本风格的位移/淡入一律可关 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-style="B"] *,
+  [data-style="B"] *::before,
+  [data-style="B"] *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+  [data-style="B"] .photo img,
+  [data-style="B"] .b-fig img,
+  [data-style="B"] .b-lead__fig img,
+  [data-style="B"] .b-idx__ph img { opacity: 1; }
+}

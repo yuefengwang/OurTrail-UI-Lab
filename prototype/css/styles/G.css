@@ -1,0 +1,1751 @@
+/* ==========================================================================
+   Style G — Strava Athletic（橙白运动风）
+
+   配方（style-G-decisions.md §2 身份 / §3 方向）：
+   · 身份 = 忠实镜像 Strava 视觉语言，不自创新方向：白为画布（#FFFFFF）、Fog 作面层
+     （#F7F7FA）、Icicle 作分隔与色调带（#F0F0F5）、Silver 作 chip 描边与分段轨道（#DFDFE8）、
+     Coal 一级墨（#242428）、Gravel 二级（#494950）、Asphalt 三级与功能性控件描边（#6D6D78）、
+     Coal Black 深色画布（#0F0F0F）。
+   · 橙只有三档，角色互斥且全部落地：#FC5200 = 品牌**图形**色（实心 kudos、路线折线、激活指示条、
+     数据重点、PR 名次 chip 底；白字仅 3.3:1，禁止用于正文尺寸文字）；
+     #CC4200 = 主 CTA 实心底色（白字 4.8:1）兼品牌文字色（白底 4.83:1）；
+     #FC6100 = 限量强调（chip 底 / hover tint）。一屏橙色实心块 ≤ 2。
+   · 骨 = Feed：发现页按「头图 → 三联读数 → kudos 行」这一固定解剖排布（Strava feed 的最小单元）。
+   · 器 = 数据优先：metric-display 32/700 + 共享 tabular-nums；左标签右读数，单位退到 13/500 + Asphalt。
+   · 制 = 短线反馈：主 CTA idle → loading →(700ms)→ done + toast；tab 激活是滑动指示条（120ms）。
+   · 态 = 状态克制：空 / 错 / 禁用用文字 + Asphalt 弱化，不做红色警报块；红只留给真实危险。
+
+   排除红线：A–F 的任何分区骨架（工位编号 / 满幅纸带 / 深色重块 / 瑞士网格 / 仪表控制台 / 衬线字）；
+     入场与过场动画；装饰性渐变底纹；网页字体与任何网络请求。
+
+   本文件自带完整令牌层（[data-style="G"]）——共享 tokens.css 为二轮冻结文件，零改动；
+   风格专属令牌一律 --g-* 前缀，与 F.css 的 --f-* 同一约定。
+
+   纪律：
+   · 全部规则限定在 [data-style="G"] 内。
+   · 组件层只消费 --lab-* / --g-* 令牌：颜色、字号、圆角、时长零硬编码。
+   · 边框分工：--lab-border（Icicle）只作装饰发丝线（divider / 表格线 / 卡头下沿）；
+     任何功能性控件描边（input / 开关 / 可选 tab / 焦点环）一律 --lab-text-3 或 --lab-border-strong。
+   · WXSS 迁移纪律：无 color-mix / :has / backdrop-filter / dvh，全角值一律字面量。
+   · 可见文本不低于 11px（kicker 11 为硬底，dom-check.mjs --audit 红线）。
+   · 动效只做功能：只动 transform / opacity；prefers-reduced-motion 下全部关掉。
+   ========================================================================== */
+
+[data-style="G"] {
+  /* ---------- 色彩：白画布 + Fog 面 + 三级中性墨 + 三档橙（Strava 参考档案照抄） ---------- */
+  --lab-bg: #F7F7FA;              /* Fog —— 页面底；亮色画布的「非白」层 */
+  --lab-surface: #FFFFFF;         /* White —— 面层 / 卡片 / CTA 与深色块上的文字 */
+  --lab-surface-2: #F0F0F5;       /* Icicle —— 分隔浅灰 / 色调带 / 骨架 / 底纹 */
+  --lab-text-1: #242428;          /* Coal —— 一级墨色（正文与标题） */
+  --lab-text-2: #494950;          /* Gravel —— 二级文字（次级说明、表格读数） */
+  --lab-text-3: #6D6D78;          /* Asphalt —— 三级文字 / 单位 / 功能性控件描边 */
+  --lab-border: #F0F0F5;          /* Icicle —— 装饰性发丝线，不承担控件识别 */
+  --lab-border-strong: #242428;   /* Coal —— 强线与焦点环 */
+
+  /* ---------- 色义分工（决策 §3.1 末段：橙的三个角色互斥，白名单封闭） ----------
+     · 品牌橙 --lab-brand = #FC5200，仅图形通道：实心 kudos / 路线折线 / 激活指示条 / PR chip 底
+     · CTA 橙 --lab-action = #CC4200，白底可作文本（4.83:1），白字可作实心 CTA 底（4.83:1）
+     · 浅橙 --lab-accent = #FC6100，限量强调：featured 卡顶规 / tab 悬停指示 */
+  --lab-brand: #FC5200;
+  --lab-action: #CC4200;
+  --lab-action-text: #FFFFFF;
+  --lab-accent: #FC6100;
+
+  /* 语义状态色：dossier 无 Strava 状态色板 → 沿用实验室既有字面量（A / E / F 同源），
+     保持 A–G 跨风格状态词可比；禁止自造第四套状态色。 */
+  --lab-success: #2F6B4C;
+  --lab-warning: #8A6A20;
+  --lab-danger: #A0402F;
+  --lab-info: #44647A;
+
+  --lab-dark-block: #0F0F0F;      /* Coal Black —— 深色画布（toast / 仪表底） */
+  --lab-on-dark: #FFFFFF;
+  --lab-overlay: rgba(36, 36, 40, .5);
+  --lab-photo-filter: none;       /* 照片满幅、不加滤镜 */
+
+  /* ---------- 字阶（dossier §2.1 → 390 带宽承接；kicker / caption / metric 照抄） ---------- */
+  --lab-display-size: 30px; --lab-display-weight: 700; --lab-display-lh: 1.15; --lab-display-ls: -0.4px;
+  --lab-title-size: 24px; --lab-title-weight: 700; --lab-title-lh: 1.2;
+  --lab-section-size: 18px; --lab-section-weight: 700; --lab-section-lh: 1.3;
+  --lab-kicker-size: 11px; --lab-kicker-weight: 600; --lab-kicker-ls: 0.4px;
+  --lab-body-size: 15px; --lab-body-weight: 400; --lab-body-lh: 1.5;
+  --lab-caption-size: 13px; --lab-caption-weight: 500; --lab-caption-lh: 1.4;
+  --lab-data-size: 32px; --lab-data-weight: 700;
+
+  /* ---------- 版心与节奏：满幅贴边的密集感（既有最紧档） ---------- */
+  --lab-page-x: 16px;
+  --lab-section-gap: 20px;
+  --lab-row-h: 56px;
+  --lab-touch: 44px;
+  --lab-action-h: 48px;
+
+  /* ---------- 形态：Strava 的小圆角按钮 + pill chip + 圆角照片 ---------- */
+  --lab-radius-img: 10px;
+  --lab-radius-btn: 4px;
+  --lab-radius-card: 8px;
+  --lab-radius-chip: 999px;
+  --lab-shadow-1: 0 8px 24px rgba(36, 36, 40, .14);
+  --lab-icon-size: 20px;
+  --lab-icon-stroke: 2;
+  --lab-motion: 180ms;
+
+  /* ---------- G 专属令牌（照 F.css:80–99 的四类扩展：字族 / 线色 / 图形高度 / 动效两档） ---------- */
+  /* 产品字 Inter 置首位（本机装则忠实渲染），未装逐级回落到共享系统栈；零网络字体 */
+  --g-sans: Inter, -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --g-hairline: #DFDFE8;           /* Silver —— chip 描边 / 分段轨道 / 卡内浅分隔 */
+  --g-orange: #FC5200;             /* O50 Strava Orange / Tangelo */
+  --g-orange-dark: #CC4200;        /* O60 Rust */
+  --g-orange-light: #FC6100;       /* O40 Pumpkin */
+  --g-cover-h: 200px;              /* feed 卡头图高度（hero 同档，满幅） */
+  --g-avatar: 40px;                /* 成员行 / kudos 行圆形头像 */
+  --g-move-fast: 120ms;
+  --g-move: 180ms;
+}
+
+/* ==========================================================================
+   0. 页面容器 / 焦点 / 动效骨架 / 满幅
+   ========================================================================== */
+
+/* Strava 顶部无留白：刊头满幅白，面层从 0 开始 */
+[data-style="G"] .page { padding-top: 0; }
+
+/* 字族两轨（dossier §2 结论落地）：
+   · 展示层（刊头 / 卡名 / 大读数 / 图表标注）走 dossier 产品字 --g-sans（Inter 置首位）。
+   · 正文层走共享 --lab-font-family（tokens.css:10 的纯系统栈）—— 显式写死，不靠 body 继承，
+     这样 G 的正文字族契约在本文件内自洽，将来迁移到 WXSS 时一眼可查。
+   两轨首段同为 -apple-system 家族，未装 Inter 时回落行为一致；全程零网络字体。 */
+[data-style="G"] .page,
+[data-style="G"] .footnote,
+[data-style="G"] .state-block,
+[data-style="G"] .btn,
+[data-style="G"] .seg__item,
+[data-style="G"] .input input { font-family: var(--lab-font-family); }
+/* 报尾 sticky：净空挂在页脚自身 padding 上 */
+[data-style="G"] .g-detail .footnote {
+  padding-bottom: calc(var(--lab-action-h) + var(--lab-space-5));
+}
+
+[data-style="G"] [role="button"] {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+/* 焦点环：Coal 2px + 2px offset（决策 §3.1 边框纪律：焦点环不用 --lab-brand） */
+[data-style="G"] [role="button"]:focus-visible,
+[data-style="G"] button:focus-visible,
+[data-style="G"] input:focus-visible {
+  outline: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+  outline-offset: 2px;
+}
+
+@keyframes g-ink-run { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes g-cta-pulse { from { transform: scale(.98); } to { transform: scale(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-style="G"] .g-bar__cta.is-loading::after { content: none !important; }
+  [data-style="G"] .g-bar__cta.is-done .lab-icon { transition: none !important; }
+  [data-style="G"] .g-tabs__ink { transition: none !important; }
+  [data-style="G"] .g-card,
+  [data-style="G"] .g-kudos,
+  [data-style="G"] .g-share,
+  [data-style="G"] .g-toggle,
+  [data-style="G"] .g-spark__tag,
+  [data-style="G"] .g-seats,
+  [data-style="G"] .toast { transition: none !important; }
+}
+
+/* 图片：解码完成后由 JS 打 .is-in 再淡入，纸面上不闪 */
+[data-style="G"] .photo img { opacity: 0; }
+[data-style="G"] .photo.is-in img { opacity: 1; transition: opacity var(--g-move) var(--lab-ease); }
+
+/* 满幅（出血）：白块贴到设备两侧 */
+[data-style="G"] .g-bleed {
+  margin-left: calc(-1 * var(--lab-page-x));
+  margin-right: calc(-1 * var(--lab-page-x));
+}
+/* 顶栏族（刊头 / 抬头 / 简报 / tab / 搜索）自带 --lab-page-x 内边距，须再出血一次才满幅 */
+[data-style="G"] .g-mast,
+[data-style="G"] .g-chead,
+[data-style="G"] .g-brief,
+[data-style="G"] .g-tabs,
+[data-style="G"] .g-search {
+  margin-left: calc(-1 * var(--lab-page-x));
+  margin-right: calc(-1 * var(--lab-page-x));
+}
+
+/* ==========================================================================
+   1. 排版基元
+   ========================================================================== */
+
+[data-style="G"] .g-kicker {
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  line-height: var(--lab-body-lh);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+}
+
+/* 品牌锁定角色：wordmark 用共享字体栈 + 全大写 + 字距（决策 §3.2 wordmark 处理说明） */
+[data-style="G"] .g-mark {
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 1.6px;
+  color: var(--lab-action);
+  text-transform: uppercase;
+}
+
+[data-style="G"] .g-caption {
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+}
+
+[data-style="G"] .g-body {
+  font-size: var(--lab-body-size);
+  font-weight: var(--lab-body-weight);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+
+/* 块内标题：24/700（zone 内需要比卡名更轻一级的标题时用） */
+[data-style="G"] .g-h2 {
+  font-family: var(--g-sans);
+  font-size: var(--lab-title-size);
+  font-weight: var(--lab-title-weight);
+  line-height: var(--lab-title-lh);
+  color: var(--lab-text-1);
+}
+
+/* 状态词：小圆点 + 文字（形状与颜色双通道，禁用态方点挖空） */
+[data-style="G"] .g-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  line-height: 1.5;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-2);
+  white-space: nowrap;
+}
+[data-style="G"] .g-tag::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 50%;
+  background: currentColor;
+}
+[data-style="G"] .g-tag--success { color: var(--lab-success); }
+[data-style="G"] .g-tag--warning { color: var(--lab-warning); }
+[data-style="G"] .g-tag--danger { color: var(--lab-danger); }
+[data-style="G"] .g-tag--info { color: var(--lab-info); }
+[data-style="G"] .g-tag--off { color: var(--lab-text-3); }
+[data-style="G"] .g-tag--off::before { background: transparent; box-shadow: inset 0 0 0 1px currentColor; }
+
+/* 「PR 名次 chip」：Silver 描边 + Coal 文字 + 品牌橙实心方块（图形通道，非文字通道） */
+[data-style="G"] .g-rank {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  padding: 2px var(--lab-space-2);
+  border-radius: var(--lab-radius-chip);
+  box-shadow: inset 0 0 0 1px var(--g-hairline);
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: .6px;
+  color: var(--lab-text-1);
+  white-space: nowrap;
+}
+[data-style="G"] .g-rank::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 1px;
+  background: var(--g-orange);
+}
+
+/* 「你」锚点：形状 + 文字双通道（不用彩色描边框做状态） */
+[data-style="G"] .g-you {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: var(--lab-space-1);
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: .6px;
+  color: var(--lab-action);
+}
+[data-style="G"] .g-you::before {
+  content: '';
+  width: var(--lab-space-2);
+  height: var(--lab-space-2);
+  flex: none;
+  background: var(--lab-action);
+}
+
+/* ==========================================================================
+   2. 数据读数（dossier stats block 的解剖：左标签右读数 + 单位退位）
+   ========================================================================== */
+
+/* 三联读数：feed 卡与摘要条共用；竖发丝线分隔 */
+[data-style="G"] .g-metrics {
+  display: grid;
+  grid-template-columns: repeat(var(--g-metric-cols, 3), minmax(0, 1fr));
+}
+[data-style="G"] .g-metrics--2 { --g-metric-cols: 2; }
+[data-style="G"] .g-metrics--4 { --g-metric-cols: 4; }
+/* 两行三列的六格计数（协作页现场）；第二行补一条横发丝线 */
+[data-style="G"] .g-metrics--stack { --g-metric-cols: 3; }
+[data-style="G"] .g-metrics--stack .g-metric:nth-child(3n+1) { border-left: 0; padding-left: 0; }
+[data-style="G"] .g-metrics--stack .g-metric:nth-child(3n) { padding-right: 0; }
+[data-style="G"] .g-metrics--stack .g-metric:nth-child(n+4) {
+  border-top: var(--lab-border-width) solid var(--lab-border);
+}
+/* 首格独占整行的读数条（长文本值，如集合点）；末格补齐右半行 */
+[data-style="G"] .g-metrics--lead .g-metric:first-child {
+  grid-column: 1 / -1;
+  border-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+[data-style="G"] .g-metrics--lead .g-metric:last-child {
+  grid-column: 2 / -1;
+  padding-right: 0;
+}
+[data-style="G"] .g-metric {
+  min-width: 0;
+  padding: var(--lab-space-2) var(--lab-space-3);
+  border-left: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-metric:first-child { border-left: 0; padding-left: 0; }
+[data-style="G"] .g-metric:last-child { padding-right: 0; }
+[data-style="G"] .g-metric__k {
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  line-height: var(--lab-body-lh);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[data-style="G"] .g-metric__v {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 2px;
+  margin-top: 2px;
+  font-size: var(--lab-section-size);
+  font-weight: var(--lab-section-weight);
+  line-height: 1.2;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="G"] .g-metric__u {
+  flex: none;
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  color: var(--lab-text-3);
+  font-variant-numeric: normal;
+}
+/* 重点读数：品牌橙图形通道的替代 —— 文字用 CTA 橙（4.83:1） */
+[data-style="G"] .g-metric.is-hi .g-metric__v { color: var(--lab-action); }
+
+/* 规格行：标签左 · 读数右 · 单位常显 · 注记更小更弱 */
+[data-style="G"] .g-rows { margin-top: var(--lab-space-1); }
+[data-style="G"] .g-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  min-width: 0;
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-row:last-child { border-bottom: 0; }
+[data-style="G"] .g-row__k {
+  flex: none;
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+[data-style="G"] .g-row__v {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  min-width: 0;
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  text-align: right;
+}
+[data-style="G"] .g-row__u {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 400;
+  color: var(--lab-text-3);
+  font-variant-numeric: normal;
+}
+[data-style="G"] .g-row__n {
+  flex: none;
+  max-width: 45%;
+  font-size: var(--lab-kicker-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-3);
+  text-align: right;
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-row.is-hi .g-row__v { color: var(--lab-action); }
+
+/* metric-display：一屏只出现一次的 32/700 大读数（hero 卡与天气决策条） */
+[data-style="G"] .g-big {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-1);
+  font-family: var(--g-sans);
+  font-size: var(--lab-data-size);
+  font-weight: var(--lab-data-weight);
+  line-height: 1;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-big__u {
+  flex: none;
+  font-size: var(--lab-caption-size);
+  font-weight: var(--lab-caption-weight);
+  color: var(--lab-text-3);
+  font-variant-numeric: normal;
+}
+
+/* 细线进度：2px 轨道 + 品牌橙填充（图形通道） */
+[data-style="G"] .g-meter {
+  height: var(--lab-rule-strong-w);
+  margin-top: var(--lab-space-2);
+  background: var(--g-hairline);
+}
+[data-style="G"] .g-meter__fill {
+  display: block;
+  height: 100%;
+  background: var(--g-orange);
+  transition: width var(--g-move) var(--lab-ease);
+}
+
+/* ==========================================================================
+   3. 内容块（Strava card：白面 + 小圆角 + 卡头下沿发丝线；不用深色重块分区）
+   ========================================================================== */
+
+[data-style="G"] .g-zone {
+  margin-top: var(--lab-section-gap);
+  padding: var(--lab-space-4);
+  background: var(--lab-surface);
+  border-radius: var(--lab-radius-card);
+}
+[data-style="G"] .g-zone--flush { margin-top: 0; }
+[data-style="G"] .g-zone--tone {
+  background: var(--lab-surface-2);
+  border-radius: var(--lab-radius-card);
+}
+
+[data-style="G"] .g-zone__tab {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-2);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-zone.is-current .g-zone__tab {
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="G"] .g-zone__no {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-zone.is-current .g-zone__no { color: var(--lab-action); }
+[data-style="G"] .g-zone__name {
+  min-width: 0;
+  font-family: var(--g-sans);
+  font-size: var(--lab-section-size);
+  font-weight: var(--lab-section-weight);
+  line-height: var(--lab-section-lh);
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-zone__meta {
+  margin-left: auto;
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  letter-spacing: .3px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="G"] .g-zone__body { margin-top: var(--lab-space-3); }
+[data-style="G"] .g-zone__body--tight { margin-top: var(--lab-space-2); }
+[data-style="G"] .g-zone__caption {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-kicker-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+
+/* 块内二级切分头 */
+[data-style="G"] .g-subhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-4);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-subhead:first-child { margin-top: 0; }
+[data-style="G"] .g-subhead__n {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  letter-spacing: .3px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+
+/* 块内操作条：说明句占满剩余宽度，按钮不折行 */
+[data-style="G"] .g-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-3);
+}
+[data-style="G"] .g-actions .btn { flex: none; white-space: nowrap; }
+[data-style="G"] .g-actions__note {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-3);
+}
+[data-style="G"] .g-actions__note .num { color: var(--lab-text-2); }
+
+/* 只读 / 截止 / 来源 说明行：Asphalt 弱化 + 图标，不是红色警报块 */
+[data-style="G"] .g-lock {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lab-space-2);
+  margin-top: var(--lab-space-4);
+  padding: var(--lab-space-3);
+  border-radius: var(--lab-radius-card);
+  background: var(--lab-surface-2);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+}
+[data-style="G"] .g-lock__k {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+[data-style="G"] .g-lock .lab-icon { width: 16px; height: 16px; color: var(--lab-text-3); }
+
+/* 文字链 */
+[data-style="G"] .g-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  min-height: var(--lab-touch);
+  font-size: var(--lab-caption-size);
+  font-weight: 600;
+  color: var(--lab-action);
+  font-variant-numeric: var(--lab-num-spacing);
+  transition: opacity var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-link .lab-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-link:active { opacity: .6; }
+[data-style="G"] .g-link:active .lab-icon { transform: translateX(3px); }
+[data-style="G"] .g-link--sm { min-height: 0; }
+
+/* ==========================================================================
+   4. 发现 — Feed（Strava feed 的最小单元：头图 → 三联读数 → kudos 行）
+   ========================================================================== */
+
+[data-style="G"] .g-mast {
+  padding: var(--lab-space-6) var(--lab-page-x) var(--lab-space-4);
+  background: var(--lab-surface);
+}
+[data-style="G"] .g-mast__bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+}
+[data-style="G"] .g-mast__date {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: var(--lab-kicker-weight);
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-mast__title {
+  margin-top: var(--lab-space-3);
+  font-family: var(--g-sans);
+  font-size: var(--lab-display-size);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-mast__sub {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-2);
+}
+[data-style="G"] .g-mast__stats { margin-top: var(--lab-space-4); }
+
+/* 筛选：文字 tab + 计数 + 单条滑动橙指示条 */
+[data-style="G"] .g-tabs {
+  position: relative;
+  display: flex;
+  gap: var(--lab-space-4);
+  padding: var(--lab-space-2) var(--lab-page-x) 0;
+  background: var(--lab-surface);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-tabs__item {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--lab-space-1);
+  padding: 0 0 var(--lab-space-2);
+  font-size: var(--lab-body-size);
+  color: var(--lab-text-2);
+  transition: color var(--g-move-fast) var(--lab-ease), opacity var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-tabs__item:active { opacity: .5; }
+[data-style="G"] .g-tabs__item.is-active { color: var(--lab-text-1); font-weight: 700; }
+[data-style="G"] .g-tabs__item.is-disabled { color: var(--lab-text-3); cursor: default; opacity: .8; }
+[data-style="G"] .g-tabs__n {
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-tabs__item.is-active .g-tabs__n { color: var(--lab-action); }
+/* 激活指示条 = 品牌橙图形通道（transform / width 过渡 120ms，功能性动效） */
+[data-style="G"] .g-tabs__ink {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: var(--lab-rule-strong-w);
+  background: var(--g-orange);
+  transition: transform var(--g-move-fast) var(--lab-ease), width var(--g-move-fast) var(--lab-ease),
+    background var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-tabs.is-disabled .g-tabs__ink { background: var(--lab-text-3); }
+[data-style="G"] .g-tabs__item:hover .g-tabs__n { color: var(--g-orange-light); }
+
+/* 搜索：功能性控件描边必须用 --lab-text-3（不是装饰发丝线） */
+[data-style="G"] .g-search {
+  padding: var(--lab-space-2) var(--lab-page-x);
+  background: var(--lab-surface);
+  border-bottom: var(--lab-border-width) solid var(--lab-text-3);
+  transition: border-color var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-search:focus-within { border-bottom-color: var(--lab-border-strong); }
+[data-style="G"] .g-search:focus-within .lab-icon { color: var(--lab-action); }
+[data-style="G"] .g-search.is-disabled { border-bottom-color: var(--g-hairline); opacity: .72; }
+[data-style="G"] .g-search__clear {
+  font-size: var(--lab-caption-size);
+  color: var(--lab-text-3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--g-move-fast) var(--lab-ease), color var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-search.has-q .g-search__clear { opacity: 1; pointer-events: auto; }
+[data-style="G"] .g-search__clear:active { color: var(--lab-text-1); opacity: .6; }
+
+/* Feed 容器 */
+[data-style="G"] .g-feed { margin-top: var(--lab-section-gap); }
+
+/* Feed 卡：白面小圆角；头图满幅内缩，卡头下沿发丝线 */
+[data-style="G"] .g-card {
+  margin-bottom: var(--lab-space-4);
+  padding: var(--lab-space-3);
+  background: var(--lab-surface);
+  border-radius: var(--lab-radius-card);
+  transition: opacity var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-card:active { opacity: .82; }
+[data-style="G"] .g-card.is-locked { opacity: .74; }
+[data-style="G"] .g-card__media {
+  position: relative;
+  border-radius: var(--lab-radius-img);
+  overflow: hidden;
+}
+[data-style="G"] .g-card__shot { height: calc(var(--g-cover-h) * .7); }
+[data-style="G"] .g-card--lead { padding: var(--lab-space-4); }
+/* featured 卡的限量强调：一条浅橙顶规（图形通道，一屏仅一处） */
+[data-style="G"] .g-card--lead::before {
+  content: '';
+  display: block;
+  height: var(--lab-rule-strong-w);
+  margin-bottom: var(--lab-space-3);
+  border-radius: var(--lab-rule-strong-w);
+  background: var(--g-orange-light);
+}
+[data-style="G"] .g-card--lead .g-card__shot { height: var(--g-cover-h); }
+
+[data-style="G"] .g-card__body { padding-top: var(--lab-space-3); }
+[data-style="G"] .g-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lab-space-2);
+}
+[data-style="G"] .g-card__when {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="G"] .g-card__title {
+  margin-top: var(--lab-space-2);
+  font-family: var(--g-sans);
+  font-size: var(--lab-section-size);
+  font-weight: var(--lab-section-weight);
+  line-height: var(--lab-section-lh);
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-card--lead .g-card__title {
+  font-size: var(--lab-title-size);
+  line-height: var(--lab-title-lh);
+}
+[data-style="G"] .g-card__sub {
+  margin-top: var(--lab-space-1);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+}
+[data-style="G"] .g-card__big { margin-top: var(--lab-space-3); }
+[data-style="G"] .g-card__lead-line { margin-top: var(--lab-space-3); }
+[data-style="G"] .g-card__note {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+
+/* kudos 行：重叠头像 + 实心橙 kudos 计数（品牌橙图形通道唯一允许的实心小圆） */
+[data-style="G"] .g-kudos {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+  margin-top: var(--lab-space-3);
+  padding-top: var(--lab-space-3);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  transition: opacity var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-kudos__faces { display: flex; flex: none; padding-left: var(--lab-space-2); }
+[data-style="G"] .g-kudos__face {
+  width: var(--g-avatar);
+  height: var(--g-avatar);
+  flex: none;
+  margin-left: calc(-1 * var(--lab-space-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--lab-surface-2);
+  box-shadow: 0 0 0 var(--lab-border-width) var(--lab-surface);
+  font-size: var(--lab-caption-size);
+  font-weight: 700;
+  color: var(--lab-text-2);
+}
+[data-style="G"] .g-kudos__face.is-me { background: var(--lab-action); color: var(--lab-action-text); }
+[data-style="G"] .g-kudos__face.is-off {
+  background: transparent;
+  color: var(--lab-text-3);
+  box-shadow: 0 0 0 var(--lab-border-width) var(--lab-surface), inset 0 0 0 1px var(--g-hairline);
+}
+[data-style="G"] .g-kudos__meta {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+[data-style="G"] .g-kudos__n {
+  margin-left: auto;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  font-size: var(--lab-caption-size);
+  font-weight: 700;
+  color: var(--lab-action);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="G"] .g-kudos__n .lab-icon { width: 16px; height: 16px; }
+
+/* ==========================================================================
+   5. 详情 — 活动页（满幅 hero + 白底事实条 + 报尾主操作）
+   ========================================================================== */
+
+[data-style="G"] .g-hero__media {
+  position: relative;
+  height: var(--g-cover-h);
+  border-radius: 0 0 var(--lab-radius-img) var(--lab-radius-img);
+  overflow: hidden;
+}
+[data-style="G"] .g-hero__shot { height: 100%; border-radius: 0; }
+/* hero 左上角的品牌旗：透明底 + CTA 橙文字 + 2px 品牌橙左规（图形通道，白底 4.83:1） */
+[data-style="G"] .g-hero__flag {
+  position: absolute;
+  left: var(--lab-page-x);
+  top: var(--lab-space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  padding: var(--lab-space-1) var(--lab-space-2);
+  border-radius: var(--lab-radius-chip);
+  background: var(--lab-surface);
+  box-shadow: var(--lab-shadow-1);
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-action);
+}
+[data-style="G"] .g-hero__flag::before {
+  content: '';
+  width: var(--lab-space-1);
+  height: var(--lab-space-2);
+  flex: none;
+  border-radius: 1px;
+  background: var(--g-orange);
+}
+/* 已取消：照片退化为面层，旗改为 Asphalt 弱化（状态克制，不做红色块） */
+[data-style="G"] .g-hero--void .g-hero__media { background: var(--lab-surface-2); }
+[data-style="G"] .g-hero--void .g-hero__shot { opacity: .22; }
+[data-style="G"] .g-hero--void .g-hero__flag { color: var(--lab-text-3); }
+[data-style="G"] .g-hero--void .g-hero__flag::before { background: var(--lab-text-3); }
+
+[data-style="G"] .g-hero__body { padding: var(--lab-space-4) 0 0; }
+[data-style="G"] .g-hero__title {
+  font-family: var(--g-sans);
+  font-size: var(--lab-display-size);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-hero__sub {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+
+/* 状态行：左状态词 + 右剩余席位 */
+[data-style="G"] .g-statusline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-4);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-statusline__r {
+  font-size: var(--lab-caption-size);
+  font-weight: 700;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+
+/* factstrip：白卡内的一格三联读数 —— 详情页的「数字先于叙述」 */
+[data-style="G"] .g-facts {
+  margin-top: var(--lab-section-gap);
+  padding: var(--lab-space-4);
+  background: var(--lab-surface);
+  border-radius: var(--lab-radius-card);
+}
+[data-style="G"] .g-facts__lead { margin-top: var(--lab-space-3); }
+
+/* 海拔剖面（路线折线 = 品牌橙唯一允许的折线） */
+[data-style="G"] .g-route { margin-top: var(--lab-space-3); }
+[data-style="G"] .g-route__plot { position: relative; height: calc(var(--g-cover-h) * .48); }
+[data-style="G"] .g-route__plot svg { display: block; width: 100%; height: 100%; }
+[data-style="G"] .g-route__axis {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  margin-top: var(--lab-space-1);
+}
+[data-style="G"] .g-route__node {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: .4px;
+  color: var(--lab-text-3);
+  text-align: center;
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-route__node.is-summit { color: var(--lab-text-1); font-weight: 700; }
+[data-style="G"] .g-route__node.is-you { color: var(--lab-action); }
+[data-style="G"] .g-route__note {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-kicker-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+
+/* 行程叙述：时刻 + 节点点 + 文字（关键节点实心橙） */
+[data-style="G"] .g-narr { margin-top: var(--lab-space-2); }
+[data-style="G"] .g-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lab-space-3);
+  padding: var(--lab-space-3) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-step:last-child { border-bottom: 0; }
+[data-style="G"] .g-step__t {
+  flex: none;
+  width: calc(var(--lab-space-8));
+  padding-top: 1px;
+  font-size: var(--lab-caption-size);
+  font-weight: 700;
+  color: var(--lab-text-2);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-step__x {
+  flex: none;
+  width: var(--lab-space-3);
+  height: var(--lab-space-3);
+  margin-top: var(--lab-space-1);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--lab-border);
+}
+[data-style="G"] .g-step.is-key .g-step__x { background: var(--g-orange); box-shadow: none; }
+[data-style="G"] .g-step__b {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-step__d {
+  margin-top: 2px;
+  font-size: var(--lab-kicker-size);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+
+/* 装备：两栏勾选清单（grid-auto-rows 等高，两栏的下沿发丝线才对齐） */
+[data-style="G"] .g-gear {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  column-gap: var(--lab-space-4);
+}
+[data-style="G"] .g-gear__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lab-space-2);
+  min-width: 0;
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-gear__x {
+  flex: none;
+  width: var(--lab-space-3);
+  height: var(--lab-space-3);
+  margin-top: 5px;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 var(--lab-rule-strong-w) var(--lab-text-3);
+}
+[data-style="G"] .g-gear__text {
+  min-width: 0;
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-1);
+}
+
+/* 同行人行：头像 + 姓名 + 角色 / 车 / 座位 + 右侧状态 */
+[data-style="G"] .g-mates { margin-top: var(--lab-space-2); }
+[data-style="G"] .g-mate {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-3);
+  min-height: var(--lab-row-h);
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-mate:last-child { border-bottom: 0; }
+[data-style="G"] .g-mate__face {
+  width: var(--g-avatar);
+  height: var(--g-avatar);
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--lab-surface-2);
+  font-size: var(--lab-caption-size);
+  font-weight: 700;
+  color: var(--lab-text-2);
+}
+[data-style="G"] .g-mate.is-me .g-mate__face { background: var(--lab-action); color: var(--lab-action-text); }
+[data-style="G"] .g-mate__main { flex: 1; min-width: 0; }
+[data-style="G"] .g-mate__name {
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-mate__meta {
+  font-size: var(--lab-kicker-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+[data-style="G"] .g-mate__side { margin-left: auto; flex: none; }
+
+/* 报尾操作条：唯一的主操作实心 CTA + 文字链分享（sticky） */
+[data-style="G"] .g-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-section-gap);
+  padding: var(--lab-space-3) 0 var(--lab-space-2);
+  background: var(--lab-bg);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-bar__note {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-3);
+}
+/* 主 CTA：#CC4200 实底 + 白字 4.83:1（小圆角 4px = Strava 的按钮形态） */
+[data-style="G"] .g-bar__cta {
+  flex: none;
+  min-width: 48%;
+  position: relative;
+  overflow: hidden;
+}
+[data-style="G"] .g-bar__cta.is-loading { opacity: .88; }
+[data-style="G"] .g-bar__cta.is-loading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: var(--lab-rule-strong-w);
+  width: 100%;
+  background: var(--lab-action-text);
+  opacity: .5;
+  transform-origin: left center;
+  animation: g-ink-run 700ms var(--lab-ease) both;
+}
+/* done：退到成功语义色 + 描边，不再占住橙（把橙色让给下一次操作） */
+[data-style="G"] .g-bar__cta.is-done {
+  background: transparent;
+  color: var(--lab-success);
+  box-shadow: inset 0 0 0 var(--lab-border-width) var(--lab-success);
+}
+[data-style="G"] .g-bar__cta.is-done .lab-icon { width: 16px; height: 16px; }
+[data-style="G"] .g-bar__cta.is-closed {
+  background: var(--lab-surface-2);
+  color: var(--lab-text-3);
+  box-shadow: inset 0 0 0 var(--lab-border-width) var(--g-hairline);
+}
+[data-style="G"] .g-share {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lab-space-1);
+  flex: none;
+  min-height: var(--lab-action-h);
+  padding: 0 var(--lab-space-3);
+  border-radius: var(--lab-radius-btn);
+  box-shadow: inset 0 0 0 var(--lab-border-width) var(--lab-text-3);
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+  transition: opacity var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-share .lab-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-share:active { opacity: .6; }
+[data-style="G"] .g-share:active .lab-icon { transform: scale(.9); }
+[data-style="G"] .g-share[disabled] { color: var(--lab-text-3); box-shadow: inset 0 0 0 var(--lab-border-width) var(--g-hairline); }
+
+/* ==========================================================================
+   6. 协作 — 现场台（分段 tab + 成员行 + 分车格）
+   ========================================================================== */
+
+[data-style="G"] .g-chead {
+  padding: var(--lab-space-6) var(--lab-page-x) var(--lab-space-4);
+  background: var(--lab-surface);
+}
+[data-style="G"] .g-chead__kick {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+}
+[data-style="G"] .g-chead__title {
+  margin-top: var(--lab-space-3);
+  font-family: var(--g-sans);
+  font-size: var(--lab-display-size);
+  font-weight: var(--lab-display-weight);
+  line-height: var(--lab-display-lh);
+  letter-spacing: var(--lab-display-ls);
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-chead__sub {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+
+/* 分段 tabs：Silver 轨道 + 计数 + 激活态用 Coal 轨 + 品牌橙计数 */
+[data-style="G"] .g-seg {
+  margin: var(--lab-space-4) 0 0;
+  padding: var(--lab-space-1);
+  gap: var(--lab-space-1);
+  border-radius: var(--lab-radius-chip);
+  background: var(--lab-surface-2);
+}
+[data-style="G"] .g-zone__body > .g-seg { margin-top: 0; }
+[data-style="G"] .g-tabbody { margin-top: var(--lab-space-3); }
+[data-style="G"] .g-seg .seg__item {
+  min-height: calc(var(--lab-touch) - var(--lab-space-2));
+  padding: 0 var(--lab-space-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border-radius: var(--lab-radius-chip);
+  border-bottom: 0;
+  font-size: var(--lab-caption-size);
+  font-weight: 600;
+  color: var(--lab-text-2);
+  transition: background var(--g-move-fast) var(--lab-ease), color var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-seg .seg__item:active { opacity: .72; }
+[data-style="G"] .g-seg .seg__item.is-active {
+  background: var(--lab-surface);
+  color: var(--lab-text-1);
+  font-weight: 700;
+  box-shadow: var(--lab-shadow-1);
+}
+[data-style="G"] .g-seg .seg__item .n {
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-seg .seg__item.is-active .n { color: var(--lab-action); }
+
+/* 成员行（总览 / 名单 / 现场共用）：头像 + 姓名 · 角色 + 车座 + 右侧开关 */
+[data-style="G"] .g-mrow {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-3);
+  min-height: var(--lab-row-h);
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-mrow:last-child { border-bottom: 0; }
+[data-style="G"] .g-mrow__face {
+  width: var(--g-avatar);
+  height: var(--g-avatar);
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--lab-surface-2);
+  font-size: var(--lab-caption-size);
+  font-weight: 700;
+  color: var(--lab-text-2);
+}
+[data-style="G"] .g-mrow.is-me .g-mrow__face { background: var(--lab-action); color: var(--lab-action-text); }
+[data-style="G"] .g-mrow__main { flex: 1; min-width: 0; }
+[data-style="G"] .g-mrow__name {
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-mrow__meta {
+  font-size: var(--lab-kicker-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+[data-style="G"] .g-mrow__side { margin-left: auto; flex: none; }
+[data-style="G"] .g-mrow.is-arrived .g-mrow__meta { color: var(--lab-success); }
+
+/* 签到开关：功能性控件描边用 --lab-text-3；开态 = 成功语义色（不用橙色抢 CTA） */
+[data-style="G"] .g-toggle {
+  flex: none;
+  width: var(--lab-touch);
+  height: var(--lab-touch);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lab-text-3);
+  transition: transform var(--g-move-fast) var(--lab-ease), color var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-toggle:active { transform: scale(.86); }
+[data-style="G"] .g-toggle.is-on { color: var(--lab-success); }
+[data-style="G"] .g-toggle.is-disabled { color: var(--lab-border-strong); cursor: default; }
+[data-style="G"] .g-toggle.is-disabled:active { transform: none; }
+/* 名单行内的签到格：不撑行高的方形格 */
+[data-style="G"] .g-toggle--cell {
+  width: var(--lab-space-8);
+  height: var(--lab-space-8);
+  margin-left: 0;
+  border-radius: var(--lab-radius-btn);
+  box-shadow: inset 0 0 0 var(--lab-border-width) var(--lab-text-3);
+}
+[data-style="G"] .g-toggle--cell.is-on { box-shadow: inset 0 0 0 var(--lab-border-width) var(--lab-success); }
+[data-style="G"] .g-toggle--cell.is-disabled { box-shadow: inset 0 0 0 var(--lab-border-width) var(--g-hairline); }
+
+/* 分车格：每车一张卡 + 座位矩阵（司机位用 Coal 面，不用橙色） */
+[data-style="G"] .g-veh { margin-top: var(--lab-space-3); }
+[data-style="G"] .g-veh:first-child { margin-top: 0; }
+[data-style="G"] .g-veh__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-2);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-veh__name {
+  font-size: var(--lab-body-size);
+  font-weight: 700;
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-veh__plate {
+  font-size: var(--lab-kicker-size);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="G"] .g-veh__load {
+  margin-left: auto;
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  color: var(--lab-text-2);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="G"] .g-veh__load.is-full { color: var(--lab-text-3); }
+[data-style="G"] .g-seats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--lab-space-1);
+  margin-top: var(--lab-space-2);
+}
+[data-style="G"] .g-seat {
+  min-height: var(--lab-space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  min-width: 0;
+  padding: var(--lab-space-1) 2px;
+  border-radius: var(--lab-radius-btn);
+  background: var(--lab-surface-2);
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  color: var(--lab-text-1);
+  overflow: hidden;
+  text-align: center;
+}
+[data-style="G"] .g-seat span,
+[data-style="G"] .g-seat small {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--lab-kicker-size);
+}
+[data-style="G"] .g-seat small { font-weight: 500; color: var(--lab-text-3); }
+[data-style="G"] .g-seat--free {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--g-hairline);
+  color: var(--lab-text-3);
+}
+[data-style="G"] .g-seat--driver {
+  background: var(--lab-dark-block);
+  color: var(--lab-on-dark);
+}
+[data-style="G"] .g-seat--driver small { color: var(--lab-on-dark); opacity: .78; }
+[data-style="G"] .g-seat--you { box-shadow: inset 0 0 0 var(--lab-rule-strong-w) var(--lab-action); }
+[data-style="G"] .g-seat--full { grid-column: 1 / -1; flex-direction: row; gap: var(--lab-space-2); }
+
+/* 下一步：白卡 + 一条浅橙顶规（限量强调，图形通道） */
+[data-style="G"] .g-next {
+  margin-top: var(--lab-space-3);
+  padding: var(--lab-space-3);
+  border-radius: var(--lab-radius-card);
+  background: var(--lab-surface-2);
+  border-top: var(--lab-rule-strong-w) solid var(--g-orange-light);
+}
+[data-style="G"] .g-next__text {
+  margin-top: var(--lab-space-1);
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-next__cta { margin-top: var(--lab-space-3); }
+[data-style="G"] .g-next__cta.is-sent {
+  background: transparent;
+  color: var(--lab-success);
+  box-shadow: inset 0 0 0 var(--lab-border-width) var(--lab-success);
+}
+[data-style="G"] .g-next__cta.is-sent:active { transform: none; }
+
+/* ==========================================================================
+   7. 天气 — 气象卡（日卡 + 48 小时曲线 + 窗口判定 + 决策条）
+   ========================================================================== */
+
+[data-style="G"] .g-brief {
+  padding: var(--lab-space-6) var(--lab-page-x) var(--lab-space-4);
+  background: var(--lab-surface);
+}
+[data-style="G"] .g-brief__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lab-space-3);
+}
+[data-style="G"] .g-brief__title {
+  margin-top: var(--lab-space-3);
+  font-family: var(--g-sans);
+  font-size: var(--lab-title-size);
+  font-weight: var(--lab-title-weight);
+  line-height: var(--lab-title-lh);
+  color: var(--lab-text-1);
+}
+[data-style="G"] .g-brief__stand {
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-2);
+}
+
+/* 决策条：一屏一次的 metric-display + 结论句 */
+[data-style="G"] .g-decide {
+  margin-top: var(--lab-space-3);
+  padding: var(--lab-space-3);
+  border-radius: var(--lab-radius-card);
+  background: var(--lab-surface-2);
+}
+[data-style="G"] .g-decide__k {
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-3);
+}
+[data-style="G"] .g-decide__row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-3);
+  margin-top: var(--lab-space-1);
+}
+[data-style="G"] .g-decide__text {
+  min-width: 0;
+  margin-top: var(--lab-space-2);
+  font-size: var(--lab-caption-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-2);
+}
+
+/* 图例：三条编码（折线 / 柱形 / 底纹）+ 关键窗口短条 */
+[data-style="G"] .g-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lab-space-2) var(--lab-space-4);
+  margin-top: var(--lab-space-3);
+  font-size: var(--lab-kicker-size);
+  letter-spacing: .3px;
+  color: var(--lab-text-2);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-legend__item { display: inline-flex; align-items: center; gap: var(--lab-space-1); white-space: nowrap; }
+[data-style="G"] .g-legend__sw { width: var(--lab-space-3); height: var(--lab-space-3); flex: none; display: inline-block; }
+[data-style="G"] .g-legend__sw--temp { height: 2px; background: var(--lab-border-strong); }
+[data-style="G"] .g-legend__sw--precip { width: 4px; background: var(--lab-info); opacity: .5; }
+[data-style="G"] .g-legend__sw--night { background: var(--lab-surface-2); box-shadow: inset 0 0 0 1px var(--lab-border); }
+[data-style="G"] .g-legend__sw--cloud { width: var(--lab-space-4); height: 3px; background: var(--g-orange); }
+[data-style="G"] .g-legend__sw--rain { width: var(--lab-space-4); height: 3px; background: var(--lab-info); }
+[data-style="G"] .g-legend__note {
+  margin-top: var(--lab-space-1);
+  font-size: var(--lab-kicker-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-legend__note b { font-weight: 700; color: var(--lab-text-2); }
+[data-style="G"] .g-legend__note > span { display: inline-flex; align-items: center; gap: var(--lab-space-1); }
+[data-style="G"] .g-legend__note > span + span { margin-left: var(--lab-space-2); }
+
+/* 48 小时曲线 */
+[data-style="G"] .g-spark {
+  position: relative;
+  height: calc(var(--g-cover-h) * .56);
+  margin-top: var(--lab-space-3);
+}
+[data-style="G"] .g-spark__plot { position: absolute; inset: 0; }
+[data-style="G"] .g-spark__plot svg { display: block; width: 100%; height: 100%; }
+[data-style="G"] .g-spark__cursor {
+  position: absolute;
+  top: var(--lab-space-3);
+  bottom: var(--lab-space-5);
+  left: 0;
+  width: var(--lab-border-width);
+  background: var(--lab-border-strong);
+  pointer-events: none;
+}
+[data-style="G"] .g-spark__dot {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--lab-space-2);
+  height: var(--lab-space-2);
+  border-radius: 50%;
+  background: var(--lab-border-strong);
+  transform: translate(-50%, -50%);
+}
+[data-style="G"] .g-spark__tag {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + var(--lab-space-1));
+  transform: translateY(-50%);
+  padding: 0 3px;
+  border-radius: 2px;
+  background: var(--lab-surface);
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: var(--lab-text-1);
+  white-space: nowrap;
+  font-variant-numeric: var(--lab-num-spacing);
+  transition: left var(--g-move-fast) var(--lab-ease), right var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-spark__tag.is-left { left: auto; right: calc(100% + var(--lab-space-1)); }
+[data-style="G"] .g-spark__rail { position: absolute; inset: 0; display: flex; }
+[data-style="G"] .g-spark__hit {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transition: background var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .g-spark__hit:hover { background: var(--lab-surface-2); }
+[data-style="G"] .g-spark__hit:active { background: var(--lab-border); }
+[data-style="G"] .g-spark__hit.is-on { background: var(--lab-surface-2); }
+[data-style="G"] .g-spark__rail.is-locked { pointer-events: none; opacity: .6; }
+
+/* 数据表行：每一行自己就是一条栅格（时段 + 四项读数，单位退位）
+   三种骨架：--h 五列逐时 / --win 五列窗口（判定列更宽）/ --read 两列读数面板 */
+[data-style="G"] .g-dt {
+  display: grid;
+  grid-template-columns: calc(var(--lab-space-8)) repeat(4, minmax(0, 1fr));
+  gap: var(--lab-space-1);
+  align-items: baseline;
+  padding: var(--lab-space-2) 0;
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-dt:last-child { border-bottom: 0; }
+[data-style="G"] .g-dt--head {
+  border-bottom: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="G"] .g-dt--head .g-dt__k {
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  letter-spacing: .3px;
+  color: var(--lab-text-3);
+  white-space: nowrap;
+}
+[data-style="G"] .g-dt.is-on { background: var(--lab-surface-2); }
+[data-style="G"] .g-dt.is-locked { opacity: .6; }
+[data-style="G"] .g-dt__t {
+  font-size: var(--lab-kicker-size);
+  font-weight: 700;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+  min-width: 0;
+}
+[data-style="G"] .g-dt__v {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 2px;
+  min-width: 0;
+  font-size: var(--lab-body-size);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+[data-style="G"] .g-dt__u {
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  font-weight: 500;
+  color: var(--lab-text-3);
+  font-variant-numeric: normal;
+}
+[data-style="G"] .g-dt__w {
+  min-width: 0;
+  font-size: var(--lab-caption-size);
+  font-weight: 600;
+  color: var(--lab-text-1);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+[data-style="G"] .g-dt__w.is-off { color: var(--lab-text-3); font-weight: 500; }
+
+/* 窗口行：时段独占一格 + 判定 + 三项均值（口径与逐时一致） */
+[data-style="G"] .g-dt--win {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) repeat(3, minmax(0, .68fr));
+  gap: var(--lab-space-2);
+}
+[data-style="G"] .g-dt--win .g-dt__t { white-space: normal; }
+
+/* 读数面板（选中小时）：两列 label / value */
+[data-style="G"] .g-dt--read { grid-template-columns: 1fr 1fr; column-gap: var(--lab-space-5); }
+[data-style="G"] .g-dt--read .g-dt__t {
+  font-weight: 600;
+  color: var(--lab-text-3);
+  letter-spacing: var(--lab-kicker-ls);
+}
+[data-style="G"] .g-readout { margin-top: var(--lab-space-3); }
+
+/* 日卡：白卡内再分日，每一日头一条日期 + 当日极值 */
+[data-style="G"] .g-day { margin-top: var(--lab-space-3); }
+[data-style="G"] .g-day:first-child { margin-top: 0; }
+[data-style="G"] .g-day__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lab-space-2);
+  padding-bottom: var(--lab-space-2);
+  border-bottom: var(--lab-border-width) solid var(--lab-border);
+}
+[data-style="G"] .g-day__date {
+  font-size: var(--lab-caption-size);
+  font-weight: 700;
+  color: var(--lab-text-1);
+  font-variant-numeric: var(--lab-num-spacing);
+}
+[data-style="G"] .g-day__w { font-size: var(--lab-kicker-size); font-weight: 600; color: var(--lab-text-3); }
+[data-style="G"] .g-day__meta {
+  margin-left: auto;
+  flex: none;
+  font-size: var(--lab-kicker-size);
+  color: var(--lab-text-3);
+  font-variant-numeric: var(--lab-num-spacing);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   8. 状态块（空 / 错 / 禁用：文字 + Asphalt 弱化，绝不做红色警报块）
+   ========================================================================== */
+
+[data-style="G"] .g-state {
+  margin-top: var(--lab-section-gap);
+  padding: var(--lab-space-4);
+  background: var(--lab-surface);
+  border-radius: var(--lab-radius-card);
+}
+[data-style="G"] .g-state--fill {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(var(--lab-space-8) * 8);
+}
+[data-style="G"] .g-discover .g-state--fill { min-height: calc(var(--lab-space-8) * 10); }
+[data-style="G"] .g-collab .g-state--fill { min-height: calc(var(--lab-space-8) * 7); }
+[data-style="G"] .g-weather .g-state--fill { min-height: calc(var(--lab-space-8) * 6); }
+[data-style="G"] .g-state + .footnote { margin-top: var(--lab-space-4); }
+
+[data-style="G"] .state-block {
+  padding: var(--lab-space-7) var(--lab-space-2);
+  gap: var(--lab-space-2);
+  color: var(--lab-text-2);
+}
+[data-style="G"] .state-block .lab-icon { width: 24px; height: 24px; color: var(--lab-text-3); }
+[data-style="G"] .state-block__title {
+  font-family: var(--g-sans);
+  font-size: var(--lab-title-size);
+  font-weight: var(--lab-title-weight);
+  line-height: var(--lab-title-lh);
+  color: var(--lab-text-1);
+}
+[data-style="G"] .state-block__body {
+  font-size: var(--lab-body-size);
+  line-height: var(--lab-body-lh);
+  color: var(--lab-text-2);
+  max-width: 30ch;
+}
+/* 错误态：Asphalt 弱化 + 一条深色顶规（不用三角图标、不用红块） */
+[data-style="G"] .state-block--error {
+  padding-top: var(--lab-space-6);
+  border-top: var(--lab-rule-strong-w) solid var(--lab-border-strong);
+}
+[data-style="G"] .state-block--error .state-block__title { color: var(--lab-text-1); }
+[data-style="G"] .state-block--error .lab-icon { color: var(--lab-text-3); }
+[data-style="G"] .state-block--off .state-block__title { color: var(--lab-text-3); }
+[data-style="G"] .state-block--off .lab-icon { color: var(--lab-text-3); }
+
+/* ==========================================================================
+   9. 共享词汇在 G 下的重定义
+   ========================================================================== */
+
+[data-style="G"] .btn {
+  font-family: var(--g-sans);
+  font-size: var(--lab-body-size);
+  font-weight: 700;
+  letter-spacing: .2px;
+  border-radius: var(--lab-radius-btn);
+}
+/* 主 CTA = #CC4200 实底 + 白字 4.83:1 */
+[data-style="G"] .btn--primary { background: var(--lab-action); color: var(--lab-action-text); }
+[data-style="G"] .btn--primary .lab-icon { width: 16px; height: 16px; }
+/* 次级按钮：功能性控件描边用 --lab-text-3 */
+[data-style="G"] .btn--secondary {
+  color: var(--lab-text-1);
+  box-shadow: inset 0 0 0 var(--lab-border-width) var(--lab-text-3);
+}
+[data-style="G"] .btn--sm { min-height: 34px; padding: 0 var(--lab-space-3); font-size: var(--lab-caption-size); font-weight: 700; }
+
+[data-style="G"] .badge { font-size: var(--lab-caption-size); }
+[data-style="G"] .badge::before { width: 6px; height: 6px; }
+
+[data-style="G"] .chip {
+  font-size: var(--lab-kicker-size);
+  font-weight: 600;
+  letter-spacing: var(--lab-kicker-ls);
+  color: var(--lab-text-2);
+  box-shadow: inset 0 0 0 1px var(--g-hairline);
+  background: transparent;
+}
+
+[data-style="G"] .photo { border-radius: var(--lab-radius-img); }
+[data-style="G"] .photo--fallback { background: var(--lab-surface-2); }
+[data-style="G"] .photo--fallback::after { background: none; }
+
+[data-style="G"] .skeleton { border-radius: var(--lab-radius-btn); }
+
+[data-style="G"] .footnote {
+  margin-top: var(--lab-section-gap);
+  padding-top: var(--lab-space-4);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  font-size: var(--lab-kicker-size);
+  line-height: var(--lab-caption-lh);
+  color: var(--lab-text-3);
+}
+[data-style="G"] .g-foot__credit { color: var(--lab-text-3); }
+[data-style="G"] .g-foot__note { margin-top: 2px; color: var(--lab-text-3); opacity: .8; }
+[data-style="G"] .g-lock + .footnote { margin-top: var(--lab-space-4); }
+
+[data-style="G"] .input {
+  padding: var(--lab-space-2) 0;
+  border-bottom: 0;
+}
+[data-style="G"] .input input { font-size: var(--lab-body-size); }
+[data-style="G"] .input .lab-icon { width: 16px; height: 16px; }
+
+[data-style="G"] .seg__item {
+  font-family: var(--g-sans);
+  font-size: var(--lab-caption-size);
+  transition: background var(--g-move-fast) var(--lab-ease),
+    color var(--g-move-fast) var(--lab-ease),
+    opacity var(--g-move-fast) var(--lab-ease);
+}
+[data-style="G"] .seg__item:active { opacity: .6; }
+
+[data-style="G"] .toast {
+  bottom: 88px;
+  font-size: var(--lab-caption-size);
+  font-weight: 600;
+  letter-spacing: .2px;
+  border-radius: var(--lab-radius-btn);
+  transform: translateX(-50%) translateY(12px) scale(.96);
+  transition: opacity 150ms var(--lab-ease), transform var(--g-move) var(--lab-ease);
+}
+[data-style="G"] .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+
+/* ==========================================================================
+   10. 骨架高度档位（数值即档位名，全部由令牌 / 版式尺寸给出）
+   ========================================================================== */
+
+[data-style="G"] .g-skel-11 { height: var(--lab-kicker-size); }
+[data-style="G"] .g-skel-13 { height: var(--lab-caption-size); }
+[data-style="G"] .g-skel-15 { height: var(--lab-body-size); }
+[data-style="G"] .g-skel-18 { height: var(--lab-section-size); }
+[data-style="G"] .g-skel-24 { height: var(--lab-title-size); }
+[data-style="G"] .g-skel-30 { height: var(--lab-display-size); }
+[data-style="G"] .g-skel-32 { height: var(--lab-data-size); }
+[data-style="G"] .g-skel-48 { height: var(--lab-action-h); }
+[data-style="G"] .g-skel-56 { height: var(--lab-row-h); }
+[data-style="G"] .g-skel-96 { height: calc(var(--g-cover-h) * .48); }
+[data-style="G"] .g-skel-112 { height: calc(var(--g-cover-h) * .56); }
+[data-style="G"] .g-skel-140 { height: calc(var(--g-cover-h) * .7); }
+[data-style="G"] .g-skel-200 { height: var(--g-cover-h); }

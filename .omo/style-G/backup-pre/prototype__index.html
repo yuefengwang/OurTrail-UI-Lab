@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-style="A" data-bare="0">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OurTrail · 视觉方向实验室</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/styles/A.css">
+  <link rel="stylesheet" href="css/styles/B.css">
+  <link rel="stylesheet" href="css/styles/C.css">
+  <link rel="stylesheet" href="css/styles/D.css">
+  <link rel="stylesheet" href="css/styles/E.css">
+  <link rel="stylesheet" href="css/styles/F.css">
+</head>
+<body>
+  <div class="lab">
+    <aside class="lab__panel" id="lab-panel"><!-- 控制面板由 app.js 构建 --></aside>
+
+    <main class="lab__stage">
+      <div class="device" id="device">
+        <div class="device__screen">
+          <div class="device__chrome">
+            <div class="statusbar">
+              <span id="statusbar-time">22:10</span>
+              <span class="statusbar__right">
+                <svg class="lab-icon" viewBox="0 0 24 24"><path d="M4 18V14M9 18V10.5M14 18V7M19 18V4"/></svg>
+                <svg class="lab-icon" viewBox="0 0 24 24"><path d="M6.8 18A4.2 4.2 0 0 1 7.1 9.7A5.6 5.6 0 0 1 17.6 11.2A3.4 3.4 0 0 1 17 18Z"/></svg>
+                <span class="statusbar__battery"></span>
+              </span>
+            </div>
+            <div class="capsulebar">
+              <div class="capsule">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span class="divider-v"></span>
+                <svg class="lab-icon" viewBox="0 0 24 24"><path d="M12 3.5A8.5 8.5 0 1 1 12 20.5A8.5 8.5 0 1 1 12 3.5ZM12 8A4 4 0 1 1 12 16A4 4 0 1 1 12 8Z"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="page-host" id="app" style="display:flex; flex-direction:column; flex:1; min-height:0;"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-root"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+﻿Style G (--audit) @ 2026-10-19 01:25
+  鉁?G/discover/375 (4065px, 725 chars)
+  鉁?G/discover/390 (4065px, 725 chars)
+  鉁?G/discover/414 (4065px, 725 chars)
+  鉁?G/detail/375 (2872px, 803 chars)
+  鉁?G/detail/390 (2856px, 803 chars)
+  鉁?G/detail/414 (2811px, 803 chars)
+  鉁?G/collab/375 (2062px, 608 chars)
+  鉁?G/collab/390 (2039px, 608 chars)
+  鉁?G/collab/414 (2039px, 608 chars)
+  鉁?G/weather/375 (2239px, 924 chars)
+  鉁?G/weather/390 (2200px, 924 chars)
+  鉁?G/weather/414 (2184px, 924 chars)
+  鉁?G/collab/390/empty (780px, 125 chars)
+  鉁?G/detail/390/empty (1197px, 209 chars)
+  鉁?G/weather/390/empty (780px, 116 chars)
+  鉁?G/discover/390/empty (780px, 140 chars)
+  鉁?G/collab/390/error (780px, 112 chars)
+  鉁?G/detail/390/error (780px, 72 chars)
+  鉁?G/weather/390/error (780px, 95 chars)
+  鉁?G/discover/390/error (780px, 134 chars)
+  鉁?G/collab/390/disabled (2097px, 629 chars)
+  鉁?G/detail/390/disabled (2932px, 842 chars)
+  鉁?G/weather/390/disabled (2276px, 952 chars)
+  鉁?G/discover/390/disabled (4141px, 753 chars)
+
+=== G/discover (4065px) 鍒嗗尯 0 涓?路 pageerror 0
+   婧㈠嚭: NONE
+   <11px 鏂囨湰: NONE
+
+=== G/detail (2856px) 鍒嗗尯 5 涓?路 pageerror 0
+   - -  鈫? rgb(255, 255, 255)
+   - -  鈫? rgb(255, 255, 255)
+   - -  鈫? rgb(255, 255, 255)
+   - -  鈫? rgb(255, 255, 255)
+   - -  鈫? rgb(255, 255, 255)
+   婧㈠嚭: NONE
+   <11px 鏂囨湰: NONE
+
+=== G/collab (2039px) 鍒嗗尯 3 涓?路 pageerror 0
+   - -  鈫? rgb(255, 255, 255)
+   - -  鈫? rgb(255, 255, 255)
+   - -  鈫? rgb(255, 255, 255)
+   婧㈠嚭: NONE
+   <11px 鏂囨湰: NONE
+
+=== G/weather (2200px) 鍒嗗尯 4 涓?路 pageerror 0
+   - -  鈫? rgb(255, 255, 255)
+   - -  鈫? rgb(255, 255, 255)
+   - -  鈫? rgb(255, 255, 255)
+   - -  鈫? rgb(255, 255, 255)
+   婧㈠嚭: NONE
+   <11px 鏂囨湰: NONE
+
+[dom-check] 24 pass / 0 fail
+[dom-check] ALL-PASS
+
+=====
+Style F
+  鉁?F/discover/375 (2810px, 923 chars)
+  鉁?F/discover/390 (2810px, 923 chars)
+  鉁?F/discover/414 (2720px, 923 chars)
+  鉁?F/detail/375 (3087px, 868 chars)
+  鉁?F/detail/390 (3087px, 868 chars)
+  鉁?F/detail/414 (3087px, 868 chars)
+  鉁?F/collab/375 (2468px, 652 chars)
+  鉁?F/collab/390 (2468px, 652 chars)
+  鉁?F/collab/414 (2444px, 652 chars)
+  鉁?F/weather/375 (2109px, 985 chars)
+  鉁?F/weather/390 (2085px, 985 chars)
+  鉁?F/weather/414 (2026px, 985 chars)
+  鉁?F/collab/390/empty (780px, 136 chars)
+  鉁?F/detail/390/empty (1438px, 195 chars)
+  鉁?F/weather/390/empty (781px, 96 chars)
+  鉁?F/discover/390/empty (1147px, 246 chars)
+  鉁?F/collab/390/error (780px, 123 chars)
+  鉁?F/detail/390/error (786px, 76 chars)
+  鉁?F/weather/390/error (780px, 75 chars)
+  鉁?F/discover/390/error (780px, 140 chars)
+  鉁?F/collab/390/disabled (2511px, 673 chars)
+  鉁?F/detail/390/disabled (3130px, 899 chars)
+  鉁?F/weather/390/disabled (2128px, 1013 chars)
+  鉁?F/discover/390/disabled (2853px, 949 chars)
+
+[dom-check] 24 pass / 0 fail
+[dom-check] ALL-PASS
+
