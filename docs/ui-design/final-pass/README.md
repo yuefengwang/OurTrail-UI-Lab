@@ -1,6 +1,7 @@
 # OurTrail Final Pass — 交付索引
 
-> 分支：`final-pass`（从 `main` / `3f6a445` 切出；未提交、未 push）
+> **状态（2026-10-20 视觉冻结）**：本目录是功能 / 角色 / 事务验证原型，**不是当前视觉基线**。唯一视觉基线见 `docs/ui-design/visual-direction-lab/F-visual-freeze.md`（`style=F`）。这里保留为生产迁移的行为参考，不与 F 混用 token。
+> 分支：`final-pass`（从 `main` / `3f6a445` 切出；已随 Round 5 合入 main 并 push）
 > 范围：UI Lab only；`D:\OurTrail` 只读。
 > 日期：2026-10-20
 

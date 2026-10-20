@@ -29,8 +29,8 @@
   --lab-surface: #FCFAF4;
   --lab-surface-2: #E8E3D7;
   --lab-text-1: #1B241F;
-  --lab-text-2: #58645A;
-  --lab-text-3: #828A7D;
+  --lab-text-2: #4C584E;
+  --lab-text-3: #5D685C;
   --lab-border: #D8D2C3;
   --lab-border-strong: #1B241F;
   /* ---------- 色义分工（C1/C2：锈色只表警示，三套绿互斥）----------
@@ -80,6 +80,20 @@
 
   /* ---------- F 专属令牌 ---------- */
   --f-serif: Georgia, "Songti SC", "Noto Serif SC", "SimSun", serif;
+  /* 无衬线刊头/状态句：比基础字阶更紧一档，仍从同一 display token 起算 */
+  --f-display-weight: 750;
+  --f-display-lh: 1.18;
+  --f-display-ls: -0.5px;
+  --f-section-weight: 650;
+  --f-section-ls: -0.1px;
+  --f-row-title-size: 14px;
+  --f-row-title-weight: 650;
+  --f-meta-size: 11px;
+  --f-quote-size: 14px;
+  --f-quote-lh: 1.6;
+  --f-thumb-w: 64px;
+  --f-thumb-h: 48px;
+  --f-hero-h-sm: 200px;
   /* 摄影纪律：few but heavy —— 一级照片 16:10 满幅，二级 3:2 满幅，每页至多两张 */
   --f-cover-h: 244px;    /* 一级：头条 / 特稿头图（16:10 满幅） */
   --f-lead-h: 156px;     /* 二级：专题领图（3:2 满幅） */
@@ -93,7 +107,7 @@
   --f-paper-sheet: #FCFAF4;
   --f-paper-oat: #E8E3D7;
   /* 状态表达（C）：文字色而非色块 */
-  --f-state-quiet: #858C7F;
+  --f-state-quiet: #6B7569;
   --f-state-error: #A4562F;
   --f-move-fast: 150ms;
   --f-move: 210ms;
@@ -783,8 +797,9 @@
 /* 紧凑台账（D1）：逐时/窗口判定表每行压到单行，行高由 --lab-row-h 的台面高降到字高 */
 [data-style="F"] .f-ledger--tight .f-ledger__head { padding: var(--lab-space-1) 0; }
 [data-style="F"] .f-ledger--tight .f-ledger__row {
-  min-height: 0;
-  padding: var(--lab-space-1) 0;
+  min-height: var(--lab-touch);
+  padding: 0;
+  align-items: center;
 }
 /* V2-6：逐时判定是六列密集表，8px 槽位在 375 上不够放六列真实读数 —— 单独收成 4px 槽位。
    窗口判定（5 列，1.6fr…）槽位不变。 */
@@ -909,12 +924,30 @@
 [data-style="F"] .f-masthead { padding-top: var(--lab-space-6); }
 [data-style="F"] .f-masthead__issue {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--lab-space-3);
   padding-bottom: var(--lab-space-2);
   border-bottom: var(--lab-border-width) solid var(--lab-border);
 }
+[data-style="F"] .f-masthead__tools {
+  display: flex;
+  align-items: center;
+  gap: var(--lab-space-2);
+}
+[data-style="F"] .f-masthead__search {
+  width: var(--lab-touch);
+  height: var(--lab-touch);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lab-text-2);
+  border-left: var(--lab-border-width) solid var(--lab-border);
+  transition: color var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-masthead__search .lab-icon { width: 18px; height: 18px; }
+[data-style="F"] .f-masthead__search:active { color: var(--lab-brand); }
+[data-style="F"] .f-masthead__search[disabled] { color: var(--lab-text-3); opacity: .55; }
 [data-style="F"] .f-masthead__title {
   font-family: var(--f-serif);
   font-size: calc(var(--lab-display-size) * 1.2);
@@ -942,8 +975,10 @@
 [data-style="F"] .f-tabs__item {
   position: relative;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--lab-space-1);
+  min-width: var(--lab-touch);
+  min-height: var(--lab-touch);
   padding: 0 0 var(--lab-space-2);
   font-size: var(--lab-body-size);
   color: var(--lab-text-2);
@@ -970,11 +1005,19 @@
 }
 
 [data-style="F"] .f-search {
+  min-height: var(--lab-touch);
+  padding: 0;
   transition: border-color var(--f-move-fast) var(--lab-ease), color var(--f-move-fast) var(--lab-ease);
 }
+[data-style="F"] .f-search input { height: var(--lab-touch); }
 [data-style="F"] .f-search:focus-within { border-bottom-color: var(--lab-border-strong); }
 [data-style="F"] .f-search:focus-within .lab-icon { color: var(--lab-brand); }
 [data-style="F"] .f-search__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: var(--lab-touch);
+  min-height: var(--lab-touch);
   font-size: var(--lab-caption-size);
   color: var(--lab-text-3);
   opacity: 0;
@@ -1247,6 +1290,57 @@
   margin-top: var(--lab-space-1);
 }
 
+/* 路线示意：节点顺序来自行程，几何是示意图，不是导航地图 */
+[data-style="F"] .f-route-map {
+  margin-top: var(--lab-space-3);
+  border: var(--lab-border-width) solid var(--lab-border);
+  background: var(--f-paper-sheet);
+  border-radius: var(--lab-radius-img);
+  overflow: hidden;
+}
+[data-style="F"] .f-route-map svg { display: block; width: 100%; height: auto; }
+[data-style="F"] .f-route-map__legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 7px var(--lab-space-3);
+  border-top: var(--lab-border-width) solid var(--lab-border);
+  font-size: var(--f-meta-size);
+  line-height: 1.4;
+  color: var(--lab-text-3);
+}
+[data-style="F"] .f-route-map__key { display: inline-flex; align-items: center; gap: 5px; }
+[data-style="F"] .f-route-map__key i {
+  width: 5px; height: 5px; flex: none; border-radius: 50%; background: var(--lab-brand);
+}
+[data-style="F"] .f-route-map__key--summit i { background: var(--lab-border-strong); }
+[data-style="F"] .f-route-map__note { margin-left: auto; }
+
+/* 详情返回：只在详情头图出现；44px 触控，纸底方章，不另造圆形控件 */
+[data-style="F"] .f-hero__back {
+  position: absolute;
+  left: var(--lab-page-x);
+  top: var(--lab-space-3);
+  z-index: 3;
+  width: var(--lab-touch);
+  height: var(--lab-touch);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--f-paper-sheet);
+  color: var(--lab-text-1);
+  border: var(--lab-border-width) solid var(--lab-border);
+  border-radius: var(--lab-radius-btn);
+  transition: opacity var(--f-move-fast) var(--lab-ease);
+}
+[data-style="F"] .f-hero__back .lab-icon { transform: scaleX(-1); }
+[data-style="F"] .f-hero__back:active { opacity: .65; }
+[data-style="F"] .f-hero--void .f-hero__back {
+  background: transparent;
+  border-color: var(--lab-border-strong);
+}
+
 /* 海拔剖面（D 的工具件 × 纸滤：发丝基线 + 品牌墨线 + 陶土登顶标记） */
 [data-style="F"] .f-profile { margin-top: var(--lab-space-3); }
 [data-style="F"] .f-profile__plot { position: relative; height: var(--f-profile-h); }
@@ -1409,10 +1503,10 @@
 [data-style="F"] .f-chead { padding-top: var(--lab-space-6); }
 [data-style="F"] .f-headline {
   font-family: inherit;
-  font-size: 30px;
-  font-weight: 750;
-  line-height: 1.18;
-  letter-spacing: -.5px;
+  font-size: var(--lab-display-size);
+  font-weight: var(--f-display-weight);
+  line-height: var(--f-display-lh);
+  letter-spacing: var(--f-display-ls);
   margin-top: var(--lab-space-3);
 }
 [data-style="F"] .f-chead__sub {
@@ -1615,10 +1709,10 @@
 }
 [data-style="F"] .f-brief__headline {
   font-family: inherit;
-  font-size: 30px;
-  font-weight: 750;
-  line-height: 1.18;
-  letter-spacing: -.5px;
+  font-size: var(--lab-display-size);
+  font-weight: var(--f-display-weight);
+  line-height: var(--f-display-lh);
+  letter-spacing: var(--f-display-ls);
   margin-top: var(--lab-space-3);
 }
 [data-style="F"] .f-brief__stand {
@@ -1906,13 +2000,13 @@
 [data-style="F"] .btn--primary { background: var(--lab-action); color: var(--lab-action-text); }
 [data-style="F"] .btn--primary .lab-icon { width: 16px; height: 16px; }
 [data-style="F"] .btn--secondary { color: var(--lab-brand); box-shadow: inset 0 0 0 var(--lab-border-width) var(--lab-brand); }
-[data-style="F"] .btn--sm { min-height: 34px; padding: 0 12px; font-size: var(--lab-caption-size); font-weight: 600; }
+[data-style="F"] .btn--sm { min-height: var(--lab-touch); padding: 0 14px; font-size: var(--lab-caption-size); font-weight: 600; }
 
 [data-style="F"] .badge { font-size: var(--lab-caption-size); }
 [data-style="F"] .badge::before { width: 5px; height: 5px; border-radius: 0; }
 
 [data-style="F"] .photo { border-radius: var(--lab-radius-img); }
-[data-style="F"] .photo__credit { font-size: 11px; }
+[data-style="F"] .photo__credit { font-size: var(--f-meta-size); }
 
 [data-style="F"] .skeleton { border-radius: 0; background: rgba(27, 36, 31, .08); }
 [data-style="F"] .f-zone--oat .skeleton { background: rgba(27, 36, 31, .12); }
@@ -1981,33 +2075,34 @@
 }
 [data-style="F"] .f-masthead__title {
   font-family: inherit;
-  font-size: 30px;
-  font-weight: 750;
-  letter-spacing: -0.5px;
+  font-size: var(--lab-display-size);
+  font-weight: var(--f-display-weight);
+  line-height: var(--f-display-lh);
+  letter-spacing: var(--f-display-ls);
 }
 [data-style="F"] .f-quote {
   font-family: inherit;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: var(--f-quote-size);
+  line-height: var(--f-quote-lh);
   color: var(--lab-text-1);
   padding-left: 10px;
   border-left: 2px solid var(--lab-border);
 }
 [data-style="F"] .f-zone__tab--plain { padding-left: 0; }
 [data-style="F"] .f-zone__tab--plain .f-zone__name {
-  font-size: 17px;
-  font-weight: 650;
-  letter-spacing: -0.1px;
+  font-size: var(--lab-section-size);
+  font-weight: var(--f-section-weight);
+  letter-spacing: var(--f-section-ls);
 }
 [data-style="F"] .f-zone__tab--plain .f-zone__meta {
-  font-size: 11px;
+  font-size: var(--f-meta-size);
   letter-spacing: 0;
 }
 [data-style="F"] .f-sheet__title {
   font-family: inherit;
-  font-size: 17px;
-  font-weight: 650;
-  letter-spacing: -0.1px;
+  font-size: var(--lab-section-size);
+  font-weight: var(--f-section-weight);
+  letter-spacing: var(--f-section-ls);
 }
 [data-style="F"] .f-narr__d { font-family: inherit; }
 [data-style="F"] .f-feature__meet {
@@ -2026,20 +2121,20 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 44px;
+  height: var(--lab-touch);
   padding: 0 16px;
   background: var(--lab-action);
   color: var(--lab-action-text);
   border-radius: var(--lab-radius-btn);
-  font-size: 14px;
+  font-size: var(--lab-body-size);
   font-weight: 600;
 }
 [data-style="F"] .f-quad__cell.is-lead { flex: 1.15; }
 [data-style="F"] .f-quad__cell.is-lead .f-quad__v { font-size: var(--f-readout-size); font-weight: var(--f-readout-weight); letter-spacing: -0.5px; }
-[data-style="F"] .f-quad__cell.is-lead .f-quad__u { font-size: 11px; }
+[data-style="F"] .f-quad__cell.is-lead .f-quad__u { font-size: var(--f-meta-size); }
 [data-style="F"] .f-hero__status {
   margin-top: 5px;
-  font-size: 12px;
+  font-size: var(--lab-caption-size);
   font-weight: 600;
   color: var(--lab-on-dark);
   opacity: .92;
@@ -2058,22 +2153,22 @@
   font-variant-numeric: var(--lab-num-spacing);
 }
 [data-style="F"] .f-wrow__d { font-size: 15px; font-weight: 700; line-height: 1.1; letter-spacing: -.2px; }
-[data-style="F"] .f-wrow__w { font-size: 11px; color: var(--lab-text-3); line-height: 1.25; }
-[data-style="F"] .f-wrow__thumb { width: 64px; height: 48px; }
+[data-style="F"] .f-wrow__w { font-size: var(--f-meta-size); color: var(--lab-text-3); line-height: 1.25; }
+[data-style="F"] .f-wrow__thumb { width: var(--f-thumb-w); height: var(--f-thumb-h); }
 [data-style="F"] .f-wrow__thumb .photo { height: 100%; }
 [data-style="F"] .f-wrow__title {
   font-family: inherit;
-  font-size: 14px;
-  font-weight: 650;
+  font-size: var(--f-row-title-size);
+  font-weight: var(--f-row-title-weight);
   line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-[data-style="F"] .f-wrow__meta { font-size: 11px; line-height: 1.4; margin-top: 2px; }
+[data-style="F"] .f-wrow__meta { font-size: var(--f-meta-size); line-height: 1.4; margin-top: 2px; }
 [data-style="F"] .f-wrow__nums { width: 56px; gap: 3px; }
-[data-style="F"] .f-wrow__seats { font-size: 12px; }
+[data-style="F"] .f-wrow__seats { font-size: var(--lab-caption-size); }
 [data-style="F"] .f-wrow__when { display: none; }
 
 [data-style="F"] .f-month--past { margin-top: var(--lab-space-5); }
@@ -2081,5 +2176,5 @@
 
 /* 375 短屏：详情头图让出 44px，费用进入首屏；390 / 414 保持 244 */
 @media (max-width: 380px) {
-  [data-style="F"] .f-hero__media { height: 200px; }
+  [data-style="F"] .f-hero__media { height: var(--f-hero-h-sm); }
 }

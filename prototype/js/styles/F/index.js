@@ -374,7 +374,18 @@ export function renderDiscover(ctx) {
   const masthead = el('header.f-masthead',
     el('div.f-masthead__issue',
       kick('成都周边'),
-      el('div.f-caption.c3', { text: '10 月 17 日' })),
+      el('div.f-masthead__tools',
+        el('div.f-caption.c3', { text: '10 月 17 日' }),
+        el('button.f-masthead__search', {
+          type: 'button', 'aria-label': '搜索路线', disabled: locked,
+          onclick: () => {
+            const input = page.querySelector('.f-search input');
+            if (input) {
+              input.focus();
+              input.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
+          },
+        }, icon('search')))),
     el('h1.f-masthead__title', { text: '发现' }),
     el('p.f-masthead__lede', {
       text: '按出发时间排序，报名中的路线排在最前。',
@@ -548,16 +559,22 @@ export function renderDiscover(ctx) {
 /** 头图：整版照片 + 压字 scrim + 衬线标题 + 副题；已取消的活动退化为纸面底 */
 function detailHero(a, opts) {
   const o = opts || {};
+  const back = o.onBack
+    ? el('button.f-hero__back', { type: 'button', 'aria-label': '返回发现', onclick: o.onBack },
+      icon('arrow-right'))
+    : null;
   if (o.void) {
     return el('div.f-bleed.f-hero.f-hero--void',
       el('div.f-hero__media',
         cover(a.cover, a.title + ' 氛围封面'),
         el('div.f-hero__veil'),
+        back,
         el('div.f-hero__voidtag', kick(a.dateText + ' ' + a.weekdayText + ' · ' + a.status))));
   }
   return el('div.f-bleed.f-hero',
     el('div.f-hero__media',
       cover(a.cover, a.title + ' 氛围封面'),
+      back,
       el('div.f-hero__body',
         kick(a.dateText + ' ' + a.weekdayText + ' · ' + a.timeText, 'f-hero__kicker'),
         el('h1.f-hero__title', { text: a.title }),
@@ -659,6 +676,61 @@ function profileSVG(model) {
   return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" height="' + H + '" aria-hidden="true">' + s + '</svg>';
 }
 
+/** 路线示意：节点顺序来自行程；几何是示意图，不是导航地图，也不伪造坐标 */
+function routeMapSVG(model) {
+  const W = 342, H = 184;
+  const XY = [
+    [0.10, 0.80], [0.19, 0.65], [0.31, 0.55], [0.42, 0.40],
+    [0.54, 0.24], [0.66, 0.38], [0.77, 0.60], [0.88, 0.80],
+  ].map(([x, y]) => [x * W, y * H]);
+  const d = XY.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const si = model.summitAt;
+  let s = '';
+
+  const contours = [
+    'M 18 148 C 52 118 36 82 92 52 C 148 22 214 26 260 58 C 306 90 322 128 296 156 C 270 184 190 172 140 158 C 90 144 44 168 18 148 Z',
+    'M 40 140 C 70 116 58 88 104 66 C 150 44 204 44 242 70 C 280 96 292 124 272 144 C 250 166 186 156 148 144 C 108 132 68 156 40 140 Z',
+    'M 64 132 C 86 112 82 92 118 78 C 154 62 196 62 224 82 C 252 102 262 120 246 136 C 230 152 184 144 154 134 C 124 124 90 144 64 132 Z',
+    'M 92 122 C 108 108 110 96 136 90 C 162 82 192 84 208 98 C 226 112 230 122 218 132 C 206 142 176 136 156 128 C 136 120 112 132 92 122 Z',
+  ];
+  contours.forEach((c) => {
+    s += '<path d="' + c + '" fill="none" stroke="var(--lab-border)" stroke-width="1" opacity=".8"/>';
+  });
+
+  s += '<g opacity=".8"><path d="M312 24 L318 38 L312 34 L306 38 Z" fill="var(--lab-text-3)"/>'
+    + '<text x="312" y="18" text-anchor="middle" font-size="11" fill="var(--lab-text-3)" font-family="inherit">N</text></g>';
+
+  s += '<path d="' + d + '" fill="none" stroke="var(--f-paper-sheet)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
+  s += '<path d="' + d + '" fill="none" stroke="var(--lab-brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+
+  model.pts.forEach((p, i) => {
+    const [x, y] = XY[i];
+    s += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + (i === si ? 4 : 2.5)
+      + '" fill="var(--lab-brand)"/>';
+    if (i !== 0 && i !== si && i !== model.pts.length - 1) {
+      s += '<text x="' + (x + 6).toFixed(1) + '" y="' + (y - 5).toFixed(1)
+        + '" font-size="11" fill="var(--lab-text-3)" font-family="inherit">' + no2(p.no) + '</text>';
+    }
+  });
+
+  const [sx, sy] = XY[0];
+  s += '<text x="' + (sx - 4).toFixed(1) + '" y="' + (sy + 18).toFixed(1)
+    + '" font-size="11" fill="var(--lab-text-1)" font-family="inherit">起点 · ' + model.pts[0].t + '</text>';
+  const [mx, my] = XY[si];
+  s += '<text x="' + mx.toFixed(1) + '" y="' + (my - 14).toFixed(1)
+    + '" text-anchor="middle" font-size="11" font-weight="600" fill="var(--lab-text-1)" font-family="inherit">登顶 '
+    + fmt(model.summit) + ' m · ' + model.pts[si].t + '</text>';
+  const [ex, ey] = XY[XY.length - 1];
+  s += '<text x="' + ex.toFixed(1) + '" y="' + (ey + 18).toFixed(1)
+    + '" text-anchor="end" font-size="11" fill="var(--lab-text-1)" font-family="inherit">终点 · '
+    + model.pts[model.pts.length - 1].t + '</text>';
+
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" role="img" aria-label="路线示意：'
+    + model.pts.length + ' 个节点，起点 ' + model.pts[0].t + '，登顶 ' + model.summit + ' 米 '
+    + model.pts[si].t + '，终点 ' + model.pts[model.pts.length - 1].t + '；非导航"><title>路线示意</title>'
+    + s + '</svg>';
+}
+
 /** 同行人台账列宽：序号 / 成员 / 角色 / 分车 / 座位 */
 const MATE_COLS = '2.1rem 1fr .78fr .9fr 2.6rem';
 
@@ -689,7 +761,7 @@ export function renderDetail(ctx) {
 
   if (flag === 'empty') {
     const gone = D.activities.find((a) => a.statusKey === 'cancelled') || D.featured;
-    page.appendChild(detailHero(gone, { void: true }));
+    page.appendChild(detailHero(gone, { void: true, onBack: () => ui.go('discover') }));
     page.appendChild(el('div.f-statusline',
       word(gone.status, STATUS_KIND[gone.statusKey]),
       el('div.f-statusline__t', { text: gone.dateText + ' ' + gone.weekdayText })));
@@ -734,7 +806,7 @@ export function renderDetail(ctx) {
   const crews = mates.filter((m) => m.role !== '成员');
   const model = profileModel(a);
 
-  page.appendChild(detailHero(a));
+  page.appendChild(detailHero(a, { onBack: () => ui.go('discover') }));
 
   /* --- 工位 01 概览 --- */
   page.appendChild(zone(null, '路线概览', '', null, [
@@ -752,8 +824,13 @@ export function renderDetail(ctx) {
       '报名通道关闭时刻'),
   ]));
 
-  /* --- 工位 02 行程：剖面 + 编号叙事 --- */
-  page.appendChild(zone(null, '行程与海拔', fmt(a.itinerary.length) + ' 个节点 · 示意剖面', 'oat', [
+  /* --- 行程：路线示意 + 剖面 + 编号叙事 --- */
+  page.appendChild(zone(null, '行程与海拔', fmt(a.itinerary.length) + ' 个节点 · 路线 / 剖面示意', 'oat', [
+    el('div.f-route-map', { html: routeMapSVG(model) }),
+    el('div.f-route-map__legend',
+      el('span.f-route-map__key', el('i'), el('span', { text: '节点' })),
+      el('span.f-route-map__key.f-route-map__key--summit', el('i'), el('span', { text: '登顶' })),
+      el('span.f-route-map__note', { text: '路线示意 · 非导航 · 非实测轨迹' })),
     el('div.f-profile',
       el('div.f-profile__plot', { html: profileSVG(model) }),
       el('div.f-profile__nodes',
