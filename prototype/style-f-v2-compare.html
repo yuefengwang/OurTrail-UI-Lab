@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Style F · 参考板前后对照</title>
+<style>
+  :root {
+    --paper: #F6F3EC;
+    --sheet: #FCFAF4;
+    --oat: #E8E3D7;
+    --ink: #1B241F;
+    --ink-2: #53605A;
+    --ink-3: #8A918B;
+    --forest: #1E3D32;
+    --action: #173A2F;
+    --clay: #A4562F;
+    --line: #D8D2C4;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .board { max-width: 1360px; margin: 0 auto; padding: 44px 48px 40px; }
+  .top { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--ink); }
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.6px; color: var(--clay); }
+  h1 { margin: 10px 0 0; font-family: "Songti SC", "SimSun", Georgia, serif; font-size: 42px; line-height: 1.12; font-weight: 700; letter-spacing: -.6px; }
+  .sub { max-width: 430px; margin: 0 0 2px; font-size: 12px; line-height: 1.7; color: var(--ink-2); text-align: right; }
+  .legend { display: flex; gap: 18px; margin-top: 14px; font-size: 11px; color: var(--ink-2); }
+  .legend b { color: var(--ink); font-weight: 700; }
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; margin-top: 28px; }
+  .col { min-width: 0; }
+  .col-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding-bottom: 9px; border-bottom: 2px solid var(--line); }
+  .col-head b { font-size: 13px; font-weight: 750; letter-spacing: .2px; }
+  .col-head span { font-size: 10px; letter-spacing: 1px; color: var(--ink-3); font-weight: 700; }
+  .col.is-after .col-head { border-bottom-color: var(--forest); }
+  .col.is-after .col-head span { color: var(--forest); }
+  .shot { margin-top: 10px; padding: 7px; background: var(--sheet); border: 1px solid var(--line); }
+  .shot img { display: block; width: 100%; height: auto; }
+  .notes { margin: 10px 0 0; padding: 0; list-style: none; }
+  .notes li { display: flex; gap: 7px; font-size: 11px; line-height: 1.55; color: var(--ink-2); padding: 3px 0; }
+  .notes li::before { content: ""; width: 4px; height: 4px; flex: none; margin-top: 6px; background: var(--ink-3); }
+  .col.is-after .notes li::before { background: var(--forest); }
+  .notes strong { color: var(--ink); font-weight: 650; }
+  .mid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 30px; background: var(--line); border: 1px solid var(--line); }
+  .stat { background: var(--sheet); padding: 18px 20px 16px; }
+  .stat b { display: block; font-size: 30px; line-height: 1; letter-spacing: -.8px; color: var(--forest); font-variant-numeric: tabular-nums; }
+  .stat span { display: block; margin-top: 7px; font-size: 11px; line-height: 1.5; color: var(--ink-2); }
+  .strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .borrow { font-size: 11px; line-height: 1.6; color: var(--ink-2); }
+  .borrow b { display: block; margin-bottom: 4px; font-size: 12px; color: var(--ink); }
+  .borrow em { font-style: normal; color: var(--clay); font-weight: 650; }
+  .foot { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 24px; font-size: 10px; line-height: 1.6; color: var(--ink-3); }
+</style>
+</head>
+<body>
+<div class="board">
+  <header class="top">
+    <div>
+      <div class="eyebrow">STYLE F · REFERENCE PASS · 2026-10-20</div>
+      <h1>改前 / 改后：从杂志刊头到山野工坊</h1>
+      <div class="legend"><span><b>390 × 844</b> 首屏实拍</span><span>4 栏同宽</span><span>结构对照，非像素比对</span></div>
+    </div>
+    <p class="sub">发现 / 详情按 AllTrails、Komoot、Spond、G 的结构重排；协作 / 天气同步去工位编号、任务前置、去重复集合信息。纸、森林、陶土色板保留。</p>
+  </header>
+
+  <div class="grid">
+    <section class="col">
+      <div class="col-head"><b>发现 · 改前</b><span>F v1</span></div>
+      <div class="shot"><img src="screenshots/F-v1/F-discover-390-fold.png" alt="F v1 发现页首屏"></div>
+      <ul class="notes">
+        <li>刊头写「第 03 期」「本期头条」</li>
+        <li>头条 + 专题大图，栏目用「工位」编号</li>
+        <li>计数条与筛选 tab 重复 9 / 5 / 2 / 2</li>
+        <li>「最近一场」行失衡，集合点折三行</li>
+      </ul>
+    </section>
+
+    <section class="col is-after">
+      <div class="col-head"><b>发现 · 改后</b><span>F v2</span></div>
+      <div class="shot"><img src="screenshots/F-v2/F-discover-390-fold.png" alt="F v2 发现页首屏"></div>
+      <ul class="notes">
+        <li><strong>最近出发</strong>置顶，日期与报名状态压在图上</li>
+        <li>只留一个主读数 <strong>18.6 km</strong>，其余退为事实</li>
+        <li>一张路线索引纸带：筛选 + 搜索 + 月份行</li>
+        <li>主 CTA 压在照片上，<strong>375 可用 603 内可见</strong></li>
+        <li>整页高度 <strong>2,874 → 1,879 px</strong>（−34.6%）</li>
+      </ul>
+    </section>
+
+    <section class="col">
+      <div class="col-head"><b>详情 · 改前</b><span>F v1</span></div>
+      <div class="shot"><img src="screenshots/F-v1/F-detail-390-fold.png" alt="F v1 详情页首屏"></div>
+      <ul class="notes">
+        <li>工位 01–06 编号，首字下沉「夜」</li>
+        <li>概览卡内重复「报名中 / 剩 7 位」</li>
+        <li>行程说明复述剖面图里的 2434 m 与 04:50</li>
+        <li>同行人把「已签到 12」放在报名阶段</li>
+      </ul>
+    </section>
+
+    <section class="col is-after">
+      <div class="col-head"><b>详情 · 改后</b><span>F v2</span></div>
+      <div class="shot"><img src="screenshots/F-v2/F-detail-390-fold.png" alt="F v2 详情页首屏"></div>
+      <ul class="notes">
+        <li>首屏补齐 <strong>日期 / 集合 / 距离 / 爬升 / 余位 / 截止 / 费用</strong></li>
+        <li>照片压字加深，状态与领队信息在首屏</li>
+        <li>装备改为单栏清单，删掉非顺序的 01–05 编号</li>
+        <li>同行人计数改为「车辆 4」，签到留在协作页</li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="mid">
+    <div class="stat"><b>−34.6%</b><span>发现页整页高度（390 宽）<br>2,874 → 1,879 px；8 张大卡改为 8 行密集索引，其中 2 条下沉为已结束组</span></div>
+    <div class="stat"><b>1</b><span>发现页主读数<br>18.6 km；爬升、余位、人均退为同排事实</span></div>
+    <div class="stat"><b>0</b><span>重复计数组<br>概览计数条已删除；筛选 tab 保留唯一计数</span></div>
+  </div>
+
+  <div class="strip">
+    <div class="borrow"><b>AllTrails</b>路线事实先行：距离、爬升、难度、费用；<em>借信息顺序</em>，不借其品牌绿与地图外壳。</div>
+    <div class="borrow"><b>Komoot</b>路线索引与筛选贴着列表；<em>借组织方式</em>，不借社区 feed 与欧洲语境。</div>
+    <div class="borrow"><b>Spond</b>报名 / 通过 / 待审核 / 候补 / 车辆是同一组状态；<em>借出席摘要</em>，不借家长群 UI。</div>
+    <div class="borrow"><b>G · 橙白运动</b>一个主读数 + 单一实心 CTA；<em>只借读数纪律</em>，不借橙色与白卡。</div>
+  </div>
+
+  <footer class="foot">
+    <span>改前快照：prototype/screenshots/F-v1/ · 改后：prototype/screenshots/F-v2/</span>
+    <span>DOM 24/24 · 390 审计 0 溢出 · 0 页面错误 · 生产仓库未改动</span>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F v2 参考板 · 借结构，不借皮肤</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1E2621;
+      color: #F3F0E6;
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      padding: 28px 24px 40px;
+    }
+    .head { max-width: 1280px; margin: 0 auto 22px; display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; }
+    .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.4px; color: #9BA591; }
+    h1 { font-size: 26px; line-height: 1.25; letter-spacing: -0.3px; margin-top: 4px; }
+    .sub { max-width: 560px; font-size: 12px; line-height: 1.65; color: #AEB8A8; text-align: right; }
+    .grid { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .col {
+      background: #F6F3EC;
+      color: #1B241F;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 640px;
+    }
+    .col__head { padding: 14px 14px 12px; border-bottom: 1px solid #DCD5C4; }
+    .col__tag { font-size: 9px; font-weight: 700; letter-spacing: 1.1px; color: #8A9080; }
+    .col__name { font-size: 19px; font-weight: 750; letter-spacing: -0.2px; margin-top: 3px; }
+    .col__role { font-size: 10.5px; line-height: 1.5; color: #5E685C; margin-top: 3px; }
+    .wire { margin: 12px 12px 0; border: 1px solid #D8D2C2; background: #FCFAF4; padding: 9px; display: flex; flex-direction: column; gap: 7px; }
+    .bar { height: 7px; background: #DED7C7; border-radius: 1px; }
+    .bar--dark { background: #274E3E; }
+    .bar--tall { height: 34px; background: #D8E0C8; }
+    .bar--photo { height: 56px; background: linear-gradient(135deg, #B6C2AC, #D8D2C2); }
+    .bar--w40 { width: 40%; } .bar--w55 { width: 55%; } .bar--w70 { width: 70%; } .bar--w85 { width: 85%; } .bar--w100 { width: 100%; }
+    .mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+    .mini-cell { border: 1px solid #DCD5C4; padding: 5px; min-height: 30px; }
+    .mini-cell b { display: block; font-size: 11px; color: #274E3E; }
+    .mini-cell span { display: block; font-size: 7.5px; color: #8A9080; margin-top: 2px; }
+    .mini-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+    .chip { border: 1px solid #D8D2C2; padding: 3px 5px; font-size: 8px; color: #5E685C; }
+    .chip--on { background: #274E3E; color: #F6F3EC; border-color: #274E3E; }
+    .mini-row { display: flex; align-items: center; gap: 5px; border-top: 1px solid #E4DED0; padding-top: 6px; }
+    .mini-row:first-child { border-top: 0; padding-top: 0; }
+    .mini-row__d { width: 26px; font-size: 10px; font-weight: 700; color: #274E3E; }
+    .mini-row__m { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .mini-row__s { width: 34px; text-align: right; font-size: 8px; color: #8A9080; }
+    .profile { height: 38px; border-bottom: 1px solid #C9C2B2; position: relative; }
+    .profile::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 20px; background: #DCE5D1; clip-path: polygon(0 100%, 0 62%, 18% 45%, 34% 52%, 50% 8%, 66% 30%, 82% 55%, 100% 70%, 100% 100%); }
+    .profile::after { content: ''; position: absolute; left: 0; right: 0; top: 60%; border-top: 1px dashed #A9542B; }
+    .borrow { margin: 12px 12px 0; padding-top: 10px; border-top: 1px solid #DCD5C4; }
+    .borrow__k { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: #8A9080; }
+    .borrow ul { list-style: none; margin-top: 5px; display: flex; flex-direction: column; gap: 4px; }
+    .borrow li { font-size: 10px; line-height: 1.45; color: #3C473F; padding-left: 9px; position: relative; }
+    .borrow li::before { content: '·'; position: absolute; left: 0; color: #A9542B; font-weight: 700; }
+    .avoid { margin: 8px 12px 12px; font-size: 9.5px; line-height: 1.5; color: #8B4A2D; background: #F2E6DA; padding: 7px 8px; border-left: 2px solid #A9542B; }
+    .synth {
+      max-width: 1280px; margin: 16px auto 0; background: #F6F3EC; color: #1B241F;
+      border-radius: 8px; padding: 16px; display: grid; grid-template-columns: 1.1fr 1fr 1.2fr; gap: 18px;
+    }
+    .synth h2 { font-size: 12px; letter-spacing: 1px; color: #8A9080; margin-bottom: 6px; }
+    .swatches { display: flex; gap: 6px; flex-wrap: wrap; }
+    .sw { width: 74px; height: 44px; border: 1px solid rgba(27,36,31,.12); display: flex; align-items: flex-end; padding: 4px; font-size: 8px; color: #F6F3EC; }
+    .synth p { font-size: 10.5px; line-height: 1.6; color: #3C473F; }
+    .rules { display: flex; flex-direction: column; gap: 4px; font-size: 10px; line-height: 1.5; color: #3C473F; }
+    .rules b { color: #274E3E; }
+    .foot { max-width: 1280px; margin: 14px auto 0; font-size: 9.5px; line-height: 1.6; color: #7F8A7B; }
+    @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, 1fr); } .synth { grid-template-columns: 1fr; } .head { flex-direction: column; align-items: flex-start; } .sub { text-align: left; } }
+    @media (max-width: 620px) { .grid { grid-template-columns: 1fr; } body { padding: 20px 14px 30px; } }
+  </style>
+</head>
+<body>
+  <header class="head">
+    <div>
+      <div class="eyebrow">OURTRAIL · STYLE F V2</div>
+      <h1>四栏参考板：借结构，不借皮肤</h1>
+    </div>
+    <p class="sub">AllTrails 借路线事实页；Komoot 借路线索引；Spond 借“谁还没回应”；G 借读数与 CTA。橙白不进入 F 的色板；纸面/森林/陶土保留。</p>
+  </header>
+
+  <main class="grid">
+    <section class="col">
+      <div class="col__head">
+        <div class="col__tag">REFERENCE 01</div>
+        <div class="col__name">AllTrails</div>
+        <div class="col__role">路线事实页 · 先回答“多远、多高、多难、路况如何”</div>
+      </div>
+      <div class="wire">
+        <div class="bar bar--photo"></div>
+        <div class="bar bar--dark bar--w70"></div>
+        <div class="mini-grid">
+          <div class="mini-cell"><b>18.6</b><span>km</span></div>
+          <div class="mini-cell"><b>1,180</b><span>m 爬升</span></div>
+          <div class="mini-cell"><b>进阶</b><span>难度</span></div>
+        </div>
+        <div class="profile"></div>
+        <div class="bar bar--w85"></div>
+        <div class="bar bar--w55"></div>
+      </div>
+      <div class="borrow">
+        <div class="borrow__k">BORROW</div>
+        <ul>
+          <li>路线事实带：距离 / 爬升 / 难度 / 预计时间，单位常显。</li>
+          <li>海拔剖面是首屏的一等数据，不是装饰。</li>
+          <li>路况 / 风险 / 离线可用性，先于活动故事。</li>
+        </ul>
+      </div>
+      <div class="avoid">不借：订阅推销、通用绿色主题、UGC 评价墙、把每条路线做成同一种卡片。</div>
+    </section>
+
+    <section class="col">
+      <div class="col__head">
+        <div class="col__tag">REFERENCE 02</div>
+        <div class="col__name">Komoot</div>
+        <div class="col__role">路线索引 · 用路线、区域、难度组织，不用虚构期号</div>
+      </div>
+      <div class="wire">
+        <div class="bar bar--dark bar--w55"></div>
+        <div class="bar bar--w85"></div>
+        <div class="mini-chips">
+          <span class="chip chip--on">全部</span><span class="chip">可报名</span><span class="chip">成都周边</span><span class="chip">入门</span>
+        </div>
+        <div class="mini-row"><div class="mini-row__d">10/25</div><div class="mini-row__m"><div class="bar bar--dark bar--w70"></div><div class="bar bar--w100"></div></div><div class="mini-row__s">余 7</div></div>
+        <div class="mini-row"><div class="mini-row__d">10/31</div><div class="mini-row__m"><div class="bar bar--dark bar--w55"></div><div class="bar bar--w85"></div></div><div class="mini-row__s">余 15</div></div>
+        <div class="mini-row"><div class="mini-row__d">11/01</div><div class="mini-row__m"><div class="bar bar--dark bar--w70"></div><div class="bar bar--w85"></div></div><div class="mini-row__s">余 3</div></div>
+      </div>
+      <div class="borrow">
+        <div class="borrow__k">BORROW</div>
+        <ul>
+          <li>以路线为中心的发现：区域 / 难度 / 时长 / 运动类型。</li>
+          <li>路线集合是“可比较的索引”，不是“本期头条”。</li>
+          <li>筛选与搜索紧贴列表，不抢首屏。</li>
+        </ul>
+      </div>
+      <div class="avoid">不借：社区 feed、付费路线包、欧洲语境的活动语气、把发现页做成杂志期号。</div>
+    </section>
+
+    <section class="col">
+      <div class="col__head">
+        <div class="col__tag">REFERENCE 03</div>
+        <div class="col__name">Spond</div>
+        <div class="col__role">群体活动 · 先告诉组织者“谁还没回应”</div>
+      </div>
+      <div class="wire">
+        <div class="bar bar--dark bar--w55"></div>
+        <div class="bar bar--w70"></div>
+        <div class="mini-chips"><span class="chip chip--on">出席 12 / 15</span><span class="chip">未回应 3</span><span class="chip">待审核 1</span></div>
+        <div class="mini-row"><div class="mini-row__d">林</div><div class="mini-row__m"><div class="bar bar--dark bar--w55"></div><div class="bar bar--w85"></div></div><div class="mini-row__s">已到</div></div>
+        <div class="mini-row"><div class="mini-row__d">王</div><div class="mini-row__m"><div class="bar bar--dark bar--w40"></div><div class="bar bar--w70"></div></div><div class="mini-row__s">已到</div></div>
+        <div class="mini-row"><div class="mini-row__d">陈</div><div class="mini-row__m"><div class="bar bar--dark bar--w55"></div><div class="bar bar--w70"></div></div><div class="mini-row__s">未到</div></div>
+      </div>
+      <div class="borrow">
+        <div class="borrow__k">BORROW</div>
+        <ul>
+          <li>报名 / 出席 / 名额 / 提醒是同一组状态，不是四个卡片。</li>
+          <li>“谁还没回应”是组织者第一类信息。</li>
+          <li>每个计数带分母，避免 5/5 与 12/15 并置的歧义。</li>
+        </ul>
+      </div>
+      <div class="avoid">不借：青少年俱乐部/家长管理结构、缴费体系、后台式权限。</div>
+    </section>
+
+    <section class="col">
+      <div class="col__head">
+        <div class="col__tag">REFERENCE 04</div>
+        <div class="col__name">G · 橙白运动</div>
+        <div class="col__role">只借读数纪律与 CTA，不借橙色与运动社交</div>
+      </div>
+      <div class="wire">
+        <div class="bar bar--photo"></div>
+        <div class="bar bar--dark bar--w70"></div>
+        <div class="mini-cell" style="border:0;padding:2px 0;"><b style="font-size:26px;">18.6</b><span>km · 全程 22:10 出发</span></div>
+        <div class="mini-row"><div class="mini-row__m"><div class="bar bar--w85"></div><div class="bar bar--w55"></div></div><div class="mini-row__s">立即报名</div></div>
+        <div class="profile"></div>
+        <div class="bar bar--dark bar--w40"></div>
+      </div>
+      <div class="borrow">
+        <div class="borrow__k">BORROW</div>
+        <ul>
+          <li>一屏一个主读数；数字 / 单位 / 标签三级。</li>
+          <li>单一实心 CTA + 一个线框次级动作。</li>
+          <li>路线剖面 / 满幅照片 / 状态压在图上。</li>
+        </ul>
+      </div>
+      <div class="avoid">不借：橙色品牌、白卡墙、kudos/成绩 feed、5/5 与 12/15 这种未标分母的并置。</div>
+    </section>
+  </main>
+
+  <section class="synth">
+    <div>
+      <h2>F V2 PALETTE</h2>
+      <div class="swatches">
+        <div class="sw" style="background:#F6F3EC;color:#1B241F;">纸面</div>
+        <div class="sw" style="background:#E8E3D7;color:#1B241F;">石色</div>
+        <div class="sw" style="background:#1E3D32;">森林</div>
+        <div class="sw" style="background:#16352B;">深森林</div>
+        <div class="sw" style="background:#A4562F;">陶土 · 仅紧迫</div>
+        <div class="sw" style="background:#D6E3A4;color:#1B241F;">叶色</div>
+        <div class="sw" style="background:#4F6871;">石板 · 天气</div>
+      </div>
+    </div>
+    <div>
+      <h2>F V2 TYPE</h2>
+      <p><b>衬线只给活动名。</b>正文 15px；标签 11–12px；数字 tabular；单位小两档；一屏一个主读数。</p>
+      <p style="margin-top:6px;">删除“第 03 期 / 本期头条 / 编辑部”等虚构内容；用“下一场 / 路线索引 / 出发窗口 / 现在要处理”。</p>
+    </div>
+    <div>
+      <h2>F V2 RULES</h2>
+      <div class="rules">
+        <div><b>发现</b>：一张 hero + 3 个事实 + 路线索引行；不做双大图/期号。</div>
+        <div><b>详情</b>：路线事实页 + 海拔剖面 + 单一 CTA；不做 6 张白卡/工位编号。</div>
+        <div><b>协作</b>：首屏「3 人未签到」；计数带分母；任务优先。</div>
+        <div><b>天气</b>：首屏「出发窗口」；路线点/海拔/不确定性；石板蓝只做数据。</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">参考板只表达“结构借鉴关系”，不包含任何第三方品牌资产、截图或文案。AllTrails / Komoot / Spond / Strava 为其各自权利人的商标。</div>
+</body>
+</html>

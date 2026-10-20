@@ -2,15 +2,15 @@
 // A 的刊物骨架 + B 的台账纪律 + D 的工具件 + E 的分区组织 + C 的状态表达
 //
 // DOM 组织按「工坊台账」来搭（结构与 A 同规格可比，密度更高）：
-//   发现 = 刊头 → 本期头条整版（工位 01 之前，首屏摄影）→ 工位 01 本月概览 → 工位 02 检索与筛选
-//          → 月份时间轴 → 专题领图 → 工位行 → 脚注
-//   详情 = 特稿头图 → 工位 01 概览（四联读数 + 出发倒计时）→ 工位 02 行程（海拔剖面 + 编号叙事）
-//          → 工位 03 集合与时间（规格行）→ 工位 04 装备（两栏台账）→ 工位 05 费用与同行人 → 报尾操作
-//   协作 = 抬头 + 倒计时 → 工位 01 现场计数（人先于数）→ 工位 02 名单/分车/现场（游标 + 台账）→ 工位 03 下一步
-//   天气 = 简报 → 工位 01 站位规格 → 工位 02 48 小时曲线 + 逐时读数 → 工位 03 逐时判定表
-//          → 工位 04 窗口判定表 → 工位 05 决策便笺 → 来源 → 脚注
+//   发现 = 刊头 → 最近出发整版（日期/状态压图 + 一个主读数）→ 路线索引（筛选/搜索）
+//          → 月份行 → 已结束与已取消 → 脚注
+//   详情 = 特稿头图 → 路线概览（首屏决策事实 + 费用 + 倒计时）→ 行程/海拔
+//          → 集合与时间 → 装备清单 → 费用 → 同行人 → 报尾操作
+//   协作 = 抬头 → 下一步任务（首屏）→ 现场计数（人先于数）→ 名单/分车/现场（游标 + 台账）
+//   天气 = 简报 → 站位规格 → 48 小时曲线 + 逐时读数 → 逐时判定表
+//          → 窗口判定表 → 决策建议 → 来源 → 脚注
 // 与 A（刊物流）、B（网格表）、C（色带清单）、D（控制台）、E（深色分区）结构上均不同。
-// 状态页（空 / 错）也走同一个「工位 0N」容器，结构与主页同构（E2）。
+// 状态页（空 / 错）也走同一个分区容器，结构与主页同构（E2）。
 //
 // 只复用共享原语：el / icon / photo / fmt / pad2 / frag；事件一律 el(..., {onclick})，无内联 on*。
 // 数据只读 prototype/js/data.js；不删任何字段。
@@ -33,9 +33,9 @@ const DEMO_NOW = new Date(2025, 9, 17, 22, 10);
    ========================================================= */
 
 /** 脚注：来源与实验标识分两级 */
-function foot(D) {
+function foot(D, credit) {
   return el('div.footnote',
-    el('div.f-foot__credit', { text: D.credit }),
+    el('div.f-foot__credit', { text: credit || D.credit }),
     el('div.f-foot__note', { text: NOTE })
   );
 }
@@ -149,8 +149,8 @@ function countdown(k, due, note) {
 /** 工位分区：编号 + 名称 + 右侧计数 */
 function zone(no, name, meta, tone, body, current) {
   return el('section.f-zone' + (tone ? '.f-zone--' + tone : '') + (current ? '.is-current' : ''),
-    el('div.f-zone__tab',
-      el('div.f-zone__no', { text: '工位 ' + no2(no) }),
+    el('div.f-zone__tab' + (no == null ? '.f-zone__tab--plain' : ''),
+      no == null ? null : el('div.f-zone__no', { text: '工位 ' + no2(no) }),
       el('div.f-zone__name', { text: name }),
       meta ? el('div.f-zone__meta', { text: meta }) : null),
     el('div.f-zone__body', ...[].concat(body)));
@@ -237,6 +237,10 @@ function stateBlock(iconName, title, body, label, fn, kind) {
 const skel = (h, w) => el('div.skeleton.f-skel-' + h, w ? { style: { width: w } } : null);
 
 const leftOf = (a) => Math.max(0, a.seatsTotal - a.signedCount);
+const feeOf = (a) => {
+  const m = /¥\s*\d+/.exec(a.feeNote || '');
+  return m ? m[0].replace(/\s+/g, '') : 'AA';
+};
 
 /** 由名单实时推导计数（签到变化后重算） */
 function tally(roster) {
@@ -274,20 +278,22 @@ function featureEntry(a, onOpen) {
         cover(a.cover, a.title + ' 氛围封面'),
         el('div.f-feature__stamp',
           el('span.f-feature__stamp-d', { text: a.dateText }),
-          el('span.f-feature__stamp-w', { text: a.weekdayText })))),
+          el('span.f-feature__stamp-w', { text: a.weekdayText })),
+        el('div.f-feature__badge.f-feature__badge--' + (STATUS_KIND[a.statusKey] || 'off'), {
+          text: a.status + (isOpen(a) ? ' · 剩 ' + leftOf(a) + ' 位' : ''),
+        }),
+        el('span.f-feature__cta', { text: '查看安排' }, icon('arrow-right', { size: 16 })))),
     el('div.f-feature__body',
-      kick('本期头条 · ' + a.city + ' · ' + a.difficultyText),
+      kick('最近出发 · ' + a.city + ' · ' + a.difficultyText),
       el('h2.f-feature__title', { text: a.title }),
       el('div.f-feature__route', { text: a.routeName }),
+      el('div.f-feature__meet', { text: a.meetingTime + ' 集合 · ' + a.meetingPoint }),
       el('p.f-quote', { text: a.lede }),
       el('div.f-quad',
-        quad('距离', a.distanceKm + '', 'km'),
+        quad('距离', a.distanceKm + '', 'km', 'is-lead'),
         quad('爬升', '↑ ' + fmt(a.ascentM), 'm'),
-        quad('名额', a.signedCount + ' / ' + a.seatsTotal),
-        quad('剩余', String(leftOf(a)), '席', leftOf(a) <= 3 ? 'is-hi' : '')),
-      el('div.f-feature__foot',
-        link('查看安排', onOpen),
-        word(a.status, STATUS_KIND[a.statusKey]))));
+        quad('剩余', String(leftOf(a)), '席', leftOf(a) <= 3 ? 'is-hi' : ''),
+        quad('人均', feeOf(a), ''))));
   tap(node, onOpen);
   return node;
 }
@@ -312,28 +318,29 @@ function pickEntry(a, onOpen, idx) {
 }
 
 /** 工位行：序号 + 缩略图 + 主栏 + 右对齐数字栏 */
-function workRow(a, onOpen, idx) {
+function workRow(a, onOpen) {
   const left = leftOf(a);
+  const dur = /（([^）]+)）s*$/.exec(a.title);
+  const rowTitle = a.title.replace(/（[^）]+）s*$/, '');
   const open = isOpen(a);
   const seats = open
     ? { t: '剩 ' + left + ' 席', cls: left > 0 && left <= 3 ? 'is-tight' : '' }
     : { t: a.signedCount + ' / ' + a.seatsTotal + ' 席', cls: 'is-none' };
   const node = el('article.f-wrow', { role: 'button', tabindex: '0' },
-    el('div.f-wrow__idx', { text: no2(idx) }),
+    el('div.f-wrow__date',
+      el('span.f-wrow__d', { text: String(dayOf(a.dateText)) }),
+      el('span.f-wrow__w', { text: a.weekdayText })),
     el('div.f-wrow__thumb', cover(a.cover, a.title + ' 氛围封面')),
     el('div.f-wrow__main',
-      el('h3.f-wrow__title', { text: a.title }),
+      el('h3.f-wrow__title', { text: rowTitle }),
+      el('div.f-wrow__meta', { text: a.routeName + ' · ' + a.city + (dur ? ' · ' + dur[1] : '') }),
       el('div.f-wrow__meta', {
         html: a.difficultyText + ' · <span class="num">' + a.distanceKm + ' km</span> · ↑ '
-          + '<span class="num">' + fmt(a.ascentM) + ' m</span> · 领队 ' + a.leader,
-      }),
-      el('div.f-wrow__meta', {
-        text: a.meetingPoint + ' · 集合 ' + a.meetingTime + ' · 截止 ' + a.deadlineText,
+          + '<span class="num">' + fmt(a.ascentM) + ' m</span> · ' + feeOf(a),
       })),
     el('div.f-wrow__nums',
       word(a.status, STATUS_KIND[a.statusKey]),
-      el('div.f-wrow__seats' + (seats.cls ? '.' + seats.cls : ''), { text: seats.t }),
-      el('div.f-wrow__when', { text: md(a.dateText) + ' ' + a.weekdayText })));
+      el('div.f-wrow__seats' + (seats.cls ? '.' + seats.cls : ''), { text: seats.t })));
   tap(node, onOpen);
   return node;
 }
@@ -345,12 +352,16 @@ function discoverSkeleton() {
       el('div', { style: { marginTop: 'var(--lab-space-3)' } }, skel(30, '46%')),
       el('div', { style: { marginTop: 'var(--lab-space-3)' } }, skel(15, '100%')),
       el('div', { style: { marginTop: 'var(--lab-space-2)' } }, skel(15, '72%'))),
-    el('div.f-zone.f-zone--oat', { style: { marginTop: 'var(--lab-space-4)' } },
-      skel(14, '70%'), el('div', { style: { marginTop: 'var(--lab-space-3)' } }, skel(14, '100%'))),
     el('div.f-bleed', { style: { marginTop: 'var(--lab-space-5)' } }, skel(244, '100%')),
     el('div', { style: { marginTop: 'var(--lab-space-3)' } }, skel(30, '84%')),
-    el('div', { style: { marginTop: 'var(--lab-space-3)' } }, skel(18, '52%')),
-    el('div', { style: { marginTop: 'var(--lab-space-4)' } }, skel(30, '54%')),
+    el('div', { style: { marginTop: 'var(--lab-space-2)' } }, skel(18, '52%')),
+    el('div', { style: { marginTop: 'var(--lab-space-2)' } }, skel(11, '64%')),
+    el('div', { style: { marginTop: 'var(--lab-space-3)' } }, skel(15, '100%')),
+    el('div', { style: { marginTop: 'var(--lab-space-4)' } }, skel(30, '100%')),
+    el('div.f-zone.f-zone--oat', { style: { marginTop: 'var(--lab-section-gap)' } },
+      skel(17, '30%'),
+      el('div', { style: { marginTop: 'var(--lab-space-3)' } }, skel(33, '100%')),
+      el('div', { style: { marginTop: 'var(--lab-space-2)' } }, skel(30, '100%'))),
     ...Array.from({ length: 4 }, () => el('div', { style: { marginTop: 'var(--lab-space-3)' } },
       skel(72, '100%'))));
 }
@@ -360,31 +371,20 @@ export function renderDiscover(ctx) {
   const page = el('div.page.f-discover');
   const locked = flag === 'disabled';
 
-  const nMonth = D.activities.filter((a) => monthOf(a.dateText) === 10);
-  const monthKm = nMonth.reduce((s, a) => s + a.distanceKm, 0);
-  const monthUpSum = nMonth.reduce((s, a) => s + a.ascentM, 0);
-  const monthLong = Math.max(...nMonth.map((a) => a.distanceKm));
-  /* V2-2：「最近一场」＝当月最近的**未来**场。升序取 [0] 会命中已结束的铁瓦殿（10/11）；
-     口径 = orderOf > DEMO_NOW 的 orderOf（10/17 → 1017），本月无未来场时回退最后一场。 */
-  const nowOrder = (DEMO_NOW.getMonth() + 1) * 100 + DEMO_NOW.getDate();
-  const monthAsc = nMonth.slice().sort((x, y) => orderOf(x) - orderOf(y));
-  const monthSoon = monthAsc.find((a) => orderOf(a) > nowOrder) || monthAsc[monthAsc.length - 1];
-
   const masthead = el('header.f-masthead',
     el('div.f-masthead__issue',
-      kick('发现 · 第 03 期'),
+      kick('成都周边'),
       el('div.f-caption.c3', { text: '10 月 17 日' })),
     el('h1.f-masthead__title', { text: '发现' }),
     el('p.f-masthead__lede', {
-      text: '按出发时间排序，报名中的路线排在最前。每期由领队与编辑共同挑选，没有广告位。',
+      text: '按出发时间排序，报名中的路线排在最前。',
     }));
 
-  /* V2-5②：三个分支结构互斥 —— 错误态＝真实刊头 + 错误区；加载态＝纯 skeleton
-     （discoverSkeleton 自带刊头占位）；正常态才叠刊头 → 头条位 → 工位 01。
-     先前错误态把「本月概览」正常区与错误区各渲染一次，工位 01 在同一页出现两次。 */
+  /* 三个分支结构互斥 —— 错误态＝真实刊头 + 错误区；加载态＝纯 skeleton
+     （discoverSkeleton 自带刊头占位）；正常态才叠刊头 → 头条位 → 路线索引。 */
   if (flag === 'error') {
     page.appendChild(masthead);
-    page.appendChild(zone(1, '本月概览', '未载入', null, [
+    page.appendChild(zone(null, '路线索引', '未载入', null, [
       el('div.f-state.f-state--fill',
         stateBlock(null, '加载失败，请检查网络', '活动列表没能取回来，网络恢复后可以重新加载。',
           '重试', () => ui.toast('已重试（演示）'), 'error')),
@@ -404,22 +404,7 @@ export function renderDiscover(ctx) {
   const leadBox = el('div.f-lead');
   page.appendChild(leadBox);
 
-  /* --- 工位 01：本月概览（全部由活动列表聚合而来，不引入新数据） --- */
-  page.appendChild(zone(1, '本月概览', '10 月', null, [
-    el('div.f-quad',
-      quad('本月项数', String(nMonth.length), '项'),
-      quad('合计里程', monthKm.toFixed(1), 'km'),
-      quad('爬升合计', fmt(monthUpSum), 'm'),
-      quad('最长单场', monthLong.toFixed(1), 'km', 'is-hi')),
-    el('div.f-specs',
-      spec('最近一场', monthSoon.dateText + ' ' + monthSoon.weekdayText, '',
-        monthSoon.title),
-      /* V2-2：删去「本月 N 场」注记 —— 四联读数的「本月项数 N 项」与 tab 挂数已经承担了段内计数，
-         这一行是把同一个「5」第三次说出来 */
-      spec('本月难度', Array.from(new Set(nMonth.map((a) => a.difficultyText))).join(' / '))),
-  ]));
-
-  /* --- 工位 01：检索与筛选 --- */
+  /* --- 路线索引：筛选与检索放在同一张纸带上，不再单列一块「本月概览」 --- */
   let key = 'all';
   let q = '';
 
@@ -476,13 +461,15 @@ export function renderDiscover(ctx) {
     }));
 
   paintTabs();
-  page.appendChild(zone(2, '检索与筛选', '', 'oat',
-    [tabs, search],
-    false));
+  const indexZone = zone(null, '路线索引', '最近出发置顶', 'oat',
+    [el('div.f-index__tools', tabs, search)],
+    false);
+  page.appendChild(indexZone);
+  const indexMeta = indexZone.querySelector('.f-zone__meta');
   if (locked) {
     page.appendChild(el('div.f-note-line',
       el('div.f-note-line__k', { text: '只读' }),
-      el('span', { text: '筛选与搜索已暂停，当前展示的是编辑部的精选版本。' })));
+      el('span', { text: '筛选与搜索已暂停，当前展示全部路线。' })));
   }
 
   /* --- 目录正文 --- */
@@ -496,32 +483,35 @@ export function renderDiscover(ctx) {
     let list = D.activities.filter(f.test).slice().sort((x, y) => orderOf(x) - orderOf(y));
     if (q) list = list.filter((a) => (a.title + a.routeName + a.city + a.lede).indexOf(q) >= 0);
 
+    const feature = (!q && key === 'all') ? D.featured : null;
+    if (indexMeta) indexMeta.textContent = feature ? '最近出发置顶' : '按出发时间';
+
     if (flag === 'empty' || !list.length) {
-      listBox.appendChild(zone(3, '检索结果', '无匹配', null, [
-        el('div.f-state',
-          stateBlock('search', '没有匹配的路线',
-            flag === 'empty'
-              ? '当前的关键词与筛选条件没有任何交集，回到全部再挑一次。'
-              : '换个关键词，或把筛选条件放宽一些。',
-            '清空筛选', () => ui.setFlag(''), 'off')),
-      ]));
+      if (indexMeta) indexMeta.textContent = '无匹配';
+      listBox.appendChild(el('div.f-state',
+        stateBlock('search', '没有匹配的路线',
+          flag === 'empty'
+            ? '当前的关键词与筛选条件没有任何交集，回到全部再挑一次。'
+            : '换个关键词，或把筛选条件放宽一些。',
+          '清空筛选', () => ui.setFlag(''), 'off')));
       listBox.appendChild(foot(D));
       return;
     }
 
-    /* 头条：默认全量视图下上移到工位 01 之前（首屏摄影）；筛选 / 搜索时回到目录里的常规位置 */
-    const feature = (!q && key === 'all') ? D.featured : null;
+    /* 头条：默认全量视图下置顶；筛选 / 搜索时回到目录里的常规位置 */
     if (feature) leadBox.appendChild(featureEntry(feature, () => ui.go('detail')));
 
     const rest = feature ? list.filter((a) => a.id !== feature.id) : list;
 
+    const isPast = (a) => a.statusKey === 'ended' || a.statusKey === 'cancelled';
+    const future = rest.filter((a) => !isPast(a));
+    const past = rest.filter(isPast).slice().sort((x, y) => orderOf(y) - orderOf(x));
     const byMonth = new Map();
-    rest.forEach((a) => {
+    future.forEach((a) => {
       const m = monthOf(a.dateText);
       if (!byMonth.has(m)) byMonth.set(m, []);
       byMonth.get(m).push(a);
     });
-    let idx = 0;
     Array.from(byMonth.keys()).sort((x, y) => x - y).forEach((m) => {
       const items = byMonth.get(m).slice().sort((x, y) => {
         const dx = isOpen(x) ? 0 : 1;
@@ -529,13 +519,16 @@ export function renderDiscover(ctx) {
         return dx - dy || orderOf(x) - orderOf(y);
       });
       listBox.appendChild(monthMark(m, items.slice().sort((x, y) => orderOf(x) - orderOf(y))));
-      items.forEach((a, i) => {
-        idx++;
-        listBox.appendChild(i === 0
-          ? pickEntry(a, () => ui.go('detail'), idx)
-          : workRow(a, () => ui.go('detail'), idx));
+      items.forEach((a) => {
+        listBox.appendChild(workRow(a, () => ui.go('detail')));
       });
     });
+    if (past.length) {
+      listBox.appendChild(el('div.f-month.f-month--past',
+        el('div.f-month__k', { text: '已结束与已取消' }),
+        el('div.f-month__n', { text: fmt(past.length) + ' 项' })));
+      past.forEach((a) => listBox.appendChild(workRow(a, () => ui.go('detail'))));
+    }
 
     listBox.appendChild(foot(D));
     listBox.classList.remove('f-list--in');
@@ -568,7 +561,10 @@ function detailHero(a, opts) {
       el('div.f-hero__body',
         kick(a.dateText + ' ' + a.weekdayText + ' · ' + a.timeText, 'f-hero__kicker'),
         el('h1.f-hero__title', { text: a.title }),
-        el('div.f-hero__meta', { text: a.difficultyText + ' · 领队 ' + a.leader }))));
+        el('div.f-hero__meta', {
+          text: a.difficultyText + ' · ' + a.meetingPoint.split(' · ')[0] + '集合 · 领队 ' + a.leader,
+        }),
+        el('div.f-hero__status', { text: a.status + ' · 剩 ' + leftOf(a) + ' 位' }))));
 }
 
 /** 行程按日分组：出发钟点之前的时刻归当日、之后归次日（夜爬即 10/18 夜段 + 10/19 日段） */
@@ -645,19 +641,19 @@ function profileSVG(model) {
   const sx = px(si), sy = py(model.pts[si].m);
   s += '<line x1="' + sx.toFixed(1) + '" y1="' + (T - 8) + '" x2="' + sx.toFixed(1) + '" y2="' + sy.toFixed(1)
     + '" stroke="var(--lab-border-strong)" stroke-width="2"/>';
-  s += '<text x="' + (sx - 3).toFixed(1) + '" y="' + (T - 1) + '" font-size="10" text-anchor="end" fill="var(--lab-text-1)" font-family="inherit">'
+  s += '<text x="' + (sx - 3).toFixed(1) + '" y="' + (T - 1) + '" font-size="11" text-anchor="end" fill="var(--lab-text-1)" font-family="inherit">'
     + model.pts[si].m + ' m · ' + model.pts[si].t + '</text>';
 
   /* YOU 锚点：出发节点（D 的锚点方法，纸滤成品牌实方块 + 文字） */
   s += '<rect x="' + (px(0) - 3.5).toFixed(1) + '" y="' + (py(model.pts[0].m) - 3.5).toFixed(1)
     + '" width="7" height="7" fill="var(--lab-brand)"/>';
   s += '<text x="' + (px(0) + 7).toFixed(1) + '" y="' + (py(model.pts[0].m) + 4).toFixed(1)
-    + '" font-size="10" fill="var(--lab-brand)" font-family="inherit">你 · ' + model.pts[0].t + ' 出发</text>';
+    + '" font-size="11" fill="var(--lab-brand)" font-family="inherit">你 · ' + model.pts[0].t + ' 出发</text>';
 
   /* 纵轴刻度（底 / 顶） */
-  s += '<text x="0" y="' + (H - 1) + '" font-size="10" fill="var(--lab-text-3)" font-family="inherit">'
+  s += '<text x="0" y="' + (H - 1) + '" font-size="11" fill="var(--lab-text-3)" font-family="inherit">'
     + lo.toFixed(0) + '</text>';
-  s += '<text x="' + plotW + '" y="' + (H - 1) + '" font-size="10" text-anchor="end" fill="var(--lab-text-3)" font-family="inherit">'
+  s += '<text x="' + plotW + '" y="' + (H - 1) + '" font-size="11" text-anchor="end" fill="var(--lab-text-3)" font-family="inherit">'
     + hi.toFixed(0) + ' m</text>';
 
   return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" height="' + H + '" aria-hidden="true">' + s + '</svg>';
@@ -697,14 +693,14 @@ export function renderDetail(ctx) {
     page.appendChild(el('div.f-statusline',
       word(gone.status, STATUS_KIND[gone.statusKey]),
       el('div.f-statusline__t', { text: gone.dateText + ' ' + gone.weekdayText })));
-    page.appendChild(zone(1, '路线说明', gone.city, 'oat', [
+    page.appendChild(zone(null, '路线说明', gone.city, 'oat', [
       el('h2.f-sheet__title', { text: gone.title }),
       el('div.f-sheet__sub', { text: gone.routeName + ' · ' + gone.city }),
       el('p.f-lede', { text: gone.lede }),
       subhead('费用与约定'),
       el('p.f-body', { text: gone.feeNote }),
     ]));
-    page.appendChild(zone(2, '报名状态', gone.status, 'oat', [
+    page.appendChild(zone(null, '报名状态', gone.status, 'oat', [
       el('div.f-state.f-state--fill',
         stateBlock('info', '活动已取消', '这条路线不再接受报名，已报名的成员会收到通知。',
           '去看看其他活动', () => ui.go('discover'), 'off')),
@@ -717,7 +713,7 @@ export function renderDetail(ctx) {
   }
 
   if (flag === 'error') {
-    page.appendChild(zone(1, '概览', '未载入', null, [
+    page.appendChild(zone(null, '概览', '未载入', null, [
       el('div.f-state.f-state--fill',
         stateBlock(null, '加载失败，请检查网络', '这条活动的安排没能取回来。',
           '重试', () => ui.toast('已重试（演示）'), 'error')),
@@ -735,32 +731,29 @@ export function renderDetail(ctx) {
   const left = leftOf(a);
   const mates = D.roster;
   const approved = mates.filter((m) => m.audit === '已通过');
-  const checked = mates.filter((m) => m.checked);
   const crews = mates.filter((m) => m.role !== '成员');
   const model = profileModel(a);
 
   page.appendChild(detailHero(a));
 
   /* --- 工位 01 概览 --- */
-  page.appendChild(zone(1, '概览', a.difficultyText + ' · 领队 ' + a.leader, null, [
-    el('div.f-statusline',
-      word(a.status, STATUS_KIND[a.statusKey]),
-      el('div.f-statusline__t',
-        el('span.f-statusline__n', { text: '剩 ' + left + ' 位' }))),
+  page.appendChild(zone(null, '路线概览', '', null, [
     el('h2.f-sheet__title', { text: a.routeName }),
     el('div.f-sheet__sub', { text: a.city }),
     el('p.f-lede', { text: a.lede }),
     el('div.f-quad',
-      quad('距离', a.distanceKm + '', 'km'),
+      quad('距离', a.distanceKm + '', 'km', 'is-lead'),
       quad('爬升', '↑ ' + fmt(a.ascentM), 'm'),
       quad('名额', a.signedCount + ' / ' + a.seatsTotal),
       quad('截止', md(a.deadlineText), hhmm(a.deadlineText), 'is-narrow')),
+    el('div.f-specs',
+      spec('费用', feeOf(a), '', 'AA')),
     countdown('距报名截止', at(a.deadlineText, hhmm(a.deadlineText)),
       '报名通道关闭时刻'),
   ]));
 
   /* --- 工位 02 行程：剖面 + 编号叙事 --- */
-  page.appendChild(zone(2, '行程', fmt(a.itinerary.length) + ' 个节点 · 示意剖面', 'oat', [
+  page.appendChild(zone(null, '行程与海拔', fmt(a.itinerary.length) + ' 个节点 · 示意剖面', 'oat', [
     el('div.f-profile',
       el('div.f-profile__plot', { html: profileSVG(model) }),
       el('div.f-profile__nodes',
@@ -768,15 +761,12 @@ export function renderDetail(ctx) {
           + (i === model.summitAt ? '.is-summit' : '')
           + (i === 0 ? '.is-you' : ''),
         { text: no2(p.no) })))),
-    el('div.f-zone__caption', {
-      text: '横轴为行程节点；纵轴为示意海拔，登顶 ' + fmt(model.summit) + ' m 与节点 ' + no2(model.summitAt + 1)
-        + '（' + model.pts[model.summitAt].t + ' 登顶）一致。示意剖面，非实测轨迹。',
-    }),
+    el('div.f-zone__caption', { text: '示意剖面，非实测轨迹。' }),
     el('div.f-narr', ...narrGroups(a)),
   ], true));
 
   /* --- 工位 03 集合与时间 --- */
-  page.appendChild(zone(3, '集合与时间', a.city, null, [
+  page.appendChild(zone(null, '集合与时间', a.city, null, [
     el('div.f-specs',
       spec('集合点', a.meetingPoint),
       spec('集合时间', a.meetingTime, '', a.dateText + ' ' + a.weekdayText),
@@ -787,15 +777,26 @@ export function renderDetail(ctx) {
   ]));
 
   /* --- 工位 04 装备与提醒 --- */
-  page.appendChild(zone(4, '装备与提醒', fmt(a.requirements.length) + ' 条', 'oat', [
+  page.appendChild(zone(null, '装备与提醒', fmt(a.requirements.length) + ' 条', 'oat', [
     el('div.f-gear',
-      ...a.requirements.map((r, i) => el('div.f-gear__item',
-        el('div.f-gear__no', { text: no2(i + 1) }),
-        el('div.f-gear__text', { text: r })))),
+      ...a.requirements.map((r) => {
+        const m = /^(.+?)(?:（(.+)）|：(.+))$/.exec(r);
+        let term = m ? m[1] : r;
+        let note = m ? (m[2] || m[3]) : '';
+        const sp = !m && /^([^\s]{1,4})\s+(.+)$/.exec(r);
+        if (sp) { term = sp[1]; note = sp[2]; }
+        if (/建议携带$/.test(term)) {
+          term = term.replace(/建议携带$/, '');
+          note = '建议携带' + (note ? '；' + note : '');
+        }
+        return el('div.f-gear__item',
+          el('div.f-gear__term', { text: term }),
+          note ? el('div.f-gear__note', { text: note }) : null);
+      })),
   ]));
 
   /* --- 工位 05 费用与约定 --- */
-  page.appendChild(zone(5, '费用与约定', '包车 AA', null, [
+  page.appendChild(zone(null, '费用与约定', '包车 AA', null, [
     el('p.f-body', { text: a.feeNote }),
   ]));
 
@@ -819,16 +820,16 @@ export function renderDetail(ctx) {
     }))));
 
   /* --- 工位 06 同行人 --- */
-  page.appendChild(zone(6, '同行人', fmt(mates.length) + ' 位 · 领队与车长 ' + fmt(crews.length), 'oat', [
+  page.appendChild(zone(null, '同行人', fmt(mates.length) + ' 位 · 领队与车长 ' + fmt(crews.length), 'oat', [
     el('div.f-counts',
       countCell(mates.length, '成员'),
       countCell(approved.length, '已通过'),
-      countCell(checked.length, '已签到'),
+      countCell(D.vehicles.length, '车辆'),
       countCell(mates.filter((m) => m.audit === '待审核').length, '待审核'),
       countCell(mates.filter((m) => m.audit === '候补').length, '候补'),
       countCell(approved.filter((m) => !m.vehicleId).length, '待安排车辆')),
     mateLedger,
-    actions('明细与签到在协作页逐人可点，这里只列领队与车长。',
+    actions('完整名单与签到在协作页。',
       link('查看全部 ' + fmt(mates.length) + ' 位成员', () => ui.go('collab'))),
   ]));
 
@@ -891,6 +892,9 @@ function collabSkeleton() {
   return frag(
     el('div', skel(11, '56%')),
     el('div', { style: { marginTop: 'var(--lab-space-3)' } }, skel(30, '70%')),
+    el('div.f-zone', { style: { marginTop: 'var(--lab-space-4)' } },
+      skel(17, '28%'),
+      el('div', { style: { marginTop: 'var(--lab-space-3)' } }, skel(92, '100%'))),
     el('div.f-counts', { style: { marginTop: 'var(--lab-space-5)' } },
       ...Array.from({ length: 6 }, () => el('div.f-counts__cell', skel(18, '50%'), skel(11, '70%')))),
     el('div.f-zone.f-zone--oat', { style: { marginTop: 'var(--lab-space-5)' } },
@@ -905,31 +909,32 @@ export function renderCollab(ctx) {
   const locked = flag === 'disabled';
   const a = D.featured;
   const base = D.collab;
+  const footCollab = () => foot(D, '演示数据 · 固定名单与签到快照');
 
   if (flag === 'empty') {
-    page.appendChild(collabHead(a, '还没有人签到', '集合中 · 集合点 ' + a.meetingPoint + ' · 出发 ' + a.meetingTime));
-    page.appendChild(zone(1, '现场计数', '未载入', null, [
+    page.appendChild(collabHead(a, '还没有人签到', '集合中 · ' + a.meetingTime + ' 出发 · ' + a.meetingPoint));
+    page.appendChild(zone(null, '现场计数', '未载入', null, [
       el('div.f-state.f-state--fill',
         stateBlock('users', '还没有成员', '这条活动发布后，通过审核的成员会出现在这里。',
           '去看看其他活动', () => ui.go('discover'), 'off')),
     ]));
-    page.appendChild(foot(D));
+    page.appendChild(footCollab());
     return page;
   }
   if (flag === 'error') {
     /* E5：状态句与错误句拆开 —— 抬头只讲阶段，故障交给状态块 */
-    page.appendChild(collabHead(a, '协作面板打不开', '集合中 · 出发 ' + a.meetingTime));
-    page.appendChild(zone(1, '现场计数', '未载入', null, [
+    page.appendChild(collabHead(a, '协作面板打不开', '集合中 · ' + a.meetingTime + ' 出发'));
+    page.appendChild(zone(null, '现场计数', '未载入', null, [
       el('div.f-state.f-state--fill',
         stateBlock(null, '加载失败，请检查网络', '协作面板没能取回来，页面上的数据需要重新加载。',
           '重试', () => ui.toast('已重试（演示）'), 'error')),
     ]));
-    page.appendChild(foot(D));
+    page.appendChild(footCollab());
     return page;
   }
   if (flag === 'loading') {
     page.appendChild(collabSkeleton());
-    page.appendChild(foot(D));
+    page.appendChild(footCollab());
     return page;
   }
 
@@ -941,12 +946,14 @@ export function renderCollab(ctx) {
 
   page.appendChild(collabHead(a,
     s0.unchecked ? s0.unchecked + ' 人未签到' : '全员已签到',
-    base.phase + ' · 集合点 ' + a.meetingPoint + ' · 出发 ' + a.meetingTime));
+    base.phase + ' · ' + a.meetingTime + ' 出发 · ' + a.meetingPoint));
   if (locked) {
     page.appendChild(el('div.f-note-line',
       el('div.f-note-line__k', { text: '只读' }),
       el('span', { text: '签到已由领队锁定，现场以纸面名单为准。' })));
   }
+
+  paintNext();
 
   const seg = el('div.seg.f-seg');
   const body = el('div.f-tabbody');
@@ -955,7 +962,6 @@ export function renderCollab(ctx) {
   const arrivedFill = el('i.f-meter__fill');
   const headline = page.querySelector('.f-headline');
   const needNote = el('span.f-actions__note');
-  const tri = el('div.f-tri');
   const whoBox = el('div.f-who');
 
   function paintSeg() {
@@ -997,7 +1003,7 @@ export function renderCollab(ctx) {
     });
     whoBox.appendChild(el('div.f-who__more', { text: '共 ' + roster.length + ' 位' }));
     if (zone2Meta) {
-      zone2Meta.textContent = roster.length + ' 位 · ' + D.vehicles.length + ' 台车 · 现场 ' + s.checked;
+      zone2Meta.textContent = roster.length + ' 位 · ' + D.vehicles.length + ' 台车';
     }
     if (arrived) {
       arrived.textContent = s.checked + ' / ' + s.approved;
@@ -1005,22 +1011,14 @@ export function renderCollab(ctx) {
     }
   }
 
-  /* E7：集合点独占整行，折行不再撑高另外两格 */
-  tri.appendChild(el('div.f-tri__cell.f-tri__cell--wide',
-    el('div.f-tri__k', { text: '集合点' }),
-    el('div.f-tri__v.f-tri__v--wide', { text: a.meetingPoint })));
-  tri.appendChild(el('div.f-tri__cell',
-    el('div.f-tri__k', { text: '出发时间' }),
-    el('div.f-tri__v.num', { text: a.meetingTime })));
-  tri.appendChild(el('div.f-tri__cell',
-    el('div.f-tri__k', { text: '到点人数' }),
+  const arrival = el('div.f-arrival',
+    el('div.f-arrival__k', { text: '到点人数' }),
     arrived,
-    el('div.f-meter', arrivedFill)));
+    el('div.f-arrival__meter', el('div.f-meter', arrivedFill)));
 
-  page.appendChild(zone(1, '现场计数', base.phase, null, [
+  page.appendChild(zone(null, '现场计数', '更新 22:10', null, [
     whoBox,
-    countdown('距出发集合', at(a.dateText, a.meetingTime), a.meetingTime + ' 出发 · 演示时钟 10/17 22:10'),
-    tri,
+    arrival,
     countsRow,
     actions(null,
       needNote,
@@ -1127,12 +1125,6 @@ export function renderCollab(ctx) {
     const s = tally(roster);
 
     if (tab === 'over') {
-      body.appendChild(subhead('集合点', a.weekdayText + ' ' + a.dateText));
-      body.appendChild(el('div.f-specs',
-        spec('集合点', a.meetingPoint),
-        spec('集合时间', a.meetingTime),
-        spec('领队车长', fmt(roster.filter((m) => m.role !== '成员').length) + ' 位', '', '领队 ' + a.leader)));
-
       body.appendChild(subhead('成员', '显示前 5 位 · 共 ' + roster.length + ' 位'));
       body.appendChild(el('div.f-mlist',
         ...roster.slice(0, 5).map((m, i) => memberRow(m, true, i))));
@@ -1154,9 +1146,6 @@ export function renderCollab(ctx) {
     if (tab === 'list') {
       body.appendChild(subhead('名单', '领队与车长优先 · 共 ' + roster.length + ' 位'));
       body.appendChild(rosterLedger(roster.slice().sort((x, y) => (x.role === '成员') - (y.role === '成员'))));
-      body.appendChild(el('div.f-note-line',
-        el('div.f-note-line__k', { text: '口径' }),
-        el('span', { text: '座位列为右对齐数字；司机标「司机」，未分配车辆标「—」。' })));
     }
 
     if (tab === 'car') {
@@ -1185,9 +1174,14 @@ export function renderCollab(ctx) {
                   el('small', { text: (m ? seatText(m) : (i + 1) + ' 号') + (mine ? ' · 你' : '') }));
               })));
         })));
+      const openCars = D.vehicles.filter((v) => v.seats.filter(Boolean).length < v.capacity);
       body.appendChild(el('div.f-note-line',
         el('div.f-note-line__k', { text: '空位' }),
-        el('span', { text: '2 号车与 4 号车仍可安排拼车，点成员行可在名单里调整。' })));
+        el('span', {
+          text: openCars.length
+            ? openCars.map((v) => v.label).join('、') + '仍有空位；待定成员 ' + tally(roster).noVehicle + ' 人。'
+            : '所有车辆已满员。',
+        })));
       body.appendChild(actions('演示操作，不会真实调整座位。',
         el('button.btn.btn--sm', {
           type: 'button', text: '自动排座', disabled: locked,
@@ -1226,21 +1220,19 @@ export function renderCollab(ctx) {
     paintNext();
   }
 
-  /** 下一步工位：每次签到 / 切栏都原位重建，保证页面里永远只有一个工位 03 */
+  /** 下一步：每次签到 / 切栏都原位重建，永远只有一个任务卡 */
   function paintNext() {
     const s = tally(roster);
     const nextText = departureSent
       ? '出发确认已发出，等待 4 位车长回复（演示）'
-      : base.nextStep;
-    const node = zone(3, '下一步', departureSent ? '已发起' : '待发起', null, [
+      : s.unchecked
+        ? '还有 ' + s.unchecked + ' 人未到集合点'
+          + (s.noVehicle ? '，其中 ' + s.noVehicle + ' 人未安排车辆' : '') + '。'
+        : '全员已到集合点，可以发起出发确认。';
+    const node = zone(null, '下一步', departureSent ? '已发起' : '待发起', null, [
       el('div.f-callout',
-        kick(base.phase + ' · 现场'),
+        kick(departureSent ? '等待回复' : '现在要处理'),
         el('div.f-callout__text', { text: nextText }),
-        el('div.f-callout__specs',
-          spec('待到', String(s.unchecked), '人',
-            '占通过人数 ' + Math.round((s.unchecked / Math.max(1, s.approved)) * 100) + '%'),
-          spec('未排车', String(s.noVehicle), '人'),
-          spec('已签到', String(s.checked), '人', '更新于 22:10')),
         el('button.btn.btn--primary.f-bar__main.f-callout__cta' + (departureSent ? '.is-sent' : ''), {
           type: 'button', disabled: locked || departureSent,
           onclick: () => {
@@ -1249,9 +1241,8 @@ export function renderCollab(ctx) {
             ui.toast('出发确认已发起，等待 4 位车长回复（演示）');
             paintNext();
           },
-        }, el('span', { text: departureSent ? '确认已发起' : '发起出发确认' }), icon('arrow-right'))),
-      actions('演示数据，不会真的发通知。',
-        link('回到发现页', () => ui.go('discover'))),
+        }, el('span', { text: departureSent ? '确认已发起' : '发起出发确认' }), icon('arrow-right')),
+        el('div.f-callout__note', { text: '演示数据，不会真的发通知。' })),
     ]);
     node.classList.add('f-zone--next');
     const old = page.querySelector('.f-zone--next');
@@ -1261,13 +1252,14 @@ export function renderCollab(ctx) {
 
   paintSeg();
   /* C3：卡头 meta 由首次 tally 播种、此后随签到刷新（原先恒为空串，死代码把渲染挡死） */
-  const zone2 = zone(2, '名单与分车',
+  const zone2 = zone(null, '名单与分车',
     roster.length + ' 位 · ' + D.vehicles.length + ' 台车 · 现场 ' + s0.checked, 'oat', [seg, body], true);
   const zone2Meta = zone2.querySelector('.f-zone__meta');
   page.appendChild(zone2);
   paintCounts();
   paintTab();
-  page.appendChild(foot(D));
+  page.appendChild(el('div.f-pageback', link('回到发现页', () => ui.go('discover'))));
+  page.appendChild(footCollab());
   return page;
 }
 
@@ -1369,18 +1361,18 @@ function sparkSVG(hours, lo, hi, bands) {
   });
 
   /* 轴：右端上下值 + 6 小时刻度 */
-  s += '<text x="' + (plotW + 4) + '" y="' + (py(hi) + 3).toFixed(1) + '" font-size="10" fill="var(--lab-text-3)" font-family="inherit">'
+  s += '<text x="' + (plotW + 4) + '" y="' + (py(hi) + 3).toFixed(1) + '" font-size="11" fill="var(--lab-text-3)" font-family="inherit">'
     + hi.toFixed(1) + '</text>';
-  s += '<text x="' + (plotW + 4) + '" y="' + (py((lo + hi) / 2) + 3).toFixed(1) + '" font-size="10" fill="var(--lab-text-3)" font-family="inherit">'
+  s += '<text x="' + (plotW + 4) + '" y="' + (py((lo + hi) / 2) + 3).toFixed(1) + '" font-size="11" fill="var(--lab-text-3)" font-family="inherit">'
     + ((lo + hi) / 2).toFixed(1) + '</text>';
-  s += '<text x="' + (plotW + 4) + '" y="' + (py(lo) + 3).toFixed(1) + '" font-size="10" fill="var(--lab-text-3)" font-family="inherit">'
+  s += '<text x="' + (plotW + 4) + '" y="' + (py(lo) + 3).toFixed(1) + '" font-size="11" fill="var(--lab-text-3)" font-family="inherit">'
     + lo.toFixed(1) + '</text>';
   hours.forEach((d, i) => {
     if (d.t.getHours() % 6) return;
     const label = d.t.getHours() === 0
       ? (d.t.getMonth() + 1) + '/' + d.t.getDate()
       : ('0' + d.t.getHours()).slice(-2) + ':00';
-    s += '<text x="' + px(i).toFixed(1) + '" y="' + (H - 6) + '" font-size="10" text-anchor="middle" fill="var(--lab-text-3)" font-family="inherit">'
+    s += '<text x="' + px(i).toFixed(1) + '" y="' + (H - 6) + '" font-size="11" text-anchor="middle" fill="var(--lab-text-3)" font-family="inherit">'
       + label + '</text>';
   });
   return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" height="' + H + '" aria-hidden="true">' + s + '</svg>';
@@ -1413,34 +1405,35 @@ export function renderWeather(ctx) {
   const { D, flag, ui } = ctx;
   const page = el('div.page.f-weather');
   const { meta, hours } = D.weather;
+  const footWeather = () => foot(D, '演示数据 · 静态气象快照');
   const locked = flag === 'disabled';
   /* V2-7：脚注首词已是「演示数据」，来源行再起一次「演示数据」就是同一句话说两遍；
      去掉这个重复前缀，只留气象口径本身（非真实气象服务），信息不丢。 */
   const weatherSource = String(meta.source).replace(/^演示数据\s*·\s*/, '');
 
   if (flag === 'empty') {
-    page.appendChild(zone(1, '站位规格', '未载入', null, [
+    page.appendChild(zone(null, '站位规格', '未载入', null, [
       el('div.f-state.f-state--fill',
         stateBlock('cloud', '数据缺失', '这条路线暂时没有关联的气象站点，出发前请以现场实况为准。',
           '重试', () => ui.toast('已重试（演示）'), 'quiet')),
     ]));
     page.appendChild(el('div.f-note-line',
       el('div.f-note-line__k', { text: '来源' }), el('span', { text: weatherSource })));
-    page.appendChild(foot(D));
+    page.appendChild(footWeather());
     return page;
   }
   if (flag === 'error') {
-    page.appendChild(zone(1, '站位规格', '未载入', null, [
+    page.appendChild(zone(null, '站位规格', '未载入', null, [
       el('div.f-state.f-state--fill',
         stateBlock(null, '加载失败，请检查网络', '预报数据没能取回来。',
           '重试', () => ui.toast('已重试（演示）'), 'error')),
     ]));
-    page.appendChild(foot(D));
+    page.appendChild(footWeather());
     return page;
   }
   if (flag === 'loading') {
     page.appendChild(weatherSkeleton());
-    page.appendChild(foot(D));
+    page.appendChild(footWeather());
     return page;
   }
 
@@ -1468,7 +1461,7 @@ export function renderWeather(ctx) {
   /* 出发窗口的绝对时刻：窗口文案形如「周日 06:00–10:00」，取其起点钟点挂在 10/19（演示历的周日） */
   const winStart = /(\d{1,2}):(\d{2})/.exec(win[0] || '');
   const winAt = winStart ? new Date(2025, 9, 19, Number(winStart[1]), Number(winStart[2])) : null;
-  page.appendChild(zone(1, '站位规格', '48 小时读数', null, [
+  page.appendChild(zone(null, '站位规格', '48 小时读数', null, [
     el('div.f-specs',
       spec('出发窗口', win[0]),
       spec('站点海拔', fmt(meta.elevationM), 'm'),
@@ -1512,7 +1505,7 @@ export function renderWeather(ctx) {
     }));
   });
 
-  page.appendChild(zone(2, '48 小时曲线', fmt(hours.length) + ' 条 · 点选任意小时', 'oat', [
+  page.appendChild(zone(null, '48 小时曲线', fmt(hours.length) + ' 条 · 点选任意小时', 'oat', [
     legend,
     el('div.f-spark',
       el('div.f-spark__plot', { html: sparkSVG(hours, lo, hi, bands) }),
@@ -1588,9 +1581,9 @@ export function renderWeather(ctx) {
     tap(row, () => { if (locked) return; sel = idx; paint(); });
     hourlyBox.appendChild(row);
   });
-  page.appendChild(zone(3, '逐时判定', fmt(hourly.length) + ' 行 · 每 6 小时', null, [
+  page.appendChild(zone(null, '逐时判定', fmt(hourly.length) + ' 行 · 每 6 小时', null, [
     hourlyBox,
-    el('div.f-zone__caption', { text: '点一行即可把上方曲线与读数跳到该小时（高亮行为当前选中）。' }),
+    el('div.f-zone__caption', { text: '点一行定位到该小时。' }),
   ]));
 
   /* --- 工位 04：窗口判定表（编辑部判定 + 由数据推出的其余窗口） --- */
@@ -1640,17 +1633,17 @@ export function renderWeather(ctx) {
     });
     winBox.appendChild(row);
   });
-  page.appendChild(zone(4, '窗口判定', meta.window.length + ' 条编辑部 + ' + Math.max(0, bands.length - 1) + ' 条数据推出', 'oat', [
+  page.appendChild(zone(null, '窗口判定', meta.window.length + ' 条关键窗口 + ' + Math.max(0, bands.length - 1) + ' 条数据推出', 'oat', [
     winBox,
-    el('div.f-zone__caption', { text: '点一行可跳到该时段的曲线读数；数值由 48 小时数据逐时算出。' }),
+    el('div.f-zone__caption', { text: '点一行定位到该时段。' }),
   ]));
 
   /* --- 工位 05：决策便笺 --- */
   const winHours = cloud ? hours.slice(cloud.from, cloud.to + 1) : [];
   /* D4：删掉与工位 03/04 重复的云量、降水复述，只留可执行结论（何时等、何时下撤） */
-  page.appendChild(zone(5, '编辑建议', '按窗口排程', null, [
+  page.appendChild(zone(null, '决策建议', '按窗口排程', null, [
     el('div.f-memo',
-      kick('编辑部便笺'),
+      kick('领队判断'),
       el('p.f-body', {
         text: '按「' + win[0] + '」安排山顶等候 —— '
           + (winHours.length
@@ -1668,6 +1661,6 @@ export function renderWeather(ctx) {
   page.appendChild(el('div.f-note-line',
     el('div.f-note-line__k', { text: '来源' }),
     el('span', { text: weatherSource })));
-  page.appendChild(foot(D));
+  page.appendChild(footWeather());
   return page;
 }
