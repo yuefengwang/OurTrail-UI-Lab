@@ -1,0 +1,2628 @@
+{
+  "base": "http://127.0.0.1:4174/round4/index.html",
+  "capturedAt": "2026-10-19T23:10:39.974Z",
+  "pages": [
+    {
+      "view": "hybrid",
+      "vp": 375,
+      "height": 667,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 1712,
+      "clientHeight": 603,
+      "fold": 603,
+      "pageWidth": 375,
+      "overflowX": 5,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "发现",
+          "top": 60
+        },
+        {
+          "tag": "H2",
+          "text": "赵公山 · 东线穿越",
+          "top": 398
+        },
+        {
+          "tag": "H2",
+          "text": "全部活动按出发时间",
+          "top": 649
+        }
+      ],
+      "buttons": [
+        {
+          "text": "全部9",
+          "top": 721,
+          "bottom": 765,
+          "disabled": false,
+          "cls": "seg__item is-active"
+        },
+        {
+          "text": "可报名5",
+          "top": 721,
+          "bottom": 765,
+          "disabled": false,
+          "cls": "seg__item"
+        },
+        {
+          "text": "已成行2",
+          "top": 721,
+          "bottom": 765,
+          "disabled": false,
+          "cls": "seg__item"
+        },
+        {
+          "text": "已结束2",
+          "top": 721,
+          "bottom": 765,
+          "disabled": false,
+          "cls": "seg__item"
+        }
+      ],
+      "imgs": [
+        {
+          "src": "../assets/photos/cover-ridge.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 147,
+          "height": 211
+        },
+        {
+          "src": "../assets/photos/cover-valley.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 826,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-dawn.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 907,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-snow.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1036,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-coast.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1134,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-gorge.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1215,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-fjord.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1296,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-falls.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1429,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/sky-storm.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1510,
+          "height": 64
+        }
+      ],
+      "text": "先看，再挑\n10 月 17 日\n发现\n\n成都周边 · 9 场活动 · 按出发时间\n\n明晚 22:10 出发\n·\n10 月 18 日 周六\n·\n都江堰\n最近出发\n距出发 1 天\n·\n余位\n7 / 24\n赵公山 · 东线穿越\n\n九龙沟上 · 环线下 · 进阶\n\n夜爬成都最近的 2400 米级山峰，山顶看日出，下撤后早餐收队。\n\n18.6\nkm\n1,180\nm 爬升\n领队\n林溪\nAA\n¥60\n查看安排\n报名中\n全部活动\n按出发时间\n8 场 · 置顶已在上方\n全部\n9\n可报名\n5\n已成行\n2\n已结束\n2\n10 月 · 2 场\n10/25–10/26\n25\n周六\n青城后山 · 万佛洞环线\n泰安古镇 · 五龙沟 · 又一村 · 都江堰\n12.4\nkm\n640\nm 爬升\n报名中\n剩 9 位\n领队 王屿\n26\n周日\n巴郎山 · 草甸徒步\n熊猫王国之巅 · 下撤草甸线 · 小金县\n9.8\nkm\n520\nm 爬升\n报名中\n剩 15 位\n领队 阿川\n11 月 · 4 场\n11/01–11/22\n1\n周六日\n四姑娘山 · 大峰攀登（2 日）\n海子沟 · 大峰大本营 · 小金县\n32\nkm\n2,100\nm 爬升\n名额紧张\n剩 3 位\n领队 阿川\n8\n周六\n龙泉山 · 夜途拉练\n仰天窝 · 丹景台环线 · 成都\n22\nkm\n420\nm 爬升\n已成行\n满员\n领队 郑南\n15\n周六\n峨眉山 · 万佛顶穿线\n报国寺 · 清音阁 · 雷洞坪 · 峨眉山\n26\nkm\n1,560\nm 爬升\n已成行\n满员\n领队 郑南\n22\n周六\n牛背山 · 云海日出\n冷碛镇 · 山顶营地线 · 泸定县\n8.6\nkm\n520\nm 爬升\n报名中\n剩 18 位\n领队 陈暮\n已结束与已取消 · 2 场\n10/11–10/12\n12\n周日\n小鱼洞 · 溯溪轻徒步\n中坝村 · 白鹿镇 · 彭州\n6.2\nkm\n280\nm 爬升\n已取消\n领队 王屿\n11\n周六\n铁瓦殿 · 夜爬小分队\n园觉寺 · 铁瓦殿折返 · 蒲江\n11\nkm\n900\nm 爬升\n已结束\n领队 林溪\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 4 设计工艺实验 · 演示数据 · 非真实后端",
+      "sections": [
+        {
+          "tag": "HEADER",
+          "cls": "hy-mast",
+          "top": 0,
+          "height": 123
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-hero",
+          "top": 147,
+          "height": 453
+        },
+        {
+          "tag": "SECTION",
+          "cls": "hy-seam",
+          "top": 640,
+          "height": 134
+        },
+        {
+          "tag": "SECTION",
+          "cls": "hy-compare",
+          "top": 778,
+          "height": 805
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 818,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 899,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1028,
+          "height": 98
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1126,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1207,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1288,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row hy-row--past",
+          "top": 1421,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row hy-row--past",
+          "top": 1502,
+          "height": 81
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 1607,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "hybrid",
+      "vp": 390,
+      "height": 844,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 1720,
+      "clientHeight": 780,
+      "fold": 780,
+      "pageWidth": 390,
+      "overflowX": 5,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "发现",
+          "top": 60
+        },
+        {
+          "tag": "H2",
+          "text": "赵公山 · 东线穿越",
+          "top": 406
+        },
+        {
+          "tag": "H2",
+          "text": "全部活动按出发时间",
+          "top": 658
+        }
+      ],
+      "buttons": [
+        {
+          "text": "全部9",
+          "top": 729,
+          "bottom": 773,
+          "disabled": false,
+          "cls": "seg__item is-active"
+        },
+        {
+          "text": "可报名5",
+          "top": 729,
+          "bottom": 773,
+          "disabled": false,
+          "cls": "seg__item"
+        },
+        {
+          "text": "已成行2",
+          "top": 729,
+          "bottom": 773,
+          "disabled": false,
+          "cls": "seg__item"
+        },
+        {
+          "text": "已结束2",
+          "top": 729,
+          "bottom": 773,
+          "disabled": false,
+          "cls": "seg__item"
+        }
+      ],
+      "imgs": [
+        {
+          "src": "../assets/photos/cover-ridge.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 147,
+          "height": 219
+        },
+        {
+          "src": "../assets/photos/cover-valley.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 835,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-dawn.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 916,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-snow.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1045,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-coast.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1143,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-gorge.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1224,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-fjord.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1305,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-falls.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1438,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/sky-storm.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1519,
+          "height": 64
+        }
+      ],
+      "text": "先看，再挑\n10 月 17 日\n发现\n\n成都周边 · 9 场活动 · 按出发时间\n\n明晚 22:10 出发\n·\n10 月 18 日 周六\n·\n都江堰\n最近出发\n距出发 1 天\n·\n余位\n7 / 24\n赵公山 · 东线穿越\n\n九龙沟上 · 环线下 · 进阶\n\n夜爬成都最近的 2400 米级山峰，山顶看日出，下撤后早餐收队。\n\n18.6\nkm\n1,180\nm 爬升\n领队\n林溪\nAA\n¥60\n查看安排\n报名中\n全部活动\n按出发时间\n8 场 · 置顶已在上方\n全部\n9\n可报名\n5\n已成行\n2\n已结束\n2\n10 月 · 2 场\n10/25–10/26\n25\n周六\n青城后山 · 万佛洞环线\n泰安古镇 · 五龙沟 · 又一村 · 都江堰\n12.4\nkm\n640\nm 爬升\n报名中\n剩 9 位\n领队 王屿\n26\n周日\n巴郎山 · 草甸徒步\n熊猫王国之巅 · 下撤草甸线 · 小金县\n9.8\nkm\n520\nm 爬升\n报名中\n剩 15 位\n领队 阿川\n11 月 · 4 场\n11/01–11/22\n1\n周六日\n四姑娘山 · 大峰攀登（2 日）\n海子沟 · 大峰大本营 · 小金县\n32\nkm\n2,100\nm 爬升\n名额紧张\n剩 3 位\n领队 阿川\n8\n周六\n龙泉山 · 夜途拉练\n仰天窝 · 丹景台环线 · 成都\n22\nkm\n420\nm 爬升\n已成行\n满员\n领队 郑南\n15\n周六\n峨眉山 · 万佛顶穿线\n报国寺 · 清音阁 · 雷洞坪 · 峨眉山\n26\nkm\n1,560\nm 爬升\n已成行\n满员\n领队 郑南\n22\n周六\n牛背山 · 云海日出\n冷碛镇 · 山顶营地线 · 泸定县\n8.6\nkm\n520\nm 爬升\n报名中\n剩 18 位\n领队 陈暮\n已结束与已取消 · 2 场\n10/11–10/12\n12\n周日\n小鱼洞 · 溯溪轻徒步\n中坝村 · 白鹿镇 · 彭州\n6.2\nkm\n280\nm 爬升\n已取消\n领队 王屿\n11\n周六\n铁瓦殿 · 夜爬小分队\n园觉寺 · 铁瓦殿折返 · 蒲江\n11\nkm\n900\nm 爬升\n已结束\n领队 林溪\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 4 设计工艺实验 · 演示数据 · 非真实后端",
+      "sections": [
+        {
+          "tag": "HEADER",
+          "cls": "hy-mast",
+          "top": 0,
+          "height": 123
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-hero",
+          "top": 147,
+          "height": 461
+        },
+        {
+          "tag": "SECTION",
+          "cls": "hy-seam",
+          "top": 649,
+          "height": 134
+        },
+        {
+          "tag": "SECTION",
+          "cls": "hy-compare",
+          "top": 786,
+          "height": 805
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 827,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 908,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1037,
+          "height": 98
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1135,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1216,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1297,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row hy-row--past",
+          "top": 1430,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row hy-row--past",
+          "top": 1511,
+          "height": 81
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 1616,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "hybrid",
+      "vp": 414,
+      "height": 896,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 1734,
+      "clientHeight": 832,
+      "fold": 832,
+      "pageWidth": 414,
+      "overflowX": 3,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "发现",
+          "top": 60
+        },
+        {
+          "tag": "H2",
+          "text": "赵公山 · 东线穿越",
+          "top": 419
+        },
+        {
+          "tag": "H2",
+          "text": "全部活动按出发时间",
+          "top": 671
+        }
+      ],
+      "buttons": [
+        {
+          "text": "全部9",
+          "top": 743,
+          "bottom": 787,
+          "disabled": false,
+          "cls": "seg__item is-active"
+        },
+        {
+          "text": "可报名5",
+          "top": 743,
+          "bottom": 787,
+          "disabled": false,
+          "cls": "seg__item"
+        },
+        {
+          "text": "已成行2",
+          "top": 743,
+          "bottom": 787,
+          "disabled": false,
+          "cls": "seg__item"
+        },
+        {
+          "text": "已结束2",
+          "top": 743,
+          "bottom": 787,
+          "disabled": false,
+          "cls": "seg__item"
+        }
+      ],
+      "imgs": [
+        {
+          "src": "../assets/photos/cover-ridge.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 147,
+          "height": 233
+        },
+        {
+          "src": "../assets/photos/cover-valley.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 848,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-dawn.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 929,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-snow.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1058,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-coast.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1156,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-gorge.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1237,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-fjord.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1318,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/cover-falls.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1451,
+          "height": 64
+        },
+        {
+          "src": "../assets/photos/sky-storm.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 1532,
+          "height": 64
+        }
+      ],
+      "text": "先看，再挑\n10 月 17 日\n发现\n\n成都周边 · 9 场活动 · 按出发时间\n\n明晚 22:10 出发\n·\n10 月 18 日 周六\n·\n都江堰\n最近出发\n距出发 1 天\n·\n余位\n7 / 24\n赵公山 · 东线穿越\n\n九龙沟上 · 环线下 · 进阶\n\n夜爬成都最近的 2400 米级山峰，山顶看日出，下撤后早餐收队。\n\n18.6\nkm\n1,180\nm 爬升\n领队\n林溪\nAA\n¥60\n查看安排\n报名中\n全部活动\n按出发时间\n8 场 · 置顶已在上方\n全部\n9\n可报名\n5\n已成行\n2\n已结束\n2\n10 月 · 2 场\n10/25–10/26\n25\n周六\n青城后山 · 万佛洞环线\n泰安古镇 · 五龙沟 · 又一村 · 都江堰\n12.4\nkm\n640\nm 爬升\n报名中\n剩 9 位\n领队 王屿\n26\n周日\n巴郎山 · 草甸徒步\n熊猫王国之巅 · 下撤草甸线 · 小金县\n9.8\nkm\n520\nm 爬升\n报名中\n剩 15 位\n领队 阿川\n11 月 · 4 场\n11/01–11/22\n1\n周六日\n四姑娘山 · 大峰攀登（2 日）\n海子沟 · 大峰大本营 · 小金县\n32\nkm\n2,100\nm 爬升\n名额紧张\n剩 3 位\n领队 阿川\n8\n周六\n龙泉山 · 夜途拉练\n仰天窝 · 丹景台环线 · 成都\n22\nkm\n420\nm 爬升\n已成行\n满员\n领队 郑南\n15\n周六\n峨眉山 · 万佛顶穿线\n报国寺 · 清音阁 · 雷洞坪 · 峨眉山\n26\nkm\n1,560\nm 爬升\n已成行\n满员\n领队 郑南\n22\n周六\n牛背山 · 云海日出\n冷碛镇 · 山顶营地线 · 泸定县\n8.6\nkm\n520\nm 爬升\n报名中\n剩 18 位\n领队 陈暮\n已结束与已取消 · 2 场\n10/11–10/12\n12\n周日\n小鱼洞 · 溯溪轻徒步\n中坝村 · 白鹿镇 · 彭州\n6.2\nkm\n280\nm 爬升\n已取消\n领队 王屿\n11\n周六\n铁瓦殿 · 夜爬小分队\n园觉寺 · 铁瓦殿折返 · 蒲江\n11\nkm\n900\nm 爬升\n已结束\n领队 林溪\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 4 设计工艺实验 · 演示数据 · 非真实后端",
+      "sections": [
+        {
+          "tag": "HEADER",
+          "cls": "hy-mast",
+          "top": 0,
+          "height": 123
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-hero",
+          "top": 147,
+          "height": 475
+        },
+        {
+          "tag": "SECTION",
+          "cls": "hy-seam",
+          "top": 662,
+          "height": 134
+        },
+        {
+          "tag": "SECTION",
+          "cls": "hy-compare",
+          "top": 800,
+          "height": 805
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 840,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 921,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1050,
+          "height": 98
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1148,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1229,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row",
+          "top": 1310,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row hy-row--past",
+          "top": 1443,
+          "height": 81
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "hy-row hy-row--past",
+          "top": 1524,
+          "height": 81
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 1629,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "detail",
+      "vp": 375,
+      "height": 667,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 2245,
+      "clientHeight": 603,
+      "fold": 603,
+      "pageWidth": 375,
+      "overflowX": 0,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "赵公山 · 东线穿越",
+          "top": 243
+        },
+        {
+          "tag": "H2",
+          "text": "行程",
+          "top": 540
+        },
+        {
+          "tag": "H2",
+          "text": "集合与出发出发前请核对",
+          "top": 1037
+        },
+        {
+          "tag": "H2",
+          "text": "路线画像",
+          "top": 1133
+        },
+        {
+          "tag": "H2",
+          "text": "领队",
+          "top": 1358
+        },
+        {
+          "tag": "H2",
+          "text": "装备要求",
+          "top": 1590
+        },
+        {
+          "tag": "H2",
+          "text": "费用说明",
+          "top": 1890
+        }
+      ],
+      "buttons": [
+        {
+          "text": "查看山顶天气",
+          "top": 435,
+          "bottom": 483,
+          "disabled": false,
+          "cls": "btn btn--primary det-hero__cta"
+        },
+        {
+          "text": "查看名单与分车",
+          "top": 1506,
+          "bottom": 1542,
+          "disabled": false,
+          "cls": "btn btn--ghost det-leader__more"
+        },
+        {
+          "text": "立即报名",
+          "top": 543,
+          "bottom": 591,
+          "disabled": false,
+          "cls": "btn btn--primary det-cta__btn"
+        }
+      ],
+      "imgs": [
+        {
+          "src": "../assets/photos/cover-ridge.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 0,
+          "height": 211
+        }
+      ],
+      "text": "10 月 18 日 周六\n·\n22:10 出发\n·\n都江堰\n活动详情\n距出发 1 天\n赵公山 · 东线穿越\n\n九龙沟上 · 环线下\n\n夜爬成都最近的 2400 米级山峰，山顶看日出，下撤后早餐收队。\n\n名额\n24\n难度\n进阶\n剩 7 位\n查看山顶天气\n报名中\n行程\n8 站 · 跨夜\n22:10\n\n茶店子地铁 A 口集合出发，车上讲解路线与安全事项\n\n23:40\n\n抵达九龙沟起点，整理装备、集体热身\n\n00:10\n\n开始夜爬，前段缓坡保持节奏\n\n03:30\n\n登顶前最后一段陡坡，注意手拉点，结伴通过\n\n04:50\n\n登顶 2434 米，休整等待日出，注意保暖\n\n06:20\n\n日出结束，拍照后原路下撤\n\n09:00\n\n回到停车点，农家早餐后返程\n\n11:30\n\n抵达成都茶店子，活动结束\n\n集合与出发\n出发前请核对\n明晚 22:10 出发\n集合点\n茶店子客运站 · 地铁 A 口\n路线画像\n都江堰\n\n九龙沟上 · 环线下\n\n18.6\nkm\n1180\nm 爬升\n难度\n进阶\n都江堰\n领队\n17 / 24 已报名\n溪\n林溪\n领队\n拼车\n·\n电话尾号 0831\n·\n1 号车 1 座\n·\n21:48 已签到\n查看名单与分车\n装备要求\n5 项\n头灯或手电（必备，夜爬核心装备）\n防滑鞋（下坡碎石路段多）\n饮水 1.5L 以上，高热量路餐 2 份\n冲锋衣：山顶清晨 4–6℃，注意防风保温\n登山杖建议携带（下坡护膝）\n费用说明\n费用与结算\n\n包车费用 AA，人均约 ¥60，结束后群内结算；平台不收取任何费用。\n\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 3 设计实验 · 同一演示数据 · 非真实后端\n\n报名截止 10 月 18 日 20:00\n\n立即报名",
+      "sections": [
+        {
+          "tag": "ARTICLE",
+          "cls": "det-hero",
+          "top": 0,
+          "height": 508
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 540,
+          "height": 452
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-seam",
+          "top": 1024,
+          "height": 77
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1133,
+          "height": 194
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1358,
+          "height": 200
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1590,
+          "height": 268
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1890,
+          "height": 161
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 2084,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "detail",
+      "vp": 390,
+      "height": 844,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 2254,
+      "clientHeight": 780,
+      "fold": 780,
+      "pageWidth": 390,
+      "overflowX": 0,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "赵公山 · 东线穿越",
+          "top": 252
+        },
+        {
+          "tag": "H2",
+          "text": "行程",
+          "top": 548
+        },
+        {
+          "tag": "H2",
+          "text": "集合与出发出发前请核对",
+          "top": 1045
+        },
+        {
+          "tag": "H2",
+          "text": "路线画像",
+          "top": 1141
+        },
+        {
+          "tag": "H2",
+          "text": "领队",
+          "top": 1367
+        },
+        {
+          "tag": "H2",
+          "text": "装备要求",
+          "top": 1599
+        },
+        {
+          "tag": "H2",
+          "text": "费用说明",
+          "top": 1899
+        }
+      ],
+      "buttons": [
+        {
+          "text": "查看山顶天气",
+          "top": 443,
+          "bottom": 491,
+          "disabled": false,
+          "cls": "btn btn--primary det-hero__cta"
+        },
+        {
+          "text": "查看名单与分车",
+          "top": 1515,
+          "bottom": 1551,
+          "disabled": false,
+          "cls": "btn btn--ghost det-leader__more"
+        },
+        {
+          "text": "立即报名",
+          "top": 720,
+          "bottom": 768,
+          "disabled": false,
+          "cls": "btn btn--primary det-cta__btn"
+        }
+      ],
+      "imgs": [
+        {
+          "src": "../assets/photos/cover-ridge.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 0,
+          "height": 219
+        }
+      ],
+      "text": "10 月 18 日 周六\n·\n22:10 出发\n·\n都江堰\n活动详情\n距出发 1 天\n赵公山 · 东线穿越\n\n九龙沟上 · 环线下\n\n夜爬成都最近的 2400 米级山峰，山顶看日出，下撤后早餐收队。\n\n名额\n24\n难度\n进阶\n剩 7 位\n查看山顶天气\n报名中\n行程\n8 站 · 跨夜\n22:10\n\n茶店子地铁 A 口集合出发，车上讲解路线与安全事项\n\n23:40\n\n抵达九龙沟起点，整理装备、集体热身\n\n00:10\n\n开始夜爬，前段缓坡保持节奏\n\n03:30\n\n登顶前最后一段陡坡，注意手拉点，结伴通过\n\n04:50\n\n登顶 2434 米，休整等待日出，注意保暖\n\n06:20\n\n日出结束，拍照后原路下撤\n\n09:00\n\n回到停车点，农家早餐后返程\n\n11:30\n\n抵达成都茶店子，活动结束\n\n集合与出发\n出发前请核对\n明晚 22:10 出发\n集合点\n茶店子客运站 · 地铁 A 口\n路线画像\n都江堰\n\n九龙沟上 · 环线下\n\n18.6\nkm\n1180\nm 爬升\n难度\n进阶\n都江堰\n领队\n17 / 24 已报名\n溪\n林溪\n领队\n拼车\n·\n电话尾号 0831\n·\n1 号车 1 座\n·\n21:48 已签到\n查看名单与分车\n装备要求\n5 项\n头灯或手电（必备，夜爬核心装备）\n防滑鞋（下坡碎石路段多）\n饮水 1.5L 以上，高热量路餐 2 份\n冲锋衣：山顶清晨 4–6℃，注意防风保温\n登山杖建议携带（下坡护膝）\n费用说明\n费用与结算\n\n包车费用 AA，人均约 ¥60，结束后群内结算；平台不收取任何费用。\n\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 3 设计实验 · 同一演示数据 · 非真实后端\n\n报名截止 10 月 18 日 20:00\n\n立即报名",
+      "sections": [
+        {
+          "tag": "ARTICLE",
+          "cls": "det-hero",
+          "top": 0,
+          "height": 516
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 548,
+          "height": 452
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-seam",
+          "top": 1032,
+          "height": 77
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1141,
+          "height": 194
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1367,
+          "height": 200
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1599,
+          "height": 268
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1899,
+          "height": 161
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 2092,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "detail",
+      "vp": 414,
+      "height": 896,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 2223,
+      "clientHeight": 832,
+      "fold": 832,
+      "pageWidth": 414,
+      "overflowX": 0,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "赵公山 · 东线穿越",
+          "top": 265
+        },
+        {
+          "tag": "H2",
+          "text": "行程",
+          "top": 562
+        },
+        {
+          "tag": "H2",
+          "text": "集合与出发出发前请核对",
+          "top": 1035
+        },
+        {
+          "tag": "H2",
+          "text": "路线画像",
+          "top": 1131
+        },
+        {
+          "tag": "H2",
+          "text": "领队",
+          "top": 1357
+        },
+        {
+          "tag": "H2",
+          "text": "装备要求",
+          "top": 1568
+        },
+        {
+          "tag": "H2",
+          "text": "费用说明",
+          "top": 1868
+        }
+      ],
+      "buttons": [
+        {
+          "text": "查看山顶天气",
+          "top": 457,
+          "bottom": 505,
+          "disabled": false,
+          "cls": "btn btn--primary det-hero__cta"
+        },
+        {
+          "text": "查看名单与分车",
+          "top": 1484,
+          "bottom": 1520,
+          "disabled": false,
+          "cls": "btn btn--ghost det-leader__more"
+        },
+        {
+          "text": "立即报名",
+          "top": 772,
+          "bottom": 820,
+          "disabled": false,
+          "cls": "btn btn--primary det-cta__btn"
+        }
+      ],
+      "imgs": [
+        {
+          "src": "../assets/photos/cover-ridge.jpg",
+          "w": 720,
+          "h": 450,
+          "top": 0,
+          "height": 233
+        }
+      ],
+      "text": "10 月 18 日 周六\n·\n22:10 出发\n·\n都江堰\n活动详情\n距出发 1 天\n赵公山 · 东线穿越\n\n九龙沟上 · 环线下\n\n夜爬成都最近的 2400 米级山峰，山顶看日出，下撤后早餐收队。\n\n名额\n24\n难度\n进阶\n剩 7 位\n查看山顶天气\n报名中\n行程\n8 站 · 跨夜\n22:10\n\n茶店子地铁 A 口集合出发，车上讲解路线与安全事项\n\n23:40\n\n抵达九龙沟起点，整理装备、集体热身\n\n00:10\n\n开始夜爬，前段缓坡保持节奏\n\n03:30\n\n登顶前最后一段陡坡，注意手拉点，结伴通过\n\n04:50\n\n登顶 2434 米，休整等待日出，注意保暖\n\n06:20\n\n日出结束，拍照后原路下撤\n\n09:00\n\n回到停车点，农家早餐后返程\n\n11:30\n\n抵达成都茶店子，活动结束\n\n集合与出发\n出发前请核对\n明晚 22:10 出发\n集合点\n茶店子客运站 · 地铁 A 口\n路线画像\n都江堰\n\n九龙沟上 · 环线下\n\n18.6\nkm\n1180\nm 爬升\n难度\n进阶\n都江堰\n领队\n17 / 24 已报名\n溪\n林溪\n领队\n拼车\n·\n电话尾号 0831\n·\n1 号车 1 座\n·\n21:48 已签到\n查看名单与分车\n装备要求\n5 项\n头灯或手电（必备，夜爬核心装备）\n防滑鞋（下坡碎石路段多）\n饮水 1.5L 以上，高热量路餐 2 份\n冲锋衣：山顶清晨 4–6℃，注意防风保温\n登山杖建议携带（下坡护膝）\n费用说明\n费用与结算\n\n包车费用 AA，人均约 ¥60，结束后群内结算；平台不收取任何费用。\n\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 3 设计实验 · 同一演示数据 · 非真实后端\n\n报名截止 10 月 18 日 20:00\n\n立即报名",
+      "sections": [
+        {
+          "tag": "ARTICLE",
+          "cls": "det-hero",
+          "top": 0,
+          "height": 530
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 562,
+          "height": 429
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-seam",
+          "top": 1022,
+          "height": 77
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1131,
+          "height": 194
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1357,
+          "height": 179
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1568,
+          "height": 268
+        },
+        {
+          "tag": "SECTION",
+          "cls": "det-sec",
+          "top": 1868,
+          "height": 161
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 2061,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "collab",
+      "vp": 375,
+      "height": 667,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 2761,
+      "clientHeight": 603,
+      "fold": 603,
+      "pageWidth": 375,
+      "overflowX": 0,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "集合与分车",
+          "top": 72
+        },
+        {
+          "tag": "H2",
+          "text": "集合中集合点 茶店子客运站 · 地铁 A 口",
+          "top": 195
+        },
+        {
+          "tag": "H2",
+          "text": "分车",
+          "top": 304
+        },
+        {
+          "tag": "H2",
+          "text": "成员名单",
+          "top": 851
+        }
+      ],
+      "buttons": [
+        {
+          "text": "发起出发确认",
+          "top": 2585,
+          "bottom": 2633,
+          "disabled": false,
+          "cls": "btn btn--primary btn--full col-next__cta"
+        }
+      ],
+      "imgs": [],
+      "text": "活动协作 · 10 月 18 日 周六\n明晚 22:10 出发\n集合与分车\n赵公山 · 东线穿越\n·\n都江堰\n·\n领队 林溪\n集合中\n集合点 茶店子客运站 · 地铁 A 口\n12 / 15 已到\n\n还有 3 人未到集合点，其中 1 人未安排车辆\n\n分车\n4 台 · 16 座\n1 号车\n川A·7X29K\n司机 王屿\n满员\n林溪\n1 座\n苏喧\n2 座\n何隅\n3 座\n郑南\n4 座\n2 号车\n川A·3M06T\n司机 陈暮\n剩 1 位\n黄栗\n1 座\n秦朗\n2 座\n石青\n3 座\n空位\n4 号\n3 号车\n川A·9B15Q\n司机 赵拾\n剩 1 位\n唐夏\n1 座\n魏莱\n2 座\n谢原\n3 座\n空位\n4 号\n4 号车\n川A·6H82D\n司机 周迟\n剩 4 位\n空位\n1 号\n空位\n2 号\n空位\n3 号\n空位\n4 号\n未安排车辆\n罗壹\n1 人\n成员名单\n17 人 · 已通过 15\n已到\n12 人\n林\n林溪\n领队\n拼车\n1 号车 · 1 座\n已通过\n已到\n王\n王屿\n车长\n自驾\n1 号车 · 司机\n已通过\n已到\n陈\n陈暮\n车长\n自驾\n2 号车 · 司机\n已通过\n已到\n赵\n赵拾\n车长\n自驾\n3 号车 · 司机\n已通过\n已到\n周\n周迟\n车长\n自驾\n4 号车 · 司机\n已通过\n已到\n苏\n苏喧\n成员\n拼车\n1 号车 · 2 座\n已通过\n已到\n何\n何隅\n成员\n拼车\n1 号车 · 3 座\n已通过\n已到\n郑\n郑南\n成员\n拼车\n1 号车 · 4 座\n已通过\n已到\n黄\n黄栗\n成员\n拼车\n2 号车 · 1 座\n已通过\n已到\n秦\n秦朗\n成员\n拼车\n2 号车 · 2 座\n已通过\n已到\n唐\n唐夏\n成员\n拼车\n3 号车 · 1 座\n已通过\n已到\n魏\n魏莱\n成员\n拼车\n3 号车 · 2 座\n已通过\n已到\n未到\n3 人\n石\n石青\n成员\n拼车\n2 号车 · 3 座\n已通过\n未到\n谢\n谢原\n成员\n拼车\n3 号车 · 3 座\n已通过\n未到\n罗\n罗壹\n成员\n待定\n待安排车辆\n已通过\n未到\n待审核\n1 人\n高\n高眠\n成员\n待定\n待安排车辆\n待审核\n—\n候补\n1 人\n顾\n顾知\n成员\n待定\n待安排车辆\n候补\n—\n下一步\n\n向 4 位车长推送集合结果；未到 3 人、未安排车辆 1 人需在出发前确认。\n\n发起出发确认\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 3 设计实验 · 同一演示数据 · 非真实后端",
+      "sections": [
+        {
+          "tag": "HEADER",
+          "cls": "col-mast",
+          "top": 0,
+          "height": 142
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-phase",
+          "top": 182,
+          "height": 90
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-cars",
+          "top": 304,
+          "height": 515
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 353,
+          "height": 99
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 460,
+          "height": 99
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 567,
+          "height": 99
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 675,
+          "height": 99
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-roster",
+          "top": 851,
+          "height": 1590
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-next",
+          "top": 2473,
+          "height": 160
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 2657,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "collab",
+      "vp": 390,
+      "height": 844,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 2761,
+      "clientHeight": 780,
+      "fold": 780,
+      "pageWidth": 390,
+      "overflowX": 0,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "集合与分车",
+          "top": 72
+        },
+        {
+          "tag": "H2",
+          "text": "集合中集合点 茶店子客运站 · 地铁 A 口",
+          "top": 195
+        },
+        {
+          "tag": "H2",
+          "text": "分车",
+          "top": 304
+        },
+        {
+          "tag": "H2",
+          "text": "成员名单",
+          "top": 851
+        }
+      ],
+      "buttons": [
+        {
+          "text": "发起出发确认",
+          "top": 2585,
+          "bottom": 2633,
+          "disabled": false,
+          "cls": "btn btn--primary btn--full col-next__cta"
+        }
+      ],
+      "imgs": [],
+      "text": "活动协作 · 10 月 18 日 周六\n明晚 22:10 出发\n集合与分车\n赵公山 · 东线穿越\n·\n都江堰\n·\n领队 林溪\n集合中\n集合点 茶店子客运站 · 地铁 A 口\n12 / 15 已到\n\n还有 3 人未到集合点，其中 1 人未安排车辆\n\n分车\n4 台 · 16 座\n1 号车\n川A·7X29K\n司机 王屿\n满员\n林溪\n1 座\n苏喧\n2 座\n何隅\n3 座\n郑南\n4 座\n2 号车\n川A·3M06T\n司机 陈暮\n剩 1 位\n黄栗\n1 座\n秦朗\n2 座\n石青\n3 座\n空位\n4 号\n3 号车\n川A·9B15Q\n司机 赵拾\n剩 1 位\n唐夏\n1 座\n魏莱\n2 座\n谢原\n3 座\n空位\n4 号\n4 号车\n川A·6H82D\n司机 周迟\n剩 4 位\n空位\n1 号\n空位\n2 号\n空位\n3 号\n空位\n4 号\n未安排车辆\n罗壹\n1 人\n成员名单\n17 人 · 已通过 15\n已到\n12 人\n林\n林溪\n领队\n拼车\n1 号车 · 1 座\n已通过\n已到\n王\n王屿\n车长\n自驾\n1 号车 · 司机\n已通过\n已到\n陈\n陈暮\n车长\n自驾\n2 号车 · 司机\n已通过\n已到\n赵\n赵拾\n车长\n自驾\n3 号车 · 司机\n已通过\n已到\n周\n周迟\n车长\n自驾\n4 号车 · 司机\n已通过\n已到\n苏\n苏喧\n成员\n拼车\n1 号车 · 2 座\n已通过\n已到\n何\n何隅\n成员\n拼车\n1 号车 · 3 座\n已通过\n已到\n郑\n郑南\n成员\n拼车\n1 号车 · 4 座\n已通过\n已到\n黄\n黄栗\n成员\n拼车\n2 号车 · 1 座\n已通过\n已到\n秦\n秦朗\n成员\n拼车\n2 号车 · 2 座\n已通过\n已到\n唐\n唐夏\n成员\n拼车\n3 号车 · 1 座\n已通过\n已到\n魏\n魏莱\n成员\n拼车\n3 号车 · 2 座\n已通过\n已到\n未到\n3 人\n石\n石青\n成员\n拼车\n2 号车 · 3 座\n已通过\n未到\n谢\n谢原\n成员\n拼车\n3 号车 · 3 座\n已通过\n未到\n罗\n罗壹\n成员\n待定\n待安排车辆\n已通过\n未到\n待审核\n1 人\n高\n高眠\n成员\n待定\n待安排车辆\n待审核\n—\n候补\n1 人\n顾\n顾知\n成员\n待定\n待安排车辆\n候补\n—\n下一步\n\n向 4 位车长推送集合结果；未到 3 人、未安排车辆 1 人需在出发前确认。\n\n发起出发确认\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 3 设计实验 · 同一演示数据 · 非真实后端",
+      "sections": [
+        {
+          "tag": "HEADER",
+          "cls": "col-mast",
+          "top": 0,
+          "height": 142
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-phase",
+          "top": 182,
+          "height": 90
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-cars",
+          "top": 304,
+          "height": 515
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 353,
+          "height": 99
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 460,
+          "height": 99
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 567,
+          "height": 99
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 675,
+          "height": 99
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-roster",
+          "top": 851,
+          "height": 1590
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-next",
+          "top": 2473,
+          "height": 160
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 2657,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "collab",
+      "vp": 414,
+      "height": 896,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 2761,
+      "clientHeight": 832,
+      "fold": 832,
+      "pageWidth": 414,
+      "overflowX": 0,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "集合与分车",
+          "top": 72
+        },
+        {
+          "tag": "H2",
+          "text": "集合中集合点 茶店子客运站 · 地铁 A 口",
+          "top": 195
+        },
+        {
+          "tag": "H2",
+          "text": "分车",
+          "top": 304
+        },
+        {
+          "tag": "H2",
+          "text": "成员名单",
+          "top": 851
+        }
+      ],
+      "buttons": [
+        {
+          "text": "发起出发确认",
+          "top": 2585,
+          "bottom": 2633,
+          "disabled": false,
+          "cls": "btn btn--primary btn--full col-next__cta"
+        }
+      ],
+      "imgs": [],
+      "text": "活动协作 · 10 月 18 日 周六\n明晚 22:10 出发\n集合与分车\n赵公山 · 东线穿越\n·\n都江堰\n·\n领队 林溪\n集合中\n集合点 茶店子客运站 · 地铁 A 口\n12 / 15 已到\n\n还有 3 人未到集合点，其中 1 人未安排车辆\n\n分车\n4 台 · 16 座\n1 号车\n川A·7X29K\n司机 王屿\n满员\n林溪\n1 座\n苏喧\n2 座\n何隅\n3 座\n郑南\n4 座\n2 号车\n川A·3M06T\n司机 陈暮\n剩 1 位\n黄栗\n1 座\n秦朗\n2 座\n石青\n3 座\n空位\n4 号\n3 号车\n川A·9B15Q\n司机 赵拾\n剩 1 位\n唐夏\n1 座\n魏莱\n2 座\n谢原\n3 座\n空位\n4 号\n4 号车\n川A·6H82D\n司机 周迟\n剩 4 位\n空位\n1 号\n空位\n2 号\n空位\n3 号\n空位\n4 号\n未安排车辆\n罗壹\n1 人\n成员名单\n17 人 · 已通过 15\n已到\n12 人\n林\n林溪\n领队\n拼车\n1 号车 · 1 座\n已通过\n已到\n王\n王屿\n车长\n自驾\n1 号车 · 司机\n已通过\n已到\n陈\n陈暮\n车长\n自驾\n2 号车 · 司机\n已通过\n已到\n赵\n赵拾\n车长\n自驾\n3 号车 · 司机\n已通过\n已到\n周\n周迟\n车长\n自驾\n4 号车 · 司机\n已通过\n已到\n苏\n苏喧\n成员\n拼车\n1 号车 · 2 座\n已通过\n已到\n何\n何隅\n成员\n拼车\n1 号车 · 3 座\n已通过\n已到\n郑\n郑南\n成员\n拼车\n1 号车 · 4 座\n已通过\n已到\n黄\n黄栗\n成员\n拼车\n2 号车 · 1 座\n已通过\n已到\n秦\n秦朗\n成员\n拼车\n2 号车 · 2 座\n已通过\n已到\n唐\n唐夏\n成员\n拼车\n3 号车 · 1 座\n已通过\n已到\n魏\n魏莱\n成员\n拼车\n3 号车 · 2 座\n已通过\n已到\n未到\n3 人\n石\n石青\n成员\n拼车\n2 号车 · 3 座\n已通过\n未到\n谢\n谢原\n成员\n拼车\n3 号车 · 3 座\n已通过\n未到\n罗\n罗壹\n成员\n待定\n待安排车辆\n已通过\n未到\n待审核\n1 人\n高\n高眠\n成员\n待定\n待安排车辆\n待审核\n—\n候补\n1 人\n顾\n顾知\n成员\n待定\n待安排车辆\n候补\n—\n下一步\n\n向 4 位车长推送集合结果；未到 3 人、未安排车辆 1 人需在出发前确认。\n\n发起出发确认\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 3 设计实验 · 同一演示数据 · 非真实后端",
+      "sections": [
+        {
+          "tag": "HEADER",
+          "cls": "col-mast",
+          "top": 0,
+          "height": 142
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-phase",
+          "top": 182,
+          "height": 90
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-cars",
+          "top": 304,
+          "height": 515
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 353,
+          "height": 99
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 460,
+          "height": 99
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 567,
+          "height": 99
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "col-car",
+          "top": 675,
+          "height": 99
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-roster",
+          "top": 851,
+          "height": 1590
+        },
+        {
+          "tag": "SECTION",
+          "cls": "col-next",
+          "top": 2473,
+          "height": 160
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 2657,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "weather",
+      "vp": 375,
+      "height": 667,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 1090,
+      "clientHeight": 603,
+      "fold": 603,
+      "pageWidth": 375,
+      "overflowX": 48,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "赵公山 · 顶线",
+          "top": 13
+        },
+        {
+          "tag": "H2",
+          "text": "关键窗口",
+          "top": 150
+        },
+        {
+          "tag": "H2",
+          "text": "周日 06:00–10:00",
+          "top": 234
+        },
+        {
+          "tag": "H2",
+          "text": "周日 16:00–19:00",
+          "top": 432
+        },
+        {
+          "tag": "H2",
+          "text": "48 小时预报",
+          "top": 580
+        }
+      ],
+      "buttons": [
+        {
+          "text": "赵公山 · 东线穿越",
+          "top": 85,
+          "bottom": 101,
+          "disabled": false,
+          "cls": "wth-location__trip"
+        },
+        {
+          "text": "10/17 22:006°雨48%云84%风2现在",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-now"
+        },
+        {
+          "text": "10/17 23:005°雨51%云81%风2.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 00:005°雨53%云76%风3.1",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-day"
+        },
+        {
+          "text": "10/18 01:005°雨54%云70%风3.7",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 02:006°雨55%云63%风4.2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 03:007°雨55%云55%风4.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 04:008°雨54%云46%风5",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 05:009°雨52%云40%风5.4",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 06:0010°雨50%云40%风5.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 07:0011°雨47%云40%风5.8",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 08:0013°雨43%云40%风6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 09:0014°雨39%云40%风6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 10:0014°雨34%云40%风6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 11:0015°雨29%云40%风5.8",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 12:0015°雨24%云40%风5.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 13:0015°雨18%云40%风5.4",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 14:0014°雨12%云40%风5",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 15:0014°雨10%云40%风4.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 16:0013°雨10%云40%风4.2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 17:0011°雨10%云40%风3.7",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 18:0010°雨10%云40%风3.1",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 19:009°雨10%云40%风2.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 20:008°雨10%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 21:007°雨10%云45%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 22:006°雨10%云54%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 23:005°雨10%云62%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 00:005°雨10%云70%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-day"
+        },
+        {
+          "text": "10/19 01:005°雨10%云76%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 02:006°雨10%云80%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 03:007°雨10%云84%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 04:008°雨10%云85%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 05:009°雨25%云35%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 06:0010°雨21%云31%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 07:0011°雨17%云27%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 08:0013°雨13%云23%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 09:0014°雨9%云19%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 10:0014°雨5%云15%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 11:0015°雨10%云50%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 12:0015°雨10%云41%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 13:0015°雨10%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 14:0014°雨65%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 15:0014°雨71%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 16:0013°雨77%云40%风2降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 17:0011°雨83%云40%风2降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 18:0010°雨89%云40%风2降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 19:009°雨95%云40%风2.6降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-key"
+        },
+        {
+          "text": "10/19 20:008°雨95%云40%风3.1",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 21:007°雨95%云40%风3.7",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        }
+      ],
+      "imgs": [],
+      "text": "赵公山 · 顶线\n2,434\nm\n\n周日清晨云海机会中等\n\n10 月 17 日 21:40 更新\n·\n赵公山 · 东线穿越\n关键窗口\n2 个窗口\n云海窗口\n5 小时\n周日 06:00–10:00\n\n晴间多云 · 云海 55%\n\n气温\n10–14\n°\n降水\n5–21\n%\n风速\n2\nm/s\n云量\n15–31\n%\n降雨\n4 小时\n周日 16:00–19:00\n气温\n9–13\n°\n降水\n77–95\n%\n风速\n2–2.6\nm/s\n云量\n40\n%\n48 小时预报\n10/17 – 10/19\n向左滑\n10/17 22:00\n6°\n雨\n48%\n云\n84%\n风\n2\n现在\n10/17 23:00\n5°\n雨\n51%\n云\n81%\n风\n2.6\n10/18 00:00\n5°\n雨\n53%\n云\n76%\n风\n3.1\n10/18 01:00\n5°\n雨\n54%\n云\n70%\n风\n3.7\n10/18 02:00\n6°\n雨\n55%\n云\n63%\n风\n4.2\n10/18 03:00\n7°\n雨\n55%\n云\n55%\n风\n4.6\n10/18 04:00\n8°\n雨\n54%\n云\n46%\n风\n5\n10/18 05:00\n9°\n雨\n52%\n云\n40%\n风\n5.4\n10/18 06:00\n10°\n雨\n50%\n云\n40%\n风\n5.6\n10/18 07:00\n11°\n雨\n47%\n云\n40%\n风\n5.8\n10/18 08:00\n13°\n雨\n43%\n云\n40%\n风\n6\n10/18 09:00\n14°\n雨\n39%\n云\n40%\n风\n6\n10/18 10:00\n14°\n雨\n34%\n云\n40%\n风\n6\n10/18 11:00\n15°\n雨\n29%\n云\n40%\n风\n5.8\n10/18 12:00\n15°\n雨\n24%\n云\n40%\n风\n5.6\n10/18 13:00\n15°\n雨\n18%\n云\n40%\n风\n5.4\n10/18 14:00\n14°\n雨\n12%\n云\n40%\n风\n5\n10/18 15:00\n14°\n雨\n10%\n云\n40%\n风\n4.6\n10/18 16:00\n13°\n雨\n10%\n云\n40%\n风\n4.2\n10/18 17:00\n11°\n雨\n10%\n云\n40%\n风\n3.7\n10/18 18:00\n10°\n雨\n10%\n云\n40%\n风\n3.1\n10/18 19:00\n9°\n雨\n10%\n云\n40%\n风\n2.6\n10/18 20:00\n8°\n雨\n10%\n云\n40%\n风\n2\n10/18 21:00\n7°\n雨\n10%\n云\n45%\n风\n2\n10/18 22:00\n6°\n雨\n10%\n云\n54%\n风\n2\n10/18 23:00\n5°\n雨\n10%\n云\n62%\n风\n2\n10/19 00:00\n5°\n雨\n10%\n云\n70%\n风\n2\n10/19 01:00\n5°\n雨\n10%\n云\n76%\n风\n2\n10/19 02:00\n6°\n雨\n10%\n云\n80%\n风\n2\n10/19 03:00\n7°\n雨\n10%\n云\n84%\n风\n2\n10/19 04:00\n8°\n雨\n10%\n云\n85%\n风\n2\n10/19 05:00\n9°\n雨\n25%\n云\n35%\n风\n2\n10/19 06:00\n10°\n雨\n21%\n云\n31%\n风\n2\n云海窗口\n10/19 07:00\n11°\n雨\n17%\n云\n27%\n风\n2\n云海窗口\n10/19 08:00\n13°\n雨\n13%\n云\n23%\n风\n2\n云海窗口\n10/19 09:00\n14°\n雨\n9%\n云\n19%\n风\n2\n云海窗口\n10/19 10:00\n14°\n雨\n5%\n云\n15%\n风\n2\n云海窗口\n10/19 11:00\n15°\n雨\n10%\n云\n50%\n风\n2\n10/19 12:00\n15°\n雨\n10%\n云\n41%\n风\n2\n10/19 13:00\n15°\n雨\n10%\n云\n40%\n风\n2\n10/19 14:00\n14°\n雨\n65%\n云\n40%\n风\n2\n10/19 15:00\n14°\n雨\n71%\n云\n40%\n风\n2\n10/19 16:00\n13°\n雨\n77%\n云\n40%\n风\n2\n降雨\n10/19 17:00\n11°\n雨\n83%\n云\n40%\n风\n2\n降雨\n10/19 18:00\n10°\n雨\n89%\n云\n40%\n风\n2\n降雨\n10/19 19:00\n9°\n雨\n95%\n云\n40%\n风\n2.6\n降雨\n10/19 20:00\n8°\n雨\n95%\n云\n40%\n风\n3.1\n10/19 21:00\n7°\n雨\n95%\n云\n40%\n风\n3.7\n预报详情\n\n云层高度 2100–2500 米，日出前后短暂放晴，适合山顶等候；周日下午转小到中雨，建议上午完成下撤。\n\n演示数据 · 非真实气象服务\n\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 3 设计实验 · 同一演示数据 · 非真实后端",
+      "sections": [
+        {
+          "tag": "HEADER",
+          "cls": "wth-location",
+          "top": 0,
+          "height": 118
+        },
+        {
+          "tag": "SECTION",
+          "cls": "wth-windows",
+          "top": 150,
+          "height": 399
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "wth-window-card wth-window-card--good",
+          "top": 186,
+          "height": 186
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "wth-window-card wth-window-card--bad",
+          "top": 384,
+          "height": 164
+        },
+        {
+          "tag": "SECTION",
+          "cls": "wth-timeline",
+          "top": 580,
+          "height": 163
+        },
+        {
+          "tag": "SECTION",
+          "cls": "wth-detail",
+          "top": 775,
+          "height": 187
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 986,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "weather",
+      "vp": 390,
+      "height": 844,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 1090,
+      "clientHeight": 780,
+      "fold": 780,
+      "pageWidth": 390,
+      "overflowX": 48,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "赵公山 · 顶线",
+          "top": 13
+        },
+        {
+          "tag": "H2",
+          "text": "关键窗口",
+          "top": 150
+        },
+        {
+          "tag": "H2",
+          "text": "周日 06:00–10:00",
+          "top": 234
+        },
+        {
+          "tag": "H2",
+          "text": "周日 16:00–19:00",
+          "top": 432
+        },
+        {
+          "tag": "H2",
+          "text": "48 小时预报",
+          "top": 580
+        }
+      ],
+      "buttons": [
+        {
+          "text": "赵公山 · 东线穿越",
+          "top": 85,
+          "bottom": 101,
+          "disabled": false,
+          "cls": "wth-location__trip"
+        },
+        {
+          "text": "10/17 22:006°雨48%云84%风2现在",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-now"
+        },
+        {
+          "text": "10/17 23:005°雨51%云81%风2.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 00:005°雨53%云76%风3.1",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-day"
+        },
+        {
+          "text": "10/18 01:005°雨54%云70%风3.7",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 02:006°雨55%云63%风4.2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 03:007°雨55%云55%风4.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 04:008°雨54%云46%风5",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 05:009°雨52%云40%风5.4",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 06:0010°雨50%云40%风5.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 07:0011°雨47%云40%风5.8",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 08:0013°雨43%云40%风6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 09:0014°雨39%云40%风6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 10:0014°雨34%云40%风6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 11:0015°雨29%云40%风5.8",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 12:0015°雨24%云40%风5.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 13:0015°雨18%云40%风5.4",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 14:0014°雨12%云40%风5",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 15:0014°雨10%云40%风4.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 16:0013°雨10%云40%风4.2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 17:0011°雨10%云40%风3.7",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 18:0010°雨10%云40%风3.1",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 19:009°雨10%云40%风2.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 20:008°雨10%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 21:007°雨10%云45%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 22:006°雨10%云54%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 23:005°雨10%云62%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 00:005°雨10%云70%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-day"
+        },
+        {
+          "text": "10/19 01:005°雨10%云76%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 02:006°雨10%云80%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 03:007°雨10%云84%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 04:008°雨10%云85%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 05:009°雨25%云35%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 06:0010°雨21%云31%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 07:0011°雨17%云27%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 08:0013°雨13%云23%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 09:0014°雨9%云19%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 10:0014°雨5%云15%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 11:0015°雨10%云50%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 12:0015°雨10%云41%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 13:0015°雨10%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 14:0014°雨65%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 15:0014°雨71%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 16:0013°雨77%云40%风2降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 17:0011°雨83%云40%风2降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 18:0010°雨89%云40%风2降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 19:009°雨95%云40%风2.6降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-key"
+        },
+        {
+          "text": "10/19 20:008°雨95%云40%风3.1",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 21:007°雨95%云40%风3.7",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        }
+      ],
+      "imgs": [],
+      "text": "赵公山 · 顶线\n2,434\nm\n\n周日清晨云海机会中等\n\n10 月 17 日 21:40 更新\n·\n赵公山 · 东线穿越\n关键窗口\n2 个窗口\n云海窗口\n5 小时\n周日 06:00–10:00\n\n晴间多云 · 云海 55%\n\n气温\n10–14\n°\n降水\n5–21\n%\n风速\n2\nm/s\n云量\n15–31\n%\n降雨\n4 小时\n周日 16:00–19:00\n气温\n9–13\n°\n降水\n77–95\n%\n风速\n2–2.6\nm/s\n云量\n40\n%\n48 小时预报\n10/17 – 10/19\n向左滑\n10/17 22:00\n6°\n雨\n48%\n云\n84%\n风\n2\n现在\n10/17 23:00\n5°\n雨\n51%\n云\n81%\n风\n2.6\n10/18 00:00\n5°\n雨\n53%\n云\n76%\n风\n3.1\n10/18 01:00\n5°\n雨\n54%\n云\n70%\n风\n3.7\n10/18 02:00\n6°\n雨\n55%\n云\n63%\n风\n4.2\n10/18 03:00\n7°\n雨\n55%\n云\n55%\n风\n4.6\n10/18 04:00\n8°\n雨\n54%\n云\n46%\n风\n5\n10/18 05:00\n9°\n雨\n52%\n云\n40%\n风\n5.4\n10/18 06:00\n10°\n雨\n50%\n云\n40%\n风\n5.6\n10/18 07:00\n11°\n雨\n47%\n云\n40%\n风\n5.8\n10/18 08:00\n13°\n雨\n43%\n云\n40%\n风\n6\n10/18 09:00\n14°\n雨\n39%\n云\n40%\n风\n6\n10/18 10:00\n14°\n雨\n34%\n云\n40%\n风\n6\n10/18 11:00\n15°\n雨\n29%\n云\n40%\n风\n5.8\n10/18 12:00\n15°\n雨\n24%\n云\n40%\n风\n5.6\n10/18 13:00\n15°\n雨\n18%\n云\n40%\n风\n5.4\n10/18 14:00\n14°\n雨\n12%\n云\n40%\n风\n5\n10/18 15:00\n14°\n雨\n10%\n云\n40%\n风\n4.6\n10/18 16:00\n13°\n雨\n10%\n云\n40%\n风\n4.2\n10/18 17:00\n11°\n雨\n10%\n云\n40%\n风\n3.7\n10/18 18:00\n10°\n雨\n10%\n云\n40%\n风\n3.1\n10/18 19:00\n9°\n雨\n10%\n云\n40%\n风\n2.6\n10/18 20:00\n8°\n雨\n10%\n云\n40%\n风\n2\n10/18 21:00\n7°\n雨\n10%\n云\n45%\n风\n2\n10/18 22:00\n6°\n雨\n10%\n云\n54%\n风\n2\n10/18 23:00\n5°\n雨\n10%\n云\n62%\n风\n2\n10/19 00:00\n5°\n雨\n10%\n云\n70%\n风\n2\n10/19 01:00\n5°\n雨\n10%\n云\n76%\n风\n2\n10/19 02:00\n6°\n雨\n10%\n云\n80%\n风\n2\n10/19 03:00\n7°\n雨\n10%\n云\n84%\n风\n2\n10/19 04:00\n8°\n雨\n10%\n云\n85%\n风\n2\n10/19 05:00\n9°\n雨\n25%\n云\n35%\n风\n2\n10/19 06:00\n10°\n雨\n21%\n云\n31%\n风\n2\n云海窗口\n10/19 07:00\n11°\n雨\n17%\n云\n27%\n风\n2\n云海窗口\n10/19 08:00\n13°\n雨\n13%\n云\n23%\n风\n2\n云海窗口\n10/19 09:00\n14°\n雨\n9%\n云\n19%\n风\n2\n云海窗口\n10/19 10:00\n14°\n雨\n5%\n云\n15%\n风\n2\n云海窗口\n10/19 11:00\n15°\n雨\n10%\n云\n50%\n风\n2\n10/19 12:00\n15°\n雨\n10%\n云\n41%\n风\n2\n10/19 13:00\n15°\n雨\n10%\n云\n40%\n风\n2\n10/19 14:00\n14°\n雨\n65%\n云\n40%\n风\n2\n10/19 15:00\n14°\n雨\n71%\n云\n40%\n风\n2\n10/19 16:00\n13°\n雨\n77%\n云\n40%\n风\n2\n降雨\n10/19 17:00\n11°\n雨\n83%\n云\n40%\n风\n2\n降雨\n10/19 18:00\n10°\n雨\n89%\n云\n40%\n风\n2\n降雨\n10/19 19:00\n9°\n雨\n95%\n云\n40%\n风\n2.6\n降雨\n10/19 20:00\n8°\n雨\n95%\n云\n40%\n风\n3.1\n10/19 21:00\n7°\n雨\n95%\n云\n40%\n风\n3.7\n预报详情\n\n云层高度 2100–2500 米，日出前后短暂放晴，适合山顶等候；周日下午转小到中雨，建议上午完成下撤。\n\n演示数据 · 非真实气象服务\n\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 3 设计实验 · 同一演示数据 · 非真实后端",
+      "sections": [
+        {
+          "tag": "HEADER",
+          "cls": "wth-location",
+          "top": 0,
+          "height": 118
+        },
+        {
+          "tag": "SECTION",
+          "cls": "wth-windows",
+          "top": 150,
+          "height": 399
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "wth-window-card wth-window-card--good",
+          "top": 186,
+          "height": 186
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "wth-window-card wth-window-card--bad",
+          "top": 384,
+          "height": 164
+        },
+        {
+          "tag": "SECTION",
+          "cls": "wth-timeline",
+          "top": 580,
+          "height": 163
+        },
+        {
+          "tag": "SECTION",
+          "cls": "wth-detail",
+          "top": 775,
+          "height": 187
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 986,
+          "height": 64
+        }
+      ]
+    },
+    {
+      "view": "weather",
+      "vp": 414,
+      "height": 896,
+      "errors": [],
+      "title": "OurTrail · Round 4 — 设计工艺实验",
+      "scrollHeight": 1090,
+      "clientHeight": 832,
+      "fold": 832,
+      "pageWidth": 414,
+      "overflowX": 48,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "赵公山 · 顶线",
+          "top": 13
+        },
+        {
+          "tag": "H2",
+          "text": "关键窗口",
+          "top": 150
+        },
+        {
+          "tag": "H2",
+          "text": "周日 06:00–10:00",
+          "top": 234
+        },
+        {
+          "tag": "H2",
+          "text": "周日 16:00–19:00",
+          "top": 432
+        },
+        {
+          "tag": "H2",
+          "text": "48 小时预报",
+          "top": 580
+        }
+      ],
+      "buttons": [
+        {
+          "text": "赵公山 · 东线穿越",
+          "top": 85,
+          "bottom": 101,
+          "disabled": false,
+          "cls": "wth-location__trip"
+        },
+        {
+          "text": "10/17 22:006°雨48%云84%风2现在",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-now"
+        },
+        {
+          "text": "10/17 23:005°雨51%云81%风2.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 00:005°雨53%云76%风3.1",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-day"
+        },
+        {
+          "text": "10/18 01:005°雨54%云70%风3.7",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 02:006°雨55%云63%风4.2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 03:007°雨55%云55%风4.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 04:008°雨54%云46%风5",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 05:009°雨52%云40%风5.4",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 06:0010°雨50%云40%风5.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 07:0011°雨47%云40%风5.8",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 08:0013°雨43%云40%风6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 09:0014°雨39%云40%风6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 10:0014°雨34%云40%风6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 11:0015°雨29%云40%风5.8",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 12:0015°雨24%云40%风5.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 13:0015°雨18%云40%风5.4",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 14:0014°雨12%云40%风5",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 15:0014°雨10%云40%风4.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 16:0013°雨10%云40%风4.2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 17:0011°雨10%云40%风3.7",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 18:0010°雨10%云40%风3.1",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/18 19:009°雨10%云40%风2.6",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 20:008°雨10%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 21:007°雨10%云45%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 22:006°雨10%云54%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/18 23:005°雨10%云62%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 00:005°雨10%云70%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-day"
+        },
+        {
+          "text": "10/19 01:005°雨10%云76%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 02:006°雨10%云80%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 03:007°雨10%云84%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 04:008°雨10%云85%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 05:009°雨25%云35%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 06:0010°雨21%云31%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 07:0011°雨17%云27%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 08:0013°雨13%云23%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 09:0014°雨9%云19%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 10:0014°雨5%云15%风2云海窗口",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 11:0015°雨10%云50%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 12:0015°雨10%云41%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 13:0015°雨10%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 14:0014°雨65%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 15:0014°雨71%云40%风2",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour"
+        },
+        {
+          "text": "10/19 16:0013°雨77%云40%风2降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 17:0011°雨83%云40%风2降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 18:0010°雨89%云40%风2降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-key"
+        },
+        {
+          "text": "10/19 19:009°雨95%云40%风2.6降雨",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night is-key"
+        },
+        {
+          "text": "10/19 20:008°雨95%云40%风3.1",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        },
+        {
+          "text": "10/19 21:007°雨95%云40%风3.7",
+          "top": 616,
+          "bottom": 739,
+          "disabled": false,
+          "cls": "wth-hour is-night"
+        }
+      ],
+      "imgs": [],
+      "text": "赵公山 · 顶线\n2,434\nm\n\n周日清晨云海机会中等\n\n10 月 17 日 21:40 更新\n·\n赵公山 · 东线穿越\n关键窗口\n2 个窗口\n云海窗口\n5 小时\n周日 06:00–10:00\n\n晴间多云 · 云海 55%\n\n气温\n10–14\n°\n降水\n5–21\n%\n风速\n2\nm/s\n云量\n15–31\n%\n降雨\n4 小时\n周日 16:00–19:00\n气温\n9–13\n°\n降水\n77–95\n%\n风速\n2–2.6\nm/s\n云量\n40\n%\n48 小时预报\n10/17 – 10/19\n向左滑\n10/17 22:00\n6°\n雨\n48%\n云\n84%\n风\n2\n现在\n10/17 23:00\n5°\n雨\n51%\n云\n81%\n风\n2.6\n10/18 00:00\n5°\n雨\n53%\n云\n76%\n风\n3.1\n10/18 01:00\n5°\n雨\n54%\n云\n70%\n风\n3.7\n10/18 02:00\n6°\n雨\n55%\n云\n63%\n风\n4.2\n10/18 03:00\n7°\n雨\n55%\n云\n55%\n风\n4.6\n10/18 04:00\n8°\n雨\n54%\n云\n46%\n风\n5\n10/18 05:00\n9°\n雨\n52%\n云\n40%\n风\n5.4\n10/18 06:00\n10°\n雨\n50%\n云\n40%\n风\n5.6\n10/18 07:00\n11°\n雨\n47%\n云\n40%\n风\n5.8\n10/18 08:00\n13°\n雨\n43%\n云\n40%\n风\n6\n10/18 09:00\n14°\n雨\n39%\n云\n40%\n风\n6\n10/18 10:00\n14°\n雨\n34%\n云\n40%\n风\n6\n10/18 11:00\n15°\n雨\n29%\n云\n40%\n风\n5.8\n10/18 12:00\n15°\n雨\n24%\n云\n40%\n风\n5.6\n10/18 13:00\n15°\n雨\n18%\n云\n40%\n风\n5.4\n10/18 14:00\n14°\n雨\n12%\n云\n40%\n风\n5\n10/18 15:00\n14°\n雨\n10%\n云\n40%\n风\n4.6\n10/18 16:00\n13°\n雨\n10%\n云\n40%\n风\n4.2\n10/18 17:00\n11°\n雨\n10%\n云\n40%\n风\n3.7\n10/18 18:00\n10°\n雨\n10%\n云\n40%\n风\n3.1\n10/18 19:00\n9°\n雨\n10%\n云\n40%\n风\n2.6\n10/18 20:00\n8°\n雨\n10%\n云\n40%\n风\n2\n10/18 21:00\n7°\n雨\n10%\n云\n45%\n风\n2\n10/18 22:00\n6°\n雨\n10%\n云\n54%\n风\n2\n10/18 23:00\n5°\n雨\n10%\n云\n62%\n风\n2\n10/19 00:00\n5°\n雨\n10%\n云\n70%\n风\n2\n10/19 01:00\n5°\n雨\n10%\n云\n76%\n风\n2\n10/19 02:00\n6°\n雨\n10%\n云\n80%\n风\n2\n10/19 03:00\n7°\n雨\n10%\n云\n84%\n风\n2\n10/19 04:00\n8°\n雨\n10%\n云\n85%\n风\n2\n10/19 05:00\n9°\n雨\n25%\n云\n35%\n风\n2\n10/19 06:00\n10°\n雨\n21%\n云\n31%\n风\n2\n云海窗口\n10/19 07:00\n11°\n雨\n17%\n云\n27%\n风\n2\n云海窗口\n10/19 08:00\n13°\n雨\n13%\n云\n23%\n风\n2\n云海窗口\n10/19 09:00\n14°\n雨\n9%\n云\n19%\n风\n2\n云海窗口\n10/19 10:00\n14°\n雨\n5%\n云\n15%\n风\n2\n云海窗口\n10/19 11:00\n15°\n雨\n10%\n云\n50%\n风\n2\n10/19 12:00\n15°\n雨\n10%\n云\n41%\n风\n2\n10/19 13:00\n15°\n雨\n10%\n云\n40%\n风\n2\n10/19 14:00\n14°\n雨\n65%\n云\n40%\n风\n2\n10/19 15:00\n14°\n雨\n71%\n云\n40%\n风\n2\n10/19 16:00\n13°\n雨\n77%\n云\n40%\n风\n2\n降雨\n10/19 17:00\n11°\n雨\n83%\n云\n40%\n风\n2\n降雨\n10/19 18:00\n10°\n雨\n89%\n云\n40%\n风\n2\n降雨\n10/19 19:00\n9°\n雨\n95%\n云\n40%\n风\n2.6\n降雨\n10/19 20:00\n8°\n雨\n95%\n云\n40%\n风\n3.1\n10/19 21:00\n7°\n雨\n95%\n云\n40%\n风\n3.7\n预报详情\n\n云层高度 2100–2500 米，日出前后短暂放晴，适合山顶等候；周日下午转小到中雨，建议上午完成下撤。\n\n演示数据 · 非真实气象服务\n\n演示数据 · 图片来自 Unsplash（氛围图，非活动实拍）\nRound 3 设计实验 · 同一演示数据 · 非真实后端",
+      "sections": [
+        {
+          "tag": "HEADER",
+          "cls": "wth-location",
+          "top": 0,
+          "height": 118
+        },
+        {
+          "tag": "SECTION",
+          "cls": "wth-windows",
+          "top": 150,
+          "height": 399
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "wth-window-card wth-window-card--good",
+          "top": 186,
+          "height": 186
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "wth-window-card wth-window-card--bad",
+          "top": 384,
+          "height": 164
+        },
+        {
+          "tag": "SECTION",
+          "cls": "wth-timeline",
+          "top": 580,
+          "height": 163
+        },
+        {
+          "tag": "SECTION",
+          "cls": "wth-detail",
+          "top": 775,
+          "height": 187
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "foot",
+          "top": 986,
+          "height": 64
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+/* ==========================================================================
+   OurTrail Final Pass — Tokens
+   纸面 + 松林 + 陶土；陶土只给紧迫/风险，天气另用雨蓝。
+   ========================================================================== */
+:root {
+  --paper: #F4F1E8;
+  --paper-2: #EEEADF;
+  --paper-3: #E7E2D4;
+  --surface: #FBFAF6;
+  --ink: #1B211C;
+  --ink-2: #5E685C;
+  --ink-3: #899082;
+  --line: #DCD6C6;
+  --line-2: #E9E4D7;
+  --brand: #234B3C;
+  --brand-deep: #163B30;
+  --brand-soft: #DCE5D4;
+  --leaf: #D6E3A4;
+  --clay: #A45A36;
+  --clay-deep: #8B4529;
+  --danger: #8F3F35;
+  --warn: #866527;
+  --rain: #46657A;
+  --rain-soft: #DCE5E7;
+  --sky: #3F6473;
+  --dark: #14241D;
+  --on-dark: #F3F0E6;
+  --scrim: linear-gradient(180deg, rgba(16, 24, 19, 0) 42%, rgba(16, 24, 19, .72) 100%);
+
+  --sans: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", "SimSun", Georgia, serif;
+
+  --t-hero: 24px;
+  --t-title: 20px;
+  --t-section: 16px;
+  --t-body: 15px;
+  --t-small: 13px;
+  --t-caption: 12px;
+  --t-micro: 10.5px;
+
+  --x: 20px;
+  --gap: 28px;
+  --radius-img: 4px;
+  --radius-btn: 8px;
+  --radius-chip: 999px;
+  --touch: 44px;
+  --action: 48px;
+  --bar: 72px;
+
+  --ease: cubic-bezier(.2, .65, .3, 1);
+  --motion: 180ms;
+  --shadow-sheet: 0 -16px 48px rgba(15, 22, 18, .24);
+}
+
+html[data-vp="375"] { --x: 18px; }
+html[data-vp="414"] { --x: 22px; }

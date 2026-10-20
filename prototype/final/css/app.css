@@ -1,0 +1,73 @@
+/* Shared page furniture that is not a component library */
+.page-head {
+  padding: 10px 0 0;
+}
+.page-head__eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.2px; color: var(--ink-3);
+}
+.page-head__title {
+  font-family: var(--serif);
+  font-size: 26px; font-weight: 700; line-height: 1.22; letter-spacing: -.4px;
+  margin-top: 4px;
+}
+.page-head__sub { font-size: 12px; color: var(--ink-2); line-height: 1.55; margin-top: 5px; }
+
+/* Sticky bottom action bar */
+.actionbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 40;
+  margin: 18px calc(-1 * var(--x)) calc(-1 * 34px);
+  padding: 10px var(--x) calc(12px + env(safe-area-inset-bottom));
+  background: rgba(244, 241, 232, .97);
+  border-top: 1px solid var(--line);
+}
+.actionbar__note {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  font-size: 10.5px; color: var(--ink-3); line-height: 1.4;
+  margin-bottom: 8px;
+}
+.actionbar__note strong { color: var(--ink-2); font-weight: 600; }
+.actionbar__row { display: flex; align-items: center; gap: 9px; }
+.actionbar__main { flex: 1; }
+.actionbar__aside { flex: none; }
+
+/* A quiet band for state messages; deliberately not a card */
+.state-strip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 0 12px 12px;
+  border-left: 3px solid var(--brand);
+  background: linear-gradient(90deg, rgba(35, 75, 60, .055), rgba(35, 75, 60, 0));
+  margin: 14px 0 0;
+}
+.state-strip--clay { border-left-color: var(--clay); background: linear-gradient(90deg, rgba(164, 90, 54, .07), rgba(164, 90, 54, 0)); }
+.state-strip--danger { border-left-color: var(--danger); background: linear-gradient(90deg, rgba(143, 63, 53, .07), rgba(143, 63, 53, 0)); }
+.state-strip--mute { border-left-color: var(--ink-3); background: linear-gradient(90deg, rgba(94, 104, 92, .06), rgba(94, 104, 92, 0)); }
+.state-strip__icon { color: var(--brand); flex: none; margin-top: 1px; }
+.state-strip--clay .state-strip__icon { color: var(--clay); }
+.state-strip--danger .state-strip__icon { color: var(--danger); }
+.state-strip--mute .state-strip__icon { color: var(--ink-3); }
+.state-strip__body { min-width: 0; }
+.state-strip__title { font-size: 13px; font-weight: 650; line-height: 1.4; }
+.state-strip__text { font-size: 11.5px; color: var(--ink-2); line-height: 1.55; margin-top: 2px; }
+.state-strip__meta { font-size: 10.5px; color: var(--ink-3); line-height: 1.5; margin-top: 4px; }
+
+/* Data provenance, always visible, never hidden in a fold */
+.provenance {
+  display: flex; align-items: flex-start; gap: 7px;
+  padding: 12px 0 0;
+  margin-top: 22px;
+  border-top: 1px solid var(--line);
+  font-size: 10.5px; color: var(--ink-3); line-height: 1.55;
+}
+.provenance .lab-icon { flex: none; margin-top: 1px; }
+
+/* A small inline callout for rule explanations */
+.rule-note {
+  font-size: 10.5px;
+  color: var(--ink-3);
+  line-height: 1.55;
+  padding: 7px 0 0;
+}

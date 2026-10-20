@@ -1,0 +1,497 @@
+{
+  "capturedAt": "2026-10-20T00:37:10.723Z",
+  "pages": [
+    {
+      "page": "discover",
+      "vp": 375,
+      "errors": [],
+      "title": "OurTrail · 发现 — Final Pass",
+      "clientHeight": 603,
+      "scrollHeight": 1199,
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "widthOverflow": false,
+      "topbar": null,
+      "hero": {
+        "top": 59,
+        "bottom": 471,
+        "h": 412
+      },
+      "cta": {
+        "top": 423,
+        "bottom": 471,
+        "h": 48
+      },
+      "primary": {
+        "top": 423,
+        "bottom": 471,
+        "h": 48
+      },
+      "firstRow": {
+        "top": 587,
+        "bottom": 658,
+        "h": 72
+      },
+      "panel": null,
+      "buttons": 17,
+      "text": "成都周边\n发现\n10/23 周五\n林\n最近出发\n明天 07:00 集合\n·\n茶店子\n距集合\n10\n小时\n名额紧张\n·\n余位 3 / 24\n·\n今晚 21:00 截止\n青城后山 · 飞泉沟轻徒步\n\n泰安古镇 · 飞泉沟 · 白云索道下站 · 都江堰\n\n距离\n12.8\nkm\n爬升\n680\nm\n难度\n入门\n人均\n¥168\n\n领队 陈屿\n·\n18 人已确认\n·\n3 人待审核\n·\n活动日午后有阵雨\n\n查看安排\n全部\n9\n可报名\n5\n已成行\n2\n已结束\n2\n接下来\n6 场\n10 月\n25\n周日\n赵公山 · 东线穿越\n九龙沟上 "
+    },
+    {
+      "page": "discover",
+      "vp": 390,
+      "errors": [],
+      "title": "OurTrail · 发现 — Final Pass",
+      "clientHeight": 780,
+      "scrollHeight": 1235,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "widthOverflow": false,
+      "topbar": null,
+      "hero": {
+        "top": 63,
+        "bottom": 493,
+        "h": 430
+      },
+      "cta": {
+        "top": 445,
+        "bottom": 493,
+        "h": 48
+      },
+      "primary": {
+        "top": 445,
+        "bottom": 493,
+        "h": 48
+      },
+      "firstRow": {
+        "top": 620,
+        "bottom": 691,
+        "h": 72
+      },
+      "panel": null,
+      "buttons": 17,
+      "text": "成都周边\n发现\n10/23 周五\n林\n最近出发\n明天 07:00 集合\n·\n茶店子\n距集合\n10\n小时\n名额紧张\n·\n余位 3 / 24\n·\n今晚 21:00 截止\n青城后山 · 飞泉沟轻徒步\n\n泰安古镇 · 飞泉沟 · 白云索道下站 · 都江堰\n\n距离\n12.8\nkm\n爬升\n680\nm\n难度\n入门\n人均\n¥168\n\n领队 陈屿\n·\n18 人已确认\n·\n3 人待审核\n·\n活动日午后有阵雨\n\n查看安排\n全部\n9\n可报名\n5\n已成行\n2\n已结束\n2\n接下来\n6 场\n10 月\n25\n周日\n赵公山 · 东线穿越\n九龙沟上 "
+    },
+    {
+      "page": "discover",
+      "vp": 414,
+      "errors": [],
+      "title": "OurTrail · 发现 — Final Pass",
+      "clientHeight": 832,
+      "scrollHeight": 1248,
+      "clientWidth": 414,
+      "scrollWidth": 414,
+      "widthOverflow": false,
+      "topbar": null,
+      "hero": {
+        "top": 63,
+        "bottom": 506,
+        "h": 442
+      },
+      "cta": {
+        "top": 458,
+        "bottom": 506,
+        "h": 48
+      },
+      "primary": {
+        "top": 458,
+        "bottom": 506,
+        "h": 48
+      },
+      "firstRow": {
+        "top": 633,
+        "bottom": 704,
+        "h": 72
+      },
+      "panel": null,
+      "buttons": 17,
+      "text": "成都周边\n发现\n10/23 周五\n林\n最近出发\n明天 07:00 集合\n·\n茶店子\n距集合\n10\n小时\n名额紧张\n·\n余位 3 / 24\n·\n今晚 21:00 截止\n青城后山 · 飞泉沟轻徒步\n\n泰安古镇 · 飞泉沟 · 白云索道下站 · 都江堰\n\n距离\n12.8\nkm\n爬升\n680\nm\n难度\n入门\n人均\n¥168\n\n领队 陈屿\n·\n18 人已确认\n·\n3 人待审核\n·\n活动日午后有阵雨\n\n查看安排\n全部\n9\n可报名\n5\n已成行\n2\n已结束\n2\n接下来\n6 场\n10 月\n25\n周日\n赵公山 · 东线穿越\n九龙沟上 "
+    },
+    {
+      "page": "detail",
+      "vp": 375,
+      "errors": [],
+      "title": "OurTrail · 活动详情 — Final Pass",
+      "clientHeight": 603,
+      "scrollHeight": 3016,
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "widthOverflow": false,
+      "topbar": {
+        "top": 0,
+        "bottom": 50,
+        "h": 50
+      },
+      "hero": {
+        "top": 52,
+        "bottom": 546,
+        "h": 494
+      },
+      "cta": {
+        "top": 509,
+        "bottom": 603,
+        "h": 94
+      },
+      "primary": {
+        "top": 543,
+        "bottom": 591,
+        "h": 48
+      },
+      "firstRow": {
+        "top": 562,
+        "bottom": 664,
+        "h": 102
+      },
+      "panel": {
+        "top": 694,
+        "bottom": 1421,
+        "h": 727
+      },
+      "buttons": 15,
+      "text": "活动详情\n青城后山 · 飞泉沟轻徒步\n10/24 周六 · 07:00 茶店子客运站\n距集合 10 小时\n名额紧张\n·\n18 人已确认\n·\n余位 3 / 24\n青城后山 · 飞泉沟轻徒步\n\n泰安古镇 · 飞泉沟 · 白云索道下站 · 都江堰\n\n距离\n12.8\nkm\n爬升\n680\nm\n难度\n入门\n人均\n¥168\n\n适合 能连续行走 4–5 小时、第一次参加集体徒步的人；膝伤未愈者不建议。\n\n报名今晚 21:00 截止\n余位 3 / 24 · 18 人已确认 · 3 人待审核\n报名截止后不再接受新报名；待审核名额已占位"
+    },
+    {
+      "page": "detail",
+      "vp": 390,
+      "errors": [],
+      "title": "OurTrail · 活动详情 — Final Pass",
+      "clientHeight": 780,
+      "scrollHeight": 3019,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "widthOverflow": false,
+      "topbar": {
+        "top": 0,
+        "bottom": 50,
+        "h": 50
+      },
+      "hero": {
+        "top": 52,
+        "bottom": 556,
+        "h": 504
+      },
+      "cta": {
+        "top": 686,
+        "bottom": 780,
+        "h": 94
+      },
+      "primary": {
+        "top": 720,
+        "bottom": 768,
+        "h": 48
+      },
+      "firstRow": {
+        "top": 572,
+        "bottom": 658,
+        "h": 86
+      },
+      "panel": {
+        "top": 688,
+        "bottom": 1424,
+        "h": 737
+      },
+      "buttons": 15,
+      "text": "活动详情\n青城后山 · 飞泉沟轻徒步\n10/24 周六 · 07:00 茶店子客运站\n距集合 10 小时\n名额紧张\n·\n18 人已确认\n·\n余位 3 / 24\n青城后山 · 飞泉沟轻徒步\n\n泰安古镇 · 飞泉沟 · 白云索道下站 · 都江堰\n\n距离\n12.8\nkm\n爬升\n680\nm\n难度\n入门\n人均\n¥168\n\n适合 能连续行走 4–5 小时、第一次参加集体徒步的人；膝伤未愈者不建议。\n\n报名今晚 21:00 截止\n余位 3 / 24 · 18 人已确认 · 3 人待审核\n报名截止后不再接受新报名；待审核名额已占位"
+    },
+    {
+      "page": "detail",
+      "vp": 414,
+      "errors": [],
+      "title": "OurTrail · 活动详情 — Final Pass",
+      "clientHeight": 832,
+      "scrollHeight": 3018,
+      "clientWidth": 414,
+      "scrollWidth": 414,
+      "widthOverflow": false,
+      "topbar": {
+        "top": 0,
+        "bottom": 50,
+        "h": 50
+      },
+      "hero": {
+        "top": 52,
+        "bottom": 554,
+        "h": 502
+      },
+      "cta": {
+        "top": 738,
+        "bottom": 832,
+        "h": 94
+      },
+      "primary": {
+        "top": 772,
+        "bottom": 820,
+        "h": 48
+      },
+      "firstRow": {
+        "top": 570,
+        "bottom": 656,
+        "h": 86
+      },
+      "panel": {
+        "top": 686,
+        "bottom": 1439,
+        "h": 754
+      },
+      "buttons": 15,
+      "text": "活动详情\n青城后山 · 飞泉沟轻徒步\n10/24 周六 · 07:00 茶店子客运站\n距集合 10 小时\n名额紧张\n·\n18 人已确认\n·\n余位 3 / 24\n青城后山 · 飞泉沟轻徒步\n\n泰安古镇 · 飞泉沟 · 白云索道下站 · 都江堰\n\n距离\n12.8\nkm\n爬升\n680\nm\n难度\n入门\n人均\n¥168\n\n适合 能连续行走 4–5 小时、第一次参加集体徒步的人；膝伤未愈者不建议。\n\n报名今晚 21:00 截止\n余位 3 / 24 · 18 人已确认 · 3 人待审核\n报名截止后不再接受新报名；待审核名额已占位"
+    },
+    {
+      "page": "collab",
+      "vp": 375,
+      "errors": [],
+      "title": "OurTrail · 活动协作 — Final Pass",
+      "clientHeight": 603,
+      "scrollHeight": 2270,
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "widthOverflow": false,
+      "topbar": {
+        "top": 0,
+        "bottom": 50,
+        "h": 50
+      },
+      "hero": {
+        "top": 50,
+        "bottom": 247,
+        "h": 197
+      },
+      "cta": {
+        "top": 329,
+        "bottom": 387,
+        "h": 58
+      },
+      "primary": {
+        "top": 340,
+        "bottom": 374,
+        "h": 34
+      },
+      "firstRow": {
+        "top": 733,
+        "bottom": 800,
+        "h": 67
+      },
+      "panel": {
+        "top": 557,
+        "bottom": 2168,
+        "h": 1611
+      },
+      "buttons": 37,
+      "text": "活动协作\n青城后山 · 飞泉沟轻徒步\n组织者视角\n行前准备\n青城后山 · 飞泉沟轻徒步\n10/24 周六 · 07:00 茶店子集合\n·\n今晚 21:00 报名截止\n行前\n集合\n同行\n返程\n归档\n18\n/ 24\n已确认\n3\n人\n待审核\n1\n人\n未分车\n现在要做\n3 项\n审核报名\n3\n未审核不能进入集合阶段\n去审核\n安排车辆\n1\n已确认但还没有座位\n去分车\n报名今晚截止\n21:00 后不再接受新报名\n查看名单\n名单\n21\n车辆\n1\n现场\n0\n成员名单\n21 人 · 18 已确认 · 3 待审核 · 1 未分车\n21 "
+    },
+    {
+      "page": "collab",
+      "vp": 390,
+      "errors": [],
+      "title": "OurTrail · 活动协作 — Final Pass",
+      "clientHeight": 780,
+      "scrollHeight": 2272,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "widthOverflow": false,
+      "topbar": {
+        "top": 0,
+        "bottom": 50,
+        "h": 50
+      },
+      "hero": {
+        "top": 50,
+        "bottom": 250,
+        "h": 200
+      },
+      "cta": {
+        "top": 332,
+        "bottom": 389,
+        "h": 58
+      },
+      "primary": {
+        "top": 343,
+        "bottom": 377,
+        "h": 34
+      },
+      "firstRow": {
+        "top": 736,
+        "bottom": 803,
+        "h": 67
+      },
+      "panel": {
+        "top": 560,
+        "bottom": 2171,
+        "h": 1611
+      },
+      "buttons": 37,
+      "text": "活动协作\n青城后山 · 飞泉沟轻徒步\n组织者视角\n行前准备\n青城后山 · 飞泉沟轻徒步\n10/24 周六 · 07:00 茶店子集合\n·\n今晚 21:00 报名截止\n行前\n集合\n同行\n返程\n归档\n18\n/ 24\n已确认\n3\n人\n待审核\n1\n人\n未分车\n现在要做\n3 项\n审核报名\n3\n未审核不能进入集合阶段\n去审核\n安排车辆\n1\n已确认但还没有座位\n去分车\n报名今晚截止\n21:00 后不再接受新报名\n查看名单\n名单\n21\n车辆\n1\n现场\n0\n成员名单\n21 人 · 18 已确认 · 3 待审核 · 1 未分车\n21 "
+    },
+    {
+      "page": "collab",
+      "vp": 414,
+      "errors": [],
+      "title": "OurTrail · 活动协作 — Final Pass",
+      "clientHeight": 832,
+      "scrollHeight": 2272,
+      "clientWidth": 414,
+      "scrollWidth": 414,
+      "widthOverflow": false,
+      "topbar": {
+        "top": 0,
+        "bottom": 50,
+        "h": 50
+      },
+      "hero": {
+        "top": 50,
+        "bottom": 250,
+        "h": 200
+      },
+      "cta": {
+        "top": 332,
+        "bottom": 389,
+        "h": 58
+      },
+      "primary": {
+        "top": 343,
+        "bottom": 377,
+        "h": 34
+      },
+      "firstRow": {
+        "top": 736,
+        "bottom": 803,
+        "h": 67
+      },
+      "panel": {
+        "top": 560,
+        "bottom": 2171,
+        "h": 1611
+      },
+      "buttons": 37,
+      "text": "活动协作\n青城后山 · 飞泉沟轻徒步\n组织者视角\n行前准备\n青城后山 · 飞泉沟轻徒步\n10/24 周六 · 07:00 茶店子集合\n·\n今晚 21:00 报名截止\n行前\n集合\n同行\n返程\n归档\n18\n/ 24\n已确认\n3\n人\n待审核\n1\n人\n未分车\n现在要做\n3 项\n审核报名\n3\n未审核不能进入集合阶段\n去审核\n安排车辆\n1\n已确认但还没有座位\n去分车\n报名今晚截止\n21:00 后不再接受新报名\n查看名单\n名单\n21\n车辆\n1\n现场\n0\n成员名单\n21 人 · 18 已确认 · 3 待审核 · 1 未分车\n21 "
+    },
+    {
+      "page": "weather",
+      "vp": 375,
+      "errors": [],
+      "title": "OurTrail · 路线天气 — Final Pass",
+      "clientHeight": 603,
+      "scrollHeight": 1857,
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "widthOverflow": false,
+      "topbar": {
+        "top": 0,
+        "bottom": 50,
+        "h": 50
+      },
+      "hero": {
+        "top": 50,
+        "bottom": 214,
+        "h": 164
+      },
+      "cta": {
+        "top": 272,
+        "bottom": 601,
+        "h": 329
+      },
+      "primary": {
+        "top": 137,
+        "bottom": 186,
+        "h": 49
+      },
+      "firstRow": {
+        "top": 222,
+        "bottom": 264,
+        "h": 42
+      },
+      "panel": {
+        "top": 272,
+        "bottom": 601,
+        "h": 329
+      },
+      "buttons": 14,
+      "text": "活动天气\n路线天气\n活动日参考\n模拟预报 · 非真实气象服务\n青城后山 · 飞泉沟轻徒步\n\n活动日 10/24 周六 07:00–18:00 · 茶店子 07:00 集合\n\n活动日午后有阵雨，山脊风大；建议 12:30 前通过白云索道段。\n判断置信 中等\n预报范围\n10/23 20:00 – 10/25 20:00\n·\n模拟生成 10/23 18:40\n泰安古镇\n780 m\n08:30\n飞泉沟\n1060 m\n10:40\n白云索道下站\n1240 m\n12:40\n活动日趋势\n飞泉沟 1060 m · 活动窗口 07:0"
+    },
+    {
+      "page": "weather",
+      "vp": 390,
+      "errors": [],
+      "title": "OurTrail · 路线天气 — Final Pass",
+      "clientHeight": 780,
+      "scrollHeight": 1964,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "widthOverflow": false,
+      "topbar": {
+        "top": 0,
+        "bottom": 50,
+        "h": 50
+      },
+      "hero": {
+        "top": 50,
+        "bottom": 282,
+        "h": 232
+      },
+      "cta": {
+        "top": 355,
+        "bottom": 740,
+        "h": 385
+      },
+      "primary": {
+        "top": 165,
+        "bottom": 248,
+        "h": 83
+      },
+      "firstRow": {
+        "top": 292,
+        "bottom": 339,
+        "h": 46
+      },
+      "panel": {
+        "top": 355,
+        "bottom": 740,
+        "h": 385
+      },
+      "buttons": 14,
+      "text": "活动天气\n路线天气\n活动日参考\n模拟预报 · 非真实气象服务\n青城后山 · 飞泉沟轻徒步\n\n活动日 10/24 周六 07:00–18:00 · 茶店子 07:00 集合\n\n泰安古镇 · 飞泉沟 · 白云索道下站\n·\n12.8 km / 680 m\n活动日午后有阵雨，山脊风大；建议 12:30 前通过白云索道段。\n这是基于模拟预报的判断，不替代领队或组织者的出发决定。\n判断置信 中等\n预报范围\n10/23 20:00 – 10/25 20:00\n·\n模拟生成 10/23 18:40\n泰安古镇\n780 m\n08:30"
+    },
+    {
+      "page": "weather",
+      "vp": 414,
+      "errors": [],
+      "title": "OurTrail · 路线天气 — Final Pass",
+      "clientHeight": 832,
+      "scrollHeight": 1937,
+      "clientWidth": 414,
+      "scrollWidth": 414,
+      "widthOverflow": false,
+      "topbar": {
+        "top": 0,
+        "bottom": 50,
+        "h": 50
+      },
+      "hero": {
+        "top": 50,
+        "bottom": 282,
+        "h": 232
+      },
+      "cta": {
+        "top": 355,
+        "bottom": 757,
+        "h": 402
+      },
+      "primary": {
+        "top": 165,
+        "bottom": 248,
+        "h": 83
+      },
+      "firstRow": {
+        "top": 292,
+        "bottom": 339,
+        "h": 46
+      },
+      "panel": {
+        "top": 355,
+        "bottom": 757,
+        "h": 402
+      },
+      "buttons": 14,
+      "text": "活动天气\n路线天气\n活动日参考\n模拟预报 · 非真实气象服务\n青城后山 · 飞泉沟轻徒步\n\n活动日 10/24 周六 07:00–18:00 · 茶店子 07:00 集合\n\n泰安古镇 · 飞泉沟 · 白云索道下站\n·\n12.8 km / 680 m\n活动日午后有阵雨，山脊风大；建议 12:30 前通过白云索道段。\n这是基于模拟预报的判断，不替代领队或组织者的出发决定。\n判断置信 中等\n预报范围\n10/23 20:00 – 10/25 20:00\n·\n模拟生成 10/23 18:40\n泰安古镇\n780 m\n08:30"
+    }
+  ]
+}

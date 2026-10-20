@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page="discover" data-vp="390" data-bare="0">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OurTrail · Final Pass — 四页产品体验定稿</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/discover.css">
+  <link rel="stylesheet" href="css/detail.css">
+  <link rel="stylesheet" href="css/collab.css">
+  <link rel="stylesheet" href="css/weather.css">
+</head>
+<body>
+  <div class="lab">
+    <aside class="lab__panel" id="lab-panel"><!-- shell 构建 --></aside>
+
+    <main class="lab__stage">
+      <div class="device" id="device">
+        <div class="device__screen">
+          <div class="device__chrome">
+            <div class="statusbar">
+              <span id="statusbar-time">20:30</span>
+              <span class="statusbar__right">
+                <span class="statusbar__signal" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                <svg class="statusbar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.8 18A4.2 4.2 0 0 1 7.1 9.7A5.6 5.6 0 0 1 17.6 11.2A3.4 3.4 0 0 1 17 18Z"/></svg>
+                <span class="statusbar__battery" aria-hidden="true"></span>
+              </span>
+            </div>
+            <div class="capsulebar">
+              <div class="capsule" aria-hidden="true">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span class="divider-v"></span>
+                <svg class="lab-icon" viewBox="0 0 24 24"><path d="M12 3.5A8.5 8.5 0 1 1 12 20.5A8.5 8.5 0 1 1 12 3.5ZM12 8A4 4 0 1 1 12 16A4 4 0 1 1 12 8Z"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="page-host" id="app"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-root"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
